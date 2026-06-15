@@ -32,6 +32,7 @@ function SignInForm() {
         <InputBox
           label="Password"
           placeholder="Enter your password"
+          type="password"
           icon={
             <CiLock
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -57,7 +58,7 @@ function SignInForm() {
         </div>
         <span className="text-indigo-600">Forgot Password?</span>
       </div>
-      <button className="flex flex-1 flex-row gap-1 bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600 rounded-lg w-full mt-1 justify-center items-center px-3 py-4">
+      <button className="flex flex-1 flex-row gap-1 bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600  hover:from-violet-600 hover:via-purple-700 hover:to-indigo-600 rounded-lg w-full mt-1 justify-center items-center px-3 py-4">
         <PiSignInBold className="text-white" size={25} />
         <span className="text-white">Sign In</span>
       </button>

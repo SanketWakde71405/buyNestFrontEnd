@@ -38,7 +38,7 @@ function NavBarY({ isCollapsed }) {
       >
         {/* Logo */}
         <div className="flex-shrink-0 flex items-center justify-center gap-2 p-3">
-          <img className="w-10 h-10" src={logo} alt="Logo" />
+          <img className="w-10 h-10 text-white" src={logo} alt="Logo" />
           {/* Show label only on lg+ when not collapsed */}
           {!isCollapsed && (
             <div className="hidden lg:flex flex-col">

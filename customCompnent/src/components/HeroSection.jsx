@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 // Components
 import Card from "./Card";
 import ButtonIcon from "./ButtonIcon";
@@ -99,6 +99,8 @@ function HeroSection() {
     },
   ];
 
+  const navigate= useNavigate();
+
   return (
     <div className="flex flex-col items-center text-center w-full">
       <section className="bg-transparent flex items-center px-4 py-8 lg:px-16 w-full">
@@ -112,14 +114,17 @@ function HeroSection() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+            <h1 className="text-4xl lg:text-5xl font-bold text-start text-slate-900 leading-tight">
               Manage Your <span className="text-indigo-500">Store.</span>
               <br />
-              Grow Your <span className="text-indigo-500">Business.</span>
+              Grow Your{" "}
+              <span className="bg-gradient-to-r from-violet-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
+                Business.
+              </span>
             </h1>
 
             {/* Subtext */}
-            <p className="text-slate-500 text-base leading-relaxed">
+            <p className="text-slate-500 text-base leading-relaxed text-start">
               Powerful tools to manage products, orders, customers, and boost
               your ecommerce success.
             </p>
@@ -127,6 +132,7 @@ function HeroSection() {
             {/* Buttons */}
             <div className="flex items-center gap-4 flex-wrap">
               <ButtonIcon
+                onClick={() => navigate("/auth/signin")}
                 text="Sign In to Admin Panel"
                 icon={<PiSignInBold size={20} />}
               />
@@ -177,7 +183,9 @@ function HeroSection() {
         ))}
       </div>
       <footer className="my-5 mx-auto px-5">
-        <p className="font-medium text-base text-center">© 2026 BuyNest. All rights reserved.</p>
+        <p className="font-medium text-base text-center">
+          © 2026 BuyNest. All rights reserved.
+        </p>
       </footer>
     </div>
   );

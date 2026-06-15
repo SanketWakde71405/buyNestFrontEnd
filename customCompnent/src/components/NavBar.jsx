@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineHome, AiOutlineMenu } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
@@ -19,6 +19,7 @@ import ButtonIcon from "./ButtonIcon";
 
 function NavBar({ isCollapsed, setIsCollapsed }) {
   const navigate = useNavigate();
+  const [signedIn,setSignedIn]= useState(false);
   return (
     <div className="sticky top-0 z-10 py-2 flex h-16 w-full bg-white border-b border-gray-200">
       <div
@@ -31,17 +32,23 @@ function NavBar({ isCollapsed, setIsCollapsed }) {
           <RiMenu2Fill className="text-black" size={24} />
         </button>
         <div className="flex items-center gap-2 ml-auto">
-          <button className="p-2 rounded-lg bg-white border border-gray-200 shadow-lg z-20">
-            <MdOutlineDarkMode
-              className="text-black hover:bg-slate-100"
-              size={24}
-            />
+          <button className="p-2 rounded-lg bg-white border border-gray-200 shadow-lg hover:bg-slate-100 z-20">
+            <MdOutlineDarkMode className="text-black " size={24} />
           </button>
-          <ButtonIcon
-            text="SignIn"
-            onClick={() => navigate("/auth/signin")}
-            icon={<PiSignInBold size={24} />}
-          />
+
+          {signedIn ? (
+            <ButtonIcon
+              text="Sign Out"
+              onClick={() => navigate("/auth/logout")}
+              icon={<PiSignInBold size={24} />}
+            />
+          ) : (
+            <ButtonIcon
+              text="SignIn"
+              onClick={() => navigate("/auth/signin")}
+              icon={<PiSignInBold size={24} />}
+            />
+          )}
         </div>
       </div>
     </div>
