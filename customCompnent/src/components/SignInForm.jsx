@@ -7,7 +7,7 @@ import { IoLogoGithub } from "react-icons/io5";
 
 import InputBox from './InputBox';
 
-function SignInForm() {
+function SignInForm({ onClick }) {
   return (
     <div className="flex flex-1 flex-col justify-center items-start px-4 py-5">
       <span className="text-zinc-800 font-bold text-2xl text-start ">
@@ -58,7 +58,10 @@ function SignInForm() {
         </div>
         <span className="text-indigo-600">Forgot Password?</span>
       </div>
-      <button className="flex flex-1 flex-row gap-1 bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600  hover:from-violet-600 hover:via-purple-700 hover:to-indigo-600 rounded-lg w-full mt-1 justify-center items-center px-3 py-4">
+      <button
+        className="flex flex-1 flex-row gap-1 bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600  hover:from-violet-600 hover:via-purple-700 hover:to-indigo-600 rounded-lg w-full mt-1 justify-center items-center px-3 py-4"
+        onClick={onClick}
+      >
         <PiSignInBold className="text-white" size={25} />
         <span className="text-white">Sign In</span>
       </button>

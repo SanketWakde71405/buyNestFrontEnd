@@ -17,9 +17,16 @@ import { PiSignInBold } from "react-icons/pi";
 
 import ButtonIcon from "./ButtonIcon";
 
-function NavBar({ isCollapsed, setIsCollapsed }) {
+function NavBar({ isCollapsed, setIsCollapsed, signedIn, setSignedIn }) {
   const navigate = useNavigate();
-  const [signedIn,setSignedIn]= useState(false);
+
+   const handleSignOut = () => {
+     localStorage.removeItem("signedIn");
+     localStorage.removeItem("isFirstLogin");
+     setSignedIn(false);
+     navigate("/auth/signin");
+   };
+
   return (
     <div className="sticky top-0 z-10 py-2 flex h-16 w-full bg-white border-b border-gray-200">
       <div
@@ -39,7 +46,7 @@ function NavBar({ isCollapsed, setIsCollapsed }) {
           {signedIn ? (
             <ButtonIcon
               text="Sign Out"
-              onClick={() => navigate("/auth/logout")}
+              onClick={handleSignOut}
               icon={<PiSignInBold size={24} />}
             />
           ) : (
