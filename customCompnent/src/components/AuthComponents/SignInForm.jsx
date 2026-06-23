@@ -5,7 +5,7 @@ import { PiSignInBold } from "react-icons/pi";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoGithub } from "react-icons/io5";
 
-import InputBox from './InputBox';
+import InputBox from '../InputBox';
 
 function SignInForm({ onClick }) {
   return (

@@ -1,7 +1,8 @@
 import React from "react";
 import { useAuth } from "../App";
-import HeroSection from "../components/HeroSection";
-import OnBoarding from "../components/Onboarding";
+import HeroSection from "../components/HomeSection/HeroSection";
+import Onboarding from "../components/HomeSection/Onboarding";
+import Dashboard from "../components/HomeSection/Dashboard";
 
 function Home() {
   // ✅ useAuth() instead of useOutletContext()
@@ -13,7 +14,7 @@ function Home() {
   };
 
   if (signedIn && isFirstLogin) {
-    return <OnBoarding onDismiss={handleDismissOnboarding} />;
+    return <Onboarding onDismiss={handleDismissOnboarding} />;
   }
 
   return <HeroSection />;

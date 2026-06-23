@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 // Components
-import Card from "./Card";
-import ButtonIcon from "./ButtonIcon";
-import FeatureItem from "./FeatureItem";
+import Card from "../Card";
+import ButtonIcon from "../ButtonIcon";
+import FeatureItem from "../FeatureItem";
 //Icons
 import { PiSignInBold } from "react-icons/pi";
 import { AiOutlineCompass } from "react-icons/ai";

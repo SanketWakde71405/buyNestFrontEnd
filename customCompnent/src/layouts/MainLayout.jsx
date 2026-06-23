@@ -7,8 +7,8 @@ import { useAuth } from "../App";
 function MainLayout() {
   const [isCollapsed, setIsCollapsed] = useState(true);
   // ✅ Use AuthContext instead of local state — stays in sync with Auth.jsx
-  const { signedIn, setSignedIn } = useAuth();
-
+ const auth = useAuth();
+ const { signedIn, setSignedIn } = auth ?? {};
   return (
     <div className="flex h-screen overflow-hidden">
       <NavBarY isCollapsed={isCollapsed} />
