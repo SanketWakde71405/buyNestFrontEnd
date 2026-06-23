@@ -14,8 +14,8 @@ import { LuUserRoundPlus } from "react-icons/lu";
 import { PiSignInBold } from "react-icons/pi";
 
 import FeatureItem from "../components/FeatureItem";
-import SignInForm from "../components/SignInForm";
-import RegisterForm from "../components/RegisterForm";
+import SignInForm from "../components/AuthComponents/SignInForm";
+import RegisterForm from "../components/AuthComponents/RegisterForm";
 
 function Auth() {
   const navigate = useNavigate();

@@ -7,7 +7,7 @@ import { IoLogoGithub } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
 import { HiOutlineUserPlus } from "react-icons/hi2";
 
-import InputBox from "./InputBox";
+import InputBox from "../InputBox";
 
 
 function RegisterForm() {

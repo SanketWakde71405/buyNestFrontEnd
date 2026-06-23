@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import logo from "../assets/companyLogo.svg";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
@@ -13,17 +15,19 @@ import { BsCart2 } from "react-icons/bs";
 import { RiDiscountPercentLine } from "react-icons/ri";
 
 function NavBarY({ isCollapsed }) {
+
+  const navigate = useNavigate();
   const navItems = [
-    { icon: <AiOutlineHome size={22} />, text: "Home" },
-    { icon: <BsGraphUp size={22} />, text: "Dashboard" },
-    { icon: <IoCubeOutline size={22} />, text: "Products" },
-    { icon: <BsCart2 size={22} />, text: "Orders" },
-    { icon: <LuUsers size={22} />, text: "Customers" },
-    { icon: <BiCategory size={22} />, text: "Categories" },
-    { icon: <RiDiscountPercentLine size={22} />, text: "Coupons" },
-    { icon: <IoBarChartOutline size={22} />, text: "Reports" },
-    { icon: <IoSettingsOutline size={22} />, text: "Settings" },
-    { icon: <LuBadgeHelp size={22} />, text: "Help & Support" },
+    { icon: <AiOutlineHome size={22} />, text: "Home", onclick:() =>  navigate("/") },
+    { icon: <BsGraphUp size={22} />, text: "Dashboard", onclick:() =>  navigate("/dashboard") },
+    { icon: <IoCubeOutline size={22} />, text: "Products", onclick:() =>  navigate("/products") },
+    { icon: <BsCart2 size={22} />, text: "Orders", onclick:() =>  navigate("/orders") },
+    { icon: <LuUsers size={22} />, text: "Customers", onclick:() =>  navigate("/users") },
+    { icon: <BiCategory size={22} />, text: "Categories", onclick:() =>  navigate("/categories") },
+    { icon: <RiDiscountPercentLine size={22} />, text: "Coupons", onclick:() =>  navigate("/coupons") },
+    { icon: <IoBarChartOutline size={22} />, text: "Reports", onclick:() =>  navigate("/reports") },
+    { icon: <IoSettingsOutline size={22} />, text: "Settings", onclick:() =>  navigate("/settings") },
+    { icon: <LuBadgeHelp size={22} />, text: "Help & Support", onclick:() =>  navigate("/help") },
   ];
 
   return (
@@ -65,6 +69,7 @@ function NavBarY({ isCollapsed }) {
               key={item.text}
               icon={item.icon}
               text={item.text}
+              onclick={item.onclick}
               // collapsed on md unless lg+ and not isCollapsed
               isCollapsed={isCollapsed}
               showLabel={!isCollapsed}
@@ -92,12 +97,13 @@ function NavBarY({ isCollapsed }) {
   );
 }
 
-function NavItem({ icon, text, showLabel }) {
+function NavItem({ icon, text, showLabel,onclick }) {
   return (
     <li
       className={`flex items-center p-4 mx-2 my-1 rounded-lg cursor-pointer hover:bg-indigo-600 transition-colors
         ${showLabel ? "lg:gap-3" : "justify-center"}
       `}
+      onClick={onclick}
     >
       {icon}
       {showLabel && <span className="hidden lg:inline">{text}</span>}
