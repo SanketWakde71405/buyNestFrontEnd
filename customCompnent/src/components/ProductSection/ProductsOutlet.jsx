@@ -12,6 +12,7 @@ import ButtonIcon from "../ButtonIcon";
 import Pagination from "../Pagination";
 import HeadingCard from "./HeadingCard";
 import Dropdown from "../Dropdown";
+import SearchBar from "../SearchBar";
 
 import {
   ALL_PRODUCTS,
@@ -148,22 +149,12 @@ function ProductsOutlet() {
       {/* ── Search + Filters ── */}
       <div className="flex flex-row w-full justify-between bg-white py-2 rounded-lg items-center gap-3 px-3">
         {/* Search */}
-        <div className="relative flex-1 max-w-xs">
-          <IoSearch
-            size={16}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-          />
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm text-zinc-700 placeholder-gray-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-200 transition-colors"
-          />
-        </div>
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+          placeholder="Search products..."
+          onSearch={() => setPage(1)}
+        />
 
         <div className="flex flex-row gap-2">
           {/* Category Dropdown */}

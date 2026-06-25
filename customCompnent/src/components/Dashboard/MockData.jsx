@@ -1,3 +1,28 @@
+
+import {
+  HiOutlineCurrencyDollar,
+  HiOutlineShoppingCart,
+  HiOutlineUsers,
+  HiOutlineChartBar,
+  HiOutlineArchiveBox,
+  HiOutlineExclamationTriangle,
+  HiOutlineXCircle,
+  HiOutlineTag,
+  HiOutlineLightBulb,
+  HiOutlineSparkles,
+} from "react-icons/hi2";
+
+import {
+  IoHeadsetOutline,
+  IoWatchOutline,
+  IoBriefcaseOutline,
+  IoFootstepsOutline,
+  IoVolumeHighOutline,
+} from "react-icons/io5";
+
+const spark = (vals) => vals.map((v) => ({ v }));
+
+
 export const KPIS = [
   {
     label: "Total Sales",

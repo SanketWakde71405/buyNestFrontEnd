@@ -15,14 +15,21 @@ import {
   IoCloseCircleOutline,
 } from "react-icons/io5";
 
-
 import ButtonIcon from "../ButtonIcon";
 import OrderCards from "./OrderCards";
 import Pagination from "../Pagination";
 import Dropdown from "../Dropdown";
+import SearchBar from "../SearchBar";
+import DatePicker from "../DatePicker";
 
 // ─── Dummy Data ────────────────────────────────────────────────────────────────
-import { DUMMY_ORDERS,ORDERS_PER_PAGE,STATUS_OPTIONS,PAYMENT_OPTIONS, STATUS_CONFIG } from "./dummyOrders";
+import {
+  DUMMY_ORDERS,
+  ORDERS_PER_PAGE,
+  STATUS_OPTIONS,
+  PAYMENT_OPTIONS,
+  STATUS_CONFIG,
+} from "./dummyOrders";
 
 // ─── Payment Icon ──────────────────────────────────────────────────────────────
 function PaymentIcon({ type }) {
@@ -70,6 +77,8 @@ function OrderOutlet() {
   const [statusFilter, setStatus] = useState("All Statuses");
   const [paymentFilter, setPayment] = useState("All Payment Methods");
   const [currentPage, setCurrentPage] = useState(1);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const orderCards = [
     {
@@ -117,9 +126,25 @@ function OrderOutlet() {
         statusFilter === "All Statuses" || o.status === statusFilter;
       const matchPayment =
         paymentFilter === "All Payment Methods" || o.payment === paymentFilter;
-      return matchSearch && matchStatus && matchPayment;
+
+      let matchDate = true;
+      if (startDate) {
+        const joined = new Date(o.date);
+        joined.setHours(0, 0, 0, 0);
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        if (endDate) {
+          const end = new Date(endDate);
+          end.setHours(0, 0, 0, 0);
+          matchDate = joined >= start && joined <= end;
+        } else {
+          matchDate = joined.getTime() === start.getTime();
+        }
+      }
+
+      return matchSearch && matchStatus && matchPayment && matchDate;
     });
-  }, [search, statusFilter, paymentFilter]);
+  }, [search, statusFilter, paymentFilter, startDate, endDate]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ORDERS_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages);
@@ -136,6 +161,12 @@ function OrderOutlet() {
     setCurrentPage(1);
     if (key === "status") setStatus(val);
     if (key === "payment") setPayment(val);
+  };
+
+  const handleDateChange = (start, end) => {
+    setStartDate(start);
+    setEndDate(end);
+    setCurrentPage(1);
   };
 
   return (
@@ -175,22 +206,12 @@ function OrderOutlet() {
         {/* ── Toolbar ── */}
         <div className="flex flex-row items-center gap-3 px-4 py-3 border-b border-gray-100">
           {/* Search */}
-          <div className="relative flex-1 max-w-xs">
-            <IoSearchOutline
-              size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
-            <input
-              type="text"
-              placeholder="Search orders..."
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg text-zinc-700 placeholder-gray-400 focus:outline-none focus:border-violet-400 focus:ring-1 focus:ring-violet-100 transition-colors"
-            />
-          </div>
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+            placeholder="Search orders..."
+            onSearch={() => setCurrentPage(1)}
+          />
 
           {/* Status Dropdown */}
           <Dropdown
@@ -207,13 +228,11 @@ function OrderOutlet() {
           />
 
           {/* Date Range */}
-          <button className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 text-sm text-zinc-500 bg-white hover:border-violet-400 transition-colors min-w-[155px]">
-            <IoCalendarOutline
-              size={15}
-              className="text-violet-500 flex-shrink-0"
-            />
-            <span>Select Date Range</span>
-          </button>
+          <DatePicker
+            startDate={startDate}
+            endDate={endDate}
+            onChange={handleDateChange}
+          />
 
           {/* Filter */}
           <button className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-500 bg-white hover:border-indigo-400 hover:text-indigo-600 transition-colors ml-auto">
