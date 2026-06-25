@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth } from "../App";
 import HeroSection from "../components/HomeSection/HeroSection";
 import Onboarding from "../components/HomeSection/Onboarding";
-import Dashboard from "../components/HomeSection/Dashboard";
+import Dashboard from "../components/Dashboard/DashboardOutlet";
 
 function Home() {
   // ✅ useAuth() instead of useOutletContext()
