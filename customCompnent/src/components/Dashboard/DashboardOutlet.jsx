@@ -31,169 +31,12 @@ import {
   IoVolumeHighOutline,
 } from "react-icons/io5";
 
+import { kpis, SALES_OVERVIEW, STORE_SUMMARY, RECENT_ORDERS, STATUS_STYLES,TOP_PRODUCTS } from "./MockData";
+
 // ---- mock data -----------------------------------------------------------
 
 const spark = (vals) => vals.map((v) => ({ v }));
 
-const kpis = [
-  {
-    label: "Total Sales",
-    value: "$24,560",
-    trend: "18.6%",
-    icon: HiOutlineCurrencyDollar,
-    iconBg: "bg-indigo-50",
-    iconColor: "text-indigo-600",
-    stroke: "#4f46e5",
-    data: spark([10, 14, 11, 16, 14, 19, 22, 18, 24, 21, 26]),
-  },
-  {
-    label: "Orders",
-    value: "1,248",
-    trend: "12.3%",
-    icon: HiOutlineShoppingCart,
-    iconBg: "bg-emerald-50",
-    iconColor: "text-emerald-600",
-    stroke: "#10b981",
-    data: spark([8, 9, 12, 10, 13, 12, 15, 17, 15, 19, 18]),
-  },
-  {
-    label: "Customers",
-    value: "845",
-    trend: "9.4%",
-    icon: HiOutlineUsers,
-    iconBg: "bg-blue-50",
-    iconColor: "text-blue-600",
-    stroke: "#3b82f6",
-    data: spark([20, 18, 22, 21, 19, 23, 22, 25, 24, 27, 26]),
-  },
-  {
-    label: "Revenue",
-    value: "$8,950",
-    trend: "15.7%",
-    icon: HiOutlineChartBar,
-    iconBg: "bg-orange-50",
-    iconColor: "text-orange-600",
-    stroke: "#f97316",
-    data: spark([12, 10, 14, 13, 17, 15, 16, 20, 18, 22, 21]),
-  },
-];
-
-const salesOverview = [
-  { day: "May 12", sales: 9000, orders: 4000 },
-  { day: "May 13", sales: 8200, orders: 5200 },
-  { day: "May 14", sales: 12500, orders: 6000 },
-  { day: "May 15", sales: 14200, orders: 7400 },
-  { day: "May 16", sales: 12800, orders: 8200 },
-  { day: "May 17", sales: 17000, orders: 9400 },
-  { day: "May 18", sales: 16200, orders: 10200 },
-];
-
-const storeSummary = [
-  {
-    label: "Products",
-    count: 320,
-    icon: HiOutlineArchiveBox,
-    iconBg: "bg-indigo-50",
-    iconColor: "text-indigo-600",
-    linkColor: "text-indigo-600",
-  },
-  {
-    label: "Low Stock Items",
-    count: 12,
-    icon: HiOutlineExclamationTriangle,
-    iconBg: "bg-orange-50",
-    iconColor: "text-orange-500",
-    linkColor: "text-orange-500",
-  },
-  {
-    label: "Out of Stock Items",
-    count: 5,
-    icon: HiOutlineXCircle,
-    iconBg: "bg-red-50",
-    iconColor: "text-red-500",
-    linkColor: "text-red-500",
-  },
-  {
-    label: "Active Coupons",
-    count: 8,
-    icon: HiOutlineTag,
-    iconBg: "bg-emerald-50",
-    iconColor: "text-emerald-600",
-    linkColor: "text-emerald-600",
-  },
-];
-
-const recentOrders = [
-  {
-    id: "#ORD-1258",
-    name: "Sarah Johnson",
-    amount: "$129.99",
-    status: "Completed",
-  },
-  {
-    id: "#ORD-1257",
-    name: "Michael Brown",
-    amount: "$89.50",
-    status: "Processing",
-  },
-  {
-    id: "#ORD-1256",
-    name: "Emily Davis",
-    amount: "$45.00",
-    status: "Completed",
-  },
-  {
-    id: "#ORD-1255",
-    name: "David Wilson",
-    amount: "$199.99",
-    status: "Shipped",
-  },
-  {
-    id: "#ORD-1254",
-    name: "Jessica Taylor",
-    amount: "$74.25",
-    status: "Processing",
-  },
-];
-
-const statusStyles = {
-  Completed: "bg-emerald-50 text-emerald-600",
-  Processing: "bg-indigo-50 text-indigo-600",
-  Shipped: "bg-purple-50 text-purple-600",
-};
-
-const topProducts = [
-  {
-    name: "Wireless Headphones",
-    sold: 325,
-    revenue: "$4,550",
-    icon: IoHeadsetOutline,
-  },
-  {
-    name: "Smart Watch Series 5",
-    sold: 210,
-    revenue: "$3,150",
-    icon: IoWatchOutline,
-  },
-  {
-    name: "Leather Backpack",
-    sold: 180,
-    revenue: "$2,340",
-    icon: IoBriefcaseOutline,
-  },
-  {
-    name: "Minimalist Sneakers",
-    sold: 165,
-    revenue: "$1,980",
-    icon: IoFootstepsOutline,
-  },
-  {
-    name: "Bluetooth Speaker",
-    sold: 140,
-    revenue: "$1,260",
-    icon: IoVolumeHighOutline,
-  },
-];
 
 const conversionData = spark([18, 16, 19, 17, 20, 18, 21, 19, 22, 21, 23]);
 
@@ -246,7 +89,7 @@ const KpiCard = ({ kpi }) => {
 
 // ---- main component --------------------------------------------------
 
-export default function Dashboard() {
+export default function DashboardOutlet() {
   return (
     <div className="w-full bg-[#f7f7fb] p-6 space-y-5">
       {/* Header */}
@@ -296,7 +139,7 @@ export default function Dashboard() {
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={salesOverview}
+                data={SALES_OVERVIEW}
                 margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
               >
                 <CartesianGrid vertical={false} stroke="#f1f1f5" />
@@ -349,7 +192,7 @@ export default function Dashboard() {
             </a>
           </div>
           <div className="divide-y divide-gray-100">
-            {storeSummary.map((item) => {
+            {STORE_SUMMARY.map((item) => {
               const Icon = item.icon;
               return (
                 <div
@@ -391,7 +234,7 @@ export default function Dashboard() {
             </a>
           </div>
           <div className="space-y-4">
-            {recentOrders.map((order) => (
+            {RECENT_ORDERS.map((order) => (
               <div
                 key={order.id}
                 className="flex items-center justify-between text-sm"
@@ -404,7 +247,7 @@ export default function Dashboard() {
                   {order.amount}
                 </span>
                 <span
-                  className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusStyles[order.status]}`}
+                  className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_STYLES[order.status]}`}
                 >
                   {order.status}
                 </span>
@@ -423,7 +266,7 @@ export default function Dashboard() {
             </a>
           </div>
           <div className="space-y-4">
-            {topProducts.map((product) => {
+            {TOP_PRODUCTS.map((product) => {
               const Icon = product.icon;
               return (
                 <div

@@ -8,7 +8,7 @@ import MainLayout from "./layouts/MainLayout";
 // Pages
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
-import Dashboard from "./components/HomeSection/Dashboard";
+import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import Orders from "./pages/Orders";
 import Users from "./pages/Users";
