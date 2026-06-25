@@ -28,7 +28,7 @@ function NavBar({ isCollapsed, setIsCollapsed, signedIn, setSignedIn }) {
    };
 
   return (
-    <div className="sticky top-0 z-10 py-2 flex h-16 w-full bg-white border-b border-gray-200">
+    <div className="sticky top-0 z-20 py-2 flex h-16 w-full bg-white border-b border-gray-200">
       <div
         className={`flex-1 px-4 flex justify-between gap-4 items-center w-full`}
       >

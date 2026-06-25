@@ -23,15 +23,16 @@ import {
   HiOutlineLightBulb,
   HiOutlineSparkles,
 } from "react-icons/hi2";
-import {
-  IoHeadsetOutline,
-  IoWatchOutline,
-  IoBriefcaseOutline,
-  IoFootstepsOutline,
-  IoVolumeHighOutline,
-} from "react-icons/io5";
 
-import { kpis, SALES_OVERVIEW, STORE_SUMMARY, RECENT_ORDERS, STATUS_STYLES,TOP_PRODUCTS } from "./MockData";
+
+import {
+  KPIS,
+  SALES_OVERVIEW,
+  STORE_SUMMARY,
+  RECENT_ORDERS,
+  STATUS_STYLES,
+  TOP_PRODUCTS,
+} from "./MockData";
 
 // ---- mock data -----------------------------------------------------------
 
@@ -111,7 +112,7 @@ export default function DashboardOutlet() {
 
       {/* KPI row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {kpis.map((kpi) => (
+        {KPIS.map((kpi) => (
           <KpiCard key={kpi.label} kpi={kpi} />
         ))}
       </div>
