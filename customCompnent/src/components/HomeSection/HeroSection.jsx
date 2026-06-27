@@ -1,23 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
 // Components
 import Card from "../Card";
 import ButtonIcon from "../ButtonIcon";
 import FeatureItem from "../FeatureItem";
+
 //Icons
-import { PiSignInBold } from "react-icons/pi";
+import { PiSignInBold, PiChartBarFill, PiNetworkFill } from "react-icons/pi";
+import { HiShoppingBag, HiUsers } from "react-icons/hi";
 import { AiOutlineCompass } from "react-icons/ai";
 import { BsStars } from "react-icons/bs";
-import { HiShoppingBag } from "react-icons/hi";
 import { RiShoppingCart2Fill } from "react-icons/ri";
-import { HiUsers } from "react-icons/hi";
 import { FaTag } from "react-icons/fa6";
-import { PiChartBarFill } from "react-icons/pi";
 import { IoSettings } from "react-icons/io5";
 import { LuShieldCheck } from "react-icons/lu";
 import { GiElectric } from "react-icons/gi";
 import { IoMdCloud } from "react-icons/io";
-import { PiNetworkFill } from "react-icons/pi";
 
 function HeroSection() {
   const cardItems = [
@@ -99,7 +98,7 @@ function HeroSection() {
     },
   ];
 
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col items-center text-center w-full">

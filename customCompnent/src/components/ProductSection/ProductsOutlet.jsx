@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 
 // Icons
-import { IoAdd, IoSearch, IoFilter } from "react-icons/io5";
+import { IoAdd,IoFilter } from "react-icons/io5";
 import { BsFillBagHeartFill } from "react-icons/bs";
 import { HiTrendingUp } from "react-icons/hi";
 import { TbPackageOff, TbAlertTriangleFilled } from "react-icons/tb";
@@ -146,45 +146,44 @@ function ProductsOutlet() {
         ))}
       </div>
 
-      {/* ── Search + Filters ── */}
-      <div className="flex flex-row w-full justify-between bg-white py-2 rounded-lg items-center gap-3 px-3">
-        {/* Search */}
-        <SearchBar
-          search={search}
-          setSearch={setSearch}
-          placeholder="Search products..."
-          onSearch={() => setPage(1)}
-        />
-
-        <div className="flex flex-row gap-2">
-          {/* Category Dropdown */}
-          <Dropdown
-            value={category}
-            options={CATEGORIES}
-            onChange={handleFilterChange(setCategory)}
-          />
-
-          {/* Status Dropdown */}
-          <Dropdown
-            value={status}
-            options={STATUSES}
-            onChange={handleFilterChange(setStatus)}
-          />
-
-          {/* Filter Button */}
-          <button className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 text-sm text-zinc-600 bg-white hover:border-violet-400 hover:text-violet-700 transition-colors">
-            <IoFilter size={16} />
-            Filter
-          </button>
-        </div>
-      </div>
-
       {/* ── Table ── */}
       <div className="px-3">
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          {/* ── Search + Filters ── */}
+          <div className="flex flex-row w-full justify-between border-b border-gray-100 py-2 rounded-lg items-center gap-3 px-3">
+            {/* Search */}
+            <SearchBar
+              search={search}
+              setSearch={setSearch}
+              placeholder="Search products..."
+              onSearch={() => setPage(1)}
+            />
+
+            <div className="flex flex-row gap-2">
+              {/* Category Dropdown */}
+              <Dropdown
+                value={category}
+                options={CATEGORIES}
+                onChange={handleFilterChange(setCategory)}
+              />
+
+              {/* Status Dropdown */}
+              <Dropdown
+                value={status}
+                options={STATUSES}
+                onChange={handleFilterChange(setStatus)}
+              />
+
+              {/* Filter Button */}
+              <button className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 text-sm text-zinc-600 bg-white hover:border-violet-400 hover:text-violet-700 transition-colors">
+                <IoFilter size={16} />
+                Filter
+              </button>
+            </div>
+          </div>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100 bg-gray-50">
+              <tr className="border-b border-gray-100 bg-gray-100">
                 <th className="text-left px-4 py-3 font-semibold text-zinc-600">
                   Product
                 </th>

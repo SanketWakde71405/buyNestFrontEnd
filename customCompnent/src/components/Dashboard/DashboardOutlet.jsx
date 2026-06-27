@@ -9,17 +9,9 @@ import {
   Tooltip,
 } from "recharts";
 import {
-  HiOutlineCurrencyDollar,
-  HiOutlineShoppingCart,
-  HiOutlineUsers,
-  HiOutlineChartBar,
   HiOutlineArrowTrendingUp,
   HiOutlineCalendarDays,
   HiOutlineChevronDown,
-  HiOutlineArchiveBox,
-  HiOutlineExclamationTriangle,
-  HiOutlineXCircle,
-  HiOutlineTag,
   HiOutlineLightBulb,
   HiOutlineSparkles,
 } from "react-icons/hi2";
