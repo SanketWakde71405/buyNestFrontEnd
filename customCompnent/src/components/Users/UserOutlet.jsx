@@ -1,18 +1,13 @@
 import React, { useState, useMemo } from "react";
+
+// Icons
 import { LuUsers, LuUserPlus, LuUserCheck } from "react-icons/lu";
 import { GrPowerCycle } from "react-icons/gr";
 import { MdOutlineFileDownload } from "react-icons/md";
-import {
-  IoSearchOutline,
-  IoEyeOutline,
-  IoCalendarOutline,
-} from "react-icons/io5";
+import { IoEyeOutline, IoCalendarOutline } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
-import {
-  IoCheckmarkCircleOutline,
-  IoCloseCircleOutline,
-} from "react-icons/io5";
 
+// Components
 import ButtonIcon from "../ButtonIcon";
 import UserCards from "./UserCards";
 import Pagination from "../Pagination";
@@ -220,7 +215,7 @@ function UserOutlet() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-xs text-gray-400 uppercase tracking-wide border-b border-gray-100">
+              <tr className="text-xs text-zinc-600 bg-gray-100 uppercase tracking-wide border-b border-gray-100">
                 <th className="px-4 py-3 text-left font-medium">Customer</th>
                 <th className="px-4 py-3 text-left font-medium">Email</th>
                 <th className="px-4 py-3 text-left font-medium">Phone</th>

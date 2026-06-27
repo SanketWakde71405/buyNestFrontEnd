@@ -17,6 +17,8 @@ import Coupons from "./pages/Coupons";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
+import Brands from "./pages/Brands";
+
 export const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
 
@@ -40,6 +42,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/users" element={<Users />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/brands" element={<Brands />} />
           <Route path="/coupons" element={<Coupons />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/settings" element={<Settings />} />

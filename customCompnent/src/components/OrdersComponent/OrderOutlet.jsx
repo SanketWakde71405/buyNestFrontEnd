@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from "react";
+
+// Icons
 import { CiFilter } from "react-icons/ci";
 import { MdOutlineFileDownload } from "react-icons/md";
 import {
@@ -6,15 +8,11 @@ import {
   IoCartOutline,
   IoEyeOutline,
   IoCalendarOutline,
-  IoSearchOutline,
 } from "react-icons/io5";
 import { GoClock } from "react-icons/go";
 import { ImCancelCircle } from "react-icons/im";
-import {
-  IoCheckmarkCircleOutline,
-  IoCloseCircleOutline,
-} from "react-icons/io5";
 
+// Components
 import ButtonIcon from "../ButtonIcon";
 import OrderCards from "./OrderCards";
 import Pagination from "../Pagination";
@@ -245,7 +243,7 @@ function OrderOutlet() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-xs text-gray-400 uppercase tracking-wide border-b border-gray-100">
+              <tr className="text-xs text-zinc-600 bg-gray-100 uppercase tracking-wide border-b border-gray-100">
                 <th className="px-4 py-3 text-left font-medium">Order ID</th>
                 <th className="px-4 py-3 text-left font-medium">Customer</th>
                 <th className="px-4 py-3 text-left font-medium">Date</th>
