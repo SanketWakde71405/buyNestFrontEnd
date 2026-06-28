@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../App";
+import { useAuth } from "../contexts/AuthContext";
 import HeroSection from "../components/HomeSection/HeroSection";
 import Onboarding from "../components/HomeSection/Onboarding";
 import Dashboard from "../components/Dashboard/DashboardOutlet";
