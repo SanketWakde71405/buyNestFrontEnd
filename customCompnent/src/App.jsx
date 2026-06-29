@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-// Context
+// Context imports
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
@@ -24,8 +24,11 @@ import Brands from "./pages/Brands";
 import { useState, useEffect } from "react";
 
 function App() {
+
+  // state to manage theme
   const [theme, setTheme] = useState("light");
 
+  // null functions from context initialized here 
   const lightTheme = () => {
     setTheme("light");
   };
@@ -34,12 +37,14 @@ function App() {
     setTheme("dark");
   };
 
+  // The actual change in theme for tailwind
   useEffect(() => {
     document.querySelector("html").classList.remove("light", "dark");
     document.querySelector("html").classList.add(theme);
   }, [theme]);
 
   return (
+    // The context provider is passed with value
     <ThemeProvider value={{ theme, lightTheme, darkTheme }}>
       <AuthProvider>
         <Routes>

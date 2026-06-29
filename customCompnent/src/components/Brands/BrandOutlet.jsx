@@ -205,7 +205,7 @@ function BrandOutlet() {
                   {/* Brand */}
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-md border border-gray-100 flex items-center justify-center bg-white overflow-hidden flex-shrink-0">
+                      <div className="w-9 h-9 rounded-md bg-transparent flex items-center justify-center overflow-hidden flex-shrink-0">
                         <img
                           src={brand.logo}
                           alt={brand.name}
