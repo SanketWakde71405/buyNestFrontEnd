@@ -1,5 +1,8 @@
-import { createContext, useContext, useState } from "react";
 import { Routes, Route } from "react-router-dom";
+
+// Context imports
+import { AuthProvider } from "./contexts/AuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 // Layouts
 import AuthLayout from "./layouts/AuthLayout";
@@ -18,42 +21,53 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
 import Brands from "./pages/Brands";
-
-export const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
+import { useState, useEffect } from "react";
 
 function App() {
-  const [signedIn, setSignedIn] = useState(
-    () => localStorage.getItem("signedIn") === "true",
-  );
-  const [isFirstLogin, setIsFirstLogin] = useState(
-    () => localStorage.getItem("isFirstLogin") === "true",
-  );
+
+  // state to manage theme
+  const [theme, setTheme] = useState("light");
+
+  // null functions from context initialized here 
+  const lightTheme = () => {
+    setTheme("light");
+  };
+
+  const darkTheme = () => {
+    setTheme("dark");
+  };
+
+  // The actual change in theme for tailwind
+  useEffect(() => {
+    document.querySelector("html").classList.remove("light", "dark");
+    document.querySelector("html").classList.add(theme);
+  }, [theme]);
 
   return (
-    <AuthContext.Provider
-      value={{ signedIn, setSignedIn, isFirstLogin, setIsFirstLogin }}
-    >
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/brands" element={<Brands />} />
-          <Route path="/coupons" element={<Coupons />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/help" element={<Help />} />
-        </Route>
-        <Route element={<AuthLayout />}>
-          <Route path="/auth/signin" element={<Auth />} />
-          <Route path="/auth/register" element={<Auth />} />
-        </Route>
-      </Routes>
-    </AuthContext.Provider>
+    // The context provider is passed with value
+    <ThemeProvider value={{ theme, lightTheme, darkTheme }}>
+      <AuthProvider>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/brands" element={<Brands />} />
+            <Route path="/coupons" element={<Coupons />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/help" element={<Help />} />
+          </Route>
+          <Route element={<AuthLayout />}>
+            <Route path="/auth/signin" element={<Auth />} />
+            <Route path="/auth/register" element={<Auth />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

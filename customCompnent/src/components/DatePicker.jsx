@@ -60,7 +60,7 @@ function MonthGrid({
         {DAYS.map((d) => (
           <div
             key={d}
-            className="text-center text-[11px] font-medium text-zinc-400 py-1"
+            className="text-center text-[11px] font-medium text-zinc-400 dark:text-gray-200 py-1"
           >
             {d}
           </div>
@@ -93,13 +93,13 @@ function MonthGrid({
               date > startDate);
 
           let cellBg = "";
-          if (inRange) cellBg = "bg-violet-50";
+          if (inRange) cellBg = "bg-violet-50 dark:bg-violet-800/50";
           if (isRangeStart)
             cellBg =
-              "bg-gradient-to-r from-transparent via-violet-50 to-violet-50";
+              "bg-gradient-to-r from-transparent via-violet-50 to-violet-50 dark:bg-gradient-to-r dark:from-transparent via-violet-800/50 to-violet-800/50";
           if (isRangeEnd)
             cellBg =
-              "bg-gradient-to-l from-transparent via-violet-50 to-violet-50";
+              "bg-gradient-to-l from-transparent via-violet-50 to-violet-50 dark:from-transparent via-violet-800/50 to-violet-800/50";
 
           return (
             <div
@@ -111,7 +111,7 @@ function MonthGrid({
             >
               <span
                 className={[
-                  "w-[30px] h-[30px] flex items-center justify-center rounded-full text-[13px] relative z-10 transition-colors",
+                  "w-[30px] h-[30px] flex items-center justify-center dark:text-gray-200 rounded-full text-[13px] relative z-10 transition-colors",
                   isSelected
                     ? "bg-violet-600 text-white font-medium"
                     : isToday
@@ -250,15 +250,15 @@ function DatePicker({
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={[
-          "flex items-center gap-2 border rounded-lg px-3 py-2 text-sm bg-white transition-colors min-w-[200px]",
+          "flex items-center gap-2 border rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-950 dark:border dark:border-slate-800 transition-colors min-w-[200px]",
           open
-            ? "border-violet-400 text-zinc-700"
+            ? "border-violet-400 text-zinc-800 dark:text-gray-200"
             : "border-gray-200 text-zinc-500 hover:border-violet-300",
         ].join(" ")}
       >
         <IoCalendarOutline
           size={15}
-          className="text-violet-500 flex-shrink-0"
+          className="text-violet-600 flex-shrink-0"
         />
         <span className="flex-1 text-left truncate">{formatLabel()}</span>
         {(startDate || endDate) && (
@@ -274,12 +274,12 @@ function DatePicker({
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute top-[calc(100%+6px)] left-0 z-50 bg-white border border-gray-200 rounded-xl shadow-lg p-4 w-[280px]">
+        <div className="absolute top-[calc(100%+6px)] left-0 z-50 bg-white dark:bg-slate-950 dark:border dark:border-slate-800 border border-gray-200 rounded-xl shadow-lg p-4 w-[280px]">
           {/* Header: month/year selects + nav arrows */}
           <div className="flex items-center gap-1.5 mb-3">
             <button
               onClick={goBack}
-              className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-200 text-gray-500 hover:border-violet-300 hover:text-violet-600 transition-colors flex-shrink-0"
+              className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-200 dark:border dark:border-slate-800 text-gray-500 dark:text-gray-400 hover:border-violet-300 dark:hover:border-violet-800 hover:text-violet-600 dark:hover:text-violet-900 transition-colors flex-shrink-0"
               aria-label="Previous month"
             >
               <IoChevronBackOutline size={13} />
@@ -290,7 +290,7 @@ function DatePicker({
               <select
                 value={viewMonth}
                 onChange={handleMonthChange}
-                className="flex-1 text-xs font-medium text-zinc-700 border border-gray-200 rounded-md px-1.5 py-1 bg-white hover:border-violet-300 focus:outline-none focus:border-violet-400 cursor-pointer appearance-none text-center"
+                className="flex-1 text-xs font-medium text-zinc-800 dark:text-gray-200 border border-gray-200 rounded-md px-1.5 py-1 bg-white dark:bg-slate-950 dark:border dark:border-slate-800 hover:border-violet-300 dark:hover:border-violet-800 focus:outline-none focus:border-violet-400 cursor-pointer appearance-none text-center"
               >
                 {MONTHS.map((m, i) => {
                   const isFutureMonth =
@@ -307,7 +307,7 @@ function DatePicker({
               <select
                 value={viewYear}
                 onChange={handleYearChange}
-                className="w-[64px] text-xs font-medium text-zinc-700 border border-gray-200 rounded-md px-1.5 py-1 bg-white hover:border-violet-300 focus:outline-none focus:border-violet-400 cursor-pointer appearance-none text-center"
+                className="w-[64px] text-xs font-medium text-zinc-800 dark:text-gray-200 border border-gray-200 dark:border dark:border-slate-800 rounded-md px-1.5 py-1 bg-white dark:bg-slate-950 hover:border-violet-300 dark:hover:border-violet-800 focus:outline-none focus:border-violet-400 cursor-pointer appearance-none text-center"
               >
                 {yearOptions.map((y) => (
                   <option key={y} value={y}>
@@ -323,7 +323,7 @@ function DatePicker({
               className={[
                 "w-7 h-7 flex items-center justify-center rounded-md border transition-colors flex-shrink-0",
                 canGoForward
-                  ? "border-gray-200 text-gray-500 hover:border-violet-300 hover:text-violet-600"
+                  ? "border-gray-200 dark:border-slate-800 text-gray-500 dark:text-gray-400  hover:border-violet-300 dark:hover:border-violet-800 hover:text-violet-600 dark:hover:text-violet-900"
                   : "border-gray-100 text-gray-300 cursor-not-allowed",
               ].join(" ")}
               aria-label="Next month"
@@ -345,7 +345,7 @@ function DatePicker({
 
           {/* Footer */}
           <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-[11px] text-zinc-400">{statusText}</span>
+            <span className="text-[11px] text-zinc-400 dark:text-gray-400">{statusText}</span>
             {(startDate || endDate) && (
               <button
                 onClick={() => onChange(null, null)}

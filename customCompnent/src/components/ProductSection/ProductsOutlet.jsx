@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-
+import useTheme from "../../contexts/ThemeContext";
 // Icons
 import { IoAdd,IoFilter } from "react-icons/io5";
 import { BsFillBagHeartFill } from "react-icons/bs";
@@ -43,7 +43,7 @@ function StockCell({ stock, status }) {
         : "text-green-600";
   return (
     <div>
-      <p className="font-medium text-zinc-800">{stock}</p>
+      <p className="font-medium text-zinc-800 dark:text-gray-200">{stock}</p>
       <p className={`text-xs ${color}`}>
         {status === "Trending" ? "In Stock" : status}
       </p>
@@ -57,12 +57,12 @@ function ProductsOutlet() {
   const [category, setCategory] = useState("All Categories");
   const [status, setStatus] = useState("All Statuses");
   const [page, setPage] = useState(1);
-
+  const {theme} = useTheme();
   const headingCards = [
     {
       id: "products",
       icon: <BsFillBagHeartFill className="text-violet-600" size={30} />,
-      iconBackground: "bg-violet-100",
+      iconBackground: theme === "dark" ? "bg-indigo-950" : "bg-violet-100",
       title: "Total Products",
       subTitle: "248",
       desc: "All products in the store",
@@ -70,7 +70,7 @@ function ProductsOutlet() {
     {
       id: "trending",
       icon: <HiTrendingUp className="text-red-600" size={30} />,
-      iconBackground: "bg-red-100",
+      iconBackground: theme === "dark" ? "bg-stone-800" : "bg-red-100",
       title: "Trending Products",
       subTitle: "28",
       desc: "High Demand Products",
@@ -78,15 +78,15 @@ function ProductsOutlet() {
     {
       id: "noStock",
       icon: <TbPackageOff className="text-rose-600" size={30} />,
-      iconBackground: "bg-rose-100",
+      iconBackground: theme === "dark" ? "bg-stone-800" : "bg-rose-100",
       title: "Out of Stock",
       subTitle: "8",
       desc: "Currently unavailable",
     },
     {
       id: "lowStock",
-      icon: <TbAlertTriangleFilled className="text-amber-300" size={30} />,
-      iconBackground: "bg-amber-100",
+      icon: <TbAlertTriangleFilled className="text-amber-600" size={30} />,
+      iconBackground: theme==="dark"?"bg-stone-900": "bg-amber-100",
       title: "Low Stock",
       subTitle: "15",
       desc: "Near Stock limit",
@@ -124,8 +124,10 @@ function ProductsOutlet() {
       {/* ── Header ── */}
       <div className="flex flex-row justify-between items-center gap-1 px-5">
         <div className="flex flex-col justify-start items-start">
-          <span className="text-zinc-800 font-semibold text-2xl">Products</span>
-          <span className="text-gray-500 text-sm">
+          <span className="text-zinc-800 dark:text-gray-200 font-semibold text-2xl">
+            Products
+          </span>
+          <span className="text-gray-500 dark:text-gray-400 text-sm">
             Manage and organize your store products
           </span>
         </div>
@@ -148,9 +150,9 @@ function ProductsOutlet() {
 
       {/* ── Table ── */}
       <div className="px-3">
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="bg-white dark:bg-slate-950  rounded-xl border border-gray-200 dark:border dark:border-slate-800 overflow-hidden">
           {/* ── Search + Filters ── */}
-          <div className="flex flex-row w-full justify-between border-b border-gray-100 py-2 rounded-lg items-center gap-3 px-3">
+          <div className="flex flex-row w-full justify-between border-b border-gray-100 dark:border-b dark:border-slate-800 py-2 rounded-lg items-center gap-3 px-3">
             {/* Search */}
             <SearchBar
               search={search}
@@ -175,7 +177,7 @@ function ProductsOutlet() {
               />
 
               {/* Filter Button */}
-              <button className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 text-sm text-zinc-600 bg-white hover:border-violet-400 hover:text-violet-700 transition-colors">
+              <button className="flex items-center gap-2 border border-gray-200 dark:border dark:border-slate-800 rounded-lg px-3 py-2 text-sm text-zinc-800 dark:text-gray-200 bg-white dark:bg-slate-950 hover:border-indigo-400 hover:text-indigo-600 dark:hover:border-indigo-500 dark:hover:text-indigo-600 transition-colors">
                 <IoFilter size={16} />
                 Filter
               </button>
@@ -183,23 +185,23 @@ function ProductsOutlet() {
           </div>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100 bg-gray-100">
-                <th className="text-left px-4 py-3 font-semibold text-zinc-600">
+              <tr className="border-b border-gray-100 dark:border-b dark:border-slate-800 bg-gray-100 dark:bg-slate-900">
+                <th className="text-left px-4 py-3 font-semibold text-zinc-800 dark:text-gray-200">
                   Product
                 </th>
-                <th className="text-left px-4 py-3 font-semibold text-zinc-600">
+                <th className="text-left px-4 py-3 font-semibold text-zinc-800 dark:text-gray-200">
                   Category
                 </th>
-                <th className="text-left px-4 py-3 font-semibold text-zinc-600">
+                <th className="text-left px-4 py-3 font-semibold text-zinc-800 dark:text-gray-200">
                   Price
                 </th>
-                <th className="text-left px-4 py-3 font-semibold text-zinc-600">
+                <th className="text-left px-4 py-3 font-semibold text-zinc-800 dark:text-gray-200">
                   Stock
                 </th>
-                <th className="text-left px-4 py-3 font-semibold text-zinc-600">
+                <th className="text-left px-4 py-3 font-semibold text-zinc-800 dark:text-gray-200">
                   Status
                 </th>
-                <th className="text-left px-4 py-3 font-semibold text-zinc-600">
+                <th className="text-left px-4 py-3 font-semibold text-zinc-800 dark:text-gray-200">
                   Actions
                 </th>
               </tr>
@@ -207,7 +209,10 @@ function ProductsOutlet() {
             <tbody>
               {paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-gray-400">
+                  <td
+                    colSpan={6}
+                    className="text-center py-12 text-gray-500 dark:text-gray-400"
+                  >
                     <TbPackageOff
                       size={36}
                       className="mx-auto mb-2 opacity-40"
@@ -219,22 +224,22 @@ function ProductsOutlet() {
                 paginated.map((product, idx) => (
                   <tr
                     key={product.id}
-                    className={`border-b border-gray-100 hover:bg-violet-50/40 transition-colors ${idx === paginated.length - 1 ? "border-b-0" : ""}`}
+                    className={`border-b border-gray-100 dark:border-b dark:border-slate-800 hover:bg-violet-50/40 dark:hover:bg-slate-800/50 transition-colors ${idx === paginated.length - 1 ? "border-b-0" : ""}`}
                   >
                     {/* Product */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-indigo-950 flex items-center justify-center shrink-0">
                           <BsFillBagHeartFill
                             size={18}
-                            className="text-violet-400"
+                            className="text-indigo-400"
                           />
                         </div>
                         <div>
-                          <p className="font-semibold text-zinc-800">
+                          <p className="font-semibold text-zinc-800 dark:text-gray-200">
                             {product.name}
                           </p>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
                             SKU: {product.sku}
                           </p>
                         </div>
@@ -243,13 +248,13 @@ function ProductsOutlet() {
 
                     {/* Category */}
                     <td className="px-4 py-3">
-                      <span className="px-2.5 py-1 bg-violet-50 text-violet-700 rounded-full text-xs font-medium">
+                      <span className="px-2.5 py-1 bg-violet-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-medium">
                         {product.category}
                       </span>
                     </td>
 
                     {/* Price */}
-                    <td className="px-4 py-3 font-medium text-zinc-800">
+                    <td className="px-4 py-3 font-medium text-zinc-800 dark:text-gray-200">
                       ${product.price.toFixed(2)}
                     </td>
 
@@ -269,10 +274,10 @@ function ProductsOutlet() {
                     {/* Actions */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <button className="p-1.5 rounded-md border border-gray-200 text-blue-500 hover:bg-blue-50 hover:border-blue-300 transition-colors">
+                        <button className="p-1.5 rounded-md border border-gray-200 dark:border dark:border-slate-800 text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-700 hover:border-blue-300 dark:hover:border-slate-600 transition-colors">
                           <MdEdit size={16} />
                         </button>
-                        <button className="p-1.5 rounded-md border border-gray-200 text-red-400 hover:bg-red-50 hover:border-red-300 transition-colors">
+                        <button className="p-1.5 rounded-md border border-gray-200 dark:border dark:border-slate-800 text-red-400 hover:bg-red-50 dark:hover:bg-slate-700 hover:border-red-300 dark:hover:border-slate-600 transition-colors">
                           <RiDeleteBin5Fill size={16} />
                         </button>
                       </div>
@@ -287,17 +292,19 @@ function ProductsOutlet() {
 
       {/* ── Pagination Row ── */}
       <div className="flex items-center justify-between px-3 pb-2">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           Showing{" "}
-          <span className="font-medium text-zinc-700">
+          <span className="font-medium text-zinc-800 dark:text-gray-200">
             {filtered.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1}
           </span>{" "}
           to{" "}
-          <span className="font-medium text-zinc-700">
+          <span className="font-medium text-zinc-800 dark:text-gray-200">
             {Math.min(safePage * PAGE_SIZE, filtered.length)}
           </span>{" "}
           of{" "}
-          <span className="font-medium text-zinc-700">{filtered.length}</span>{" "}
+          <span className="font-medium text-zinc-800 dark:text-gray-200">
+            {filtered.length}
+          </span>{" "}
           products
         </p>
         <Pagination

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { CiMail } from "react-icons/ci";
 import { CiLock } from "react-icons/ci";
 import { PiSignInBold } from "react-icons/pi";
@@ -9,15 +9,14 @@ import { HiOutlineUserPlus } from "react-icons/hi2";
 
 import InputBox from "../InputBox";
 
-
 function RegisterForm() {
   return (
     <div className="flex flex-1 flex-col justify-center items-start px-4 py-2">
       {/* Form heading */}
-      <span className="text-zinc-800 font-bold text-2xl text-start">
+      <span className="text-zinc-800 dark:text-gray-200 font-bold text-2xl text-start">
         Create your Account👋
       </span>
-      <span className="text-gray-400 text-base text-start">
+      <span className="text-gray-500 dark:text-gray-400 text-base text-start">
         Join BuyNest Admin and take your store to the next level.
       </span>
 
@@ -77,10 +76,16 @@ function RegisterForm() {
         />
         <label className="pb-1 font-medium" htmlFor="terms">
           <div className="flex flex-row gap-1">
-            <span className="text-zinc-800">I agree to the</span>
-            <span className="text-indigo-600">Terms of Service</span>
-            <span className="text-zinc-800">and</span>
-            <span className="text-indigo-600">Privacy Policy</span>
+            <span className="text-zinc-800 dark:text-gray-200">
+              I agree to the
+            </span>
+            <span className="text-indigo-600 dark:text-indigo-400">
+              Terms of Service
+            </span>
+            <span className="text-zinc-800 dark:text-gray-200">and</span>
+            <span className="text-indigo-600 dark:text-indigo-400">
+              Privacy Policy
+            </span>
           </div>
         </label>
       </div>
@@ -93,30 +98,36 @@ function RegisterForm() {
 
       {/* Divider — "or continue with" */}
       <div className="mt-2 flex flex-row justify-between items-center flex-1 w-full">
-        <div className="w-[33%] h-0 border border-gray-200"></div>
-        <span className="text-gray-400">or continue with</span>
-        <div className="w-[33%] h-0 border border-gray-200"></div>
+        <div className="w-[33%] h-0 border border-gray-200 dark:border dark:border-slate-800"></div>
+        <span className="text-gray-500 dark:text-gray-400">
+          or continue with
+        </span>
+        <div className="w-[33%] h-0 border border-gray-200 dark:border dark:border-slate-800"></div>
       </div>
 
       {/* OAuth buttons */}
       <div className="flex flex-row w-full gap-2 mt-1">
-        <div className="rounded-lg flex flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100">
+        <div className="rounded-lg flex flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100 dark:border-1 dark:border-slate-800">
           <FcGoogle size={30} />
-          <span className="text-zinc-800 font-medium">Google</span>
+          <span className="text-zinc-800 dark:text-gray-200 font-medium">
+            Google
+          </span>
         </div>
-        <div className="rounded-lg flex flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100">
+        <div className="rounded-lg flex flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100 dark:border-1 dark:border-slate-800">
           <IoLogoGithub size={30} />
-          <span className="text-zinc-800 font-medium">GitHub</span>
+          <span className="text-zinc-800 dark:text-gray-200 font-medium">
+            GitHub
+          </span>
         </div>
       </div>
 
       {/* Sign In redirect */}
       <div className="flex flex-1 gap-2 w-full flex-row justify-center items-center mt-1">
-        <span className="text-zinc-800">Already have an account?</span>
-        <span className="text-indigo-600">Sign In</span>
+        <span className="text-zinc-800 dark:text-gray-200">Already have an account?</span>
+        <span className="text-indigo-600 dark:text-indigo-400">Sign In</span>
       </div>
     </div>
   );
 }
 
-export default RegisterForm
+export default RegisterForm;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useAuth } from "../App";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import useTheme from "../contexts/ThemeContext";
 
 import Logo from "../assets/companyLogoGradient.svg?react";
 
@@ -18,6 +19,7 @@ import SignInForm from "../components/AuthComponents/SignInForm";
 import RegisterForm from "../components/AuthComponents/RegisterForm";
 
 function Auth() {
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [activeTab, setactiveTab] = useState("signin");
 
@@ -69,14 +71,14 @@ function Auth() {
   ];
 
   return (
-    <div className="flex flex-row w-full h-screen bg-gradient-to-br from-slate-50 via-violet-50 to-indigo-50">
+    <div className="flex flex-row w-full h-screen bg-gradient-to-br from-slate-50  via-violet-50 to-indigo-50 dark:bg-none dark:bg-slate-950">
       {/* ───── Left column ───── */}
       <div className="flex flex-col justify-between w-[50%] h-full py-6 px-8">
         <div className="flex flex-row items-center gap-2">
           <Logo className="w-16 h-16" />
           <div className="flex flex-col justify-center items-start">
             <span
-              className="font-bold text-2xl text-zinc-800"
+              className="font-bold text-2xl text-zinc-800 dark:text-gray-200"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               BuyNest
@@ -92,30 +94,39 @@ function Auth() {
 
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-2 items-center">
-            <span className="text-4xl font-bold text-zinc-800">
+            <span className="text-4xl font-bold text-zinc-800 dark:text-gray-200">
               Manage Your
             </span>
             <span className="text-4xl font-bold text-indigo-600">Store.</span>
           </div>
           <div className="flex flex-row gap-2 items-center">
-            <span className="text-4xl font-bold text-zinc-800">Grow Your</span>
+            <span className="text-4xl font-bold text-zinc-800 dark:text-gray-200">
+              Grow Your
+            </span>
             <span className="text-4xl font-bold bg-gradient-to-r from-violet-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Business.
             </span>
           </div>
-          <p className="text-base text-gray-400 w-[75%] mt-1">
+          <p className="text-base text-gray-500 dark:text-gray-400 w-[75%] mt-1">
             Powerful tools to manage products, orders, customers, and boost your
             ecommerce success
           </p>
         </div>
+        {theme === "dark" ? (
+          <img
+            src="https://res.cloudinary.com/dx88pbasu/image/upload/v1782722779/heroImage_dark_srrrn4.png"
+            className="w-full max-w-xl h-auto object-contain items-center"
+            alt="Dashboard Preview"
+          />
+        ) : (
+          <img
+            src="https://res.cloudinary.com/dx88pbasu/image/upload/v1782722280/heroImage_eyxww2.png"
+            className="w-full max-w-xl h-auto object-contain items-center"
+            alt="Dashboard Preview"
+          />
+        )}
 
-        <img
-          src="https://res.cloudinary.com/dx88pbasu/image/upload/v1781166781/ChatGPT_Image_Jun_11__2026__01_53_59_PM-removebg-preview_qngafv.png"
-          className="w-full max-w-xl h-auto object-contain items-center"
-          alt="Dashboard Preview"
-        />
-
-        <div className="flex flex-row gap-2 w-full items-center py-4 bg-white shadow-xl rounded-lg overflow-hidden px-3">
+        <div className="flex flex-row gap-2 w-full items-center py-4 bg-white dark:bg-slate-900 dark:border dark:border-slate-800 shadow-xl rounded-lg overflow-hidden px-3">
           {featureItems.map((item) => (
             <FeatureItem
               key={item.id}
@@ -131,8 +142,8 @@ function Auth() {
 
       {/* ───── Right column — Forms ───── */}
       <div className="flex flex-col flex-1 w-[50%] h-screen justify-center items-center py-4">
-        <div className="flex flex-col w-[80%] py-4 px-5 mx-10 bg-white rounded-lg shadow-xl z-20">
-          <div className="flex flex-row justify-center items-center bg-violet-50 border border-violet-100 rounded-lg p-2 mx-2 my-1">
+        <div className="flex flex-col w-[80%] py-4 px-5 mx-10 bg-white dark:bg-slate-950 dark:border dark:border-slate-800 rounded-lg shadow-xl z-20">
+          <div className="flex flex-row justify-center items-center bg-violet-50 dark:bg-slate-900 border border-violet-100 dark:border dark:border-slate-800 rounded-lg p-2 mx-2 my-1">
             <div
               className={`flex flex-1 gap-2 justify-center rounded-lg py-2 items-center cursor-pointer ${
                 activeTab === "signin"
@@ -146,13 +157,17 @@ function Auth() {
             >
               <FaRegUser
                 className={
-                  activeTab === "signin" ? "text-white" : "text-zinc-800"
+                  activeTab === "signin"
+                    ? "text-white"
+                    : "text-zinc-800 dark:text-gray-200"
                 }
                 size={25}
               />
               <span
                 className={
-                  activeTab === "signin" ? "text-white" : "text-zinc-800"
+                  activeTab === "signin"
+                    ? "text-white"
+                    : "text-zinc-800 dark:text-gray-200"
                 }
               >
                 Sign In
@@ -172,13 +187,17 @@ function Auth() {
             >
               <LuUserRoundPlus
                 className={
-                  activeTab === "register" ? "text-white" : "text-zinc-800"
+                  activeTab === "register"
+                    ? "text-white"
+                    : "text-zinc-800  dark:text-gray-200"
                 }
                 size={25}
               />
               <span
                 className={
-                  activeTab === "register" ? "text-white" : "text-zinc-800"
+                  activeTab === "register"
+                    ? "text-white"
+                    : "text-zinc-800 dark:text-gray-200"
                 }
               >
                 Register

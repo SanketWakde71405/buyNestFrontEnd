@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import useTheme from "../../contexts/ThemeContext";
 
 // Icons
 import {
@@ -19,12 +20,17 @@ import { CiDollar } from "react-icons/ci";
 import Pagination from "../Pagination";
 import SearchBar from "../SearchBar";
 import Dropdown from "../Dropdown";
-import CouponCard from "./CouponCard"
-import ButtonIcon from "../ButtonIcon"
-
+import CouponCard from "./CouponCard";
+import ButtonIcon from "../ButtonIcon";
 
 // ── Dummy Data ───────────────────────────────────────────────────────────────
-import { ALL_COUPONS,ROWS_PER_PAGE,STATUS_OPTIONS,TYPE_OPTIONS, CODE_COLOURS } from "./DummyCoupons";
+import {
+  ALL_COUPONS,
+  ROWS_PER_PAGE,
+  STATUS_OPTIONS,
+  TYPE_OPTIONS,
+  CODE_COLOURS,
+} from "./DummyCoupons";
 
 function codeColour(id) {
   return CODE_COLOURS[(id - 1) % CODE_COLOURS.length];
@@ -89,12 +95,13 @@ function CouponOutlet() {
   const [typeFilter, setTypeFilter] = useState("All Types");
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const { theme } = useTheme();
 
   const couponCards = [
     {
       id: "coupons_total",
       icon: <RiCouponLine className="text-violet-600" size={24} />,
-      iconBackground: "bg-violet-100",
+      iconBackground: theme === "dark" ? "bg-indigo-950" : "bg-violet-100",
       title: "Total Coupons",
       subTitle: "48",
       desc: "All coupons created",
@@ -102,15 +109,20 @@ function CouponOutlet() {
     {
       id: "coupons_active",
       icon: <IoPricetagOutline className="text-emerald-600" size={24} />,
-      iconBackground: "bg-emerald-100",
+      iconBackground: theme === "dark" ? "bg-teal-950" : "bg-emerald-100",
       title: "Active Coupons",
       subTitle: "32",
       desc: "Currently active",
     },
     {
       id: "coupons_redeemed",
-      icon: <HiTrendingUp className="border-b-2 border-l-2 border-sky-600 text-sky-600" size={24} />,
-      iconBackground: "bg-sky-100",
+      icon: (
+        <HiTrendingUp
+          className="border-b-2 border-l-2 border-sky-600 text-sky-600"
+          size={24}
+        />
+      ),
+      iconBackground: theme === "dark" ? "bg-slate-800" : "bg-sky-100",
       title: "Total Redeemed",
       subTitle: "12,458",
       desc: "Across all coupons",
@@ -118,7 +130,7 @@ function CouponOutlet() {
     {
       id: "coupons_discount_total",
       icon: <CiDollar className="text-amber-600" size={26} />,
-      iconBackground: "bg-amber-100",
+      iconBackground: theme === "dark" ? "bg-stone-900" : "bg-amber-100",
       title: "Total Discounts Given",
       subTitle: "$23,456.78",
       desc: "Overall Discount",
@@ -156,10 +168,10 @@ function CouponOutlet() {
       {/* ── Header ── */}
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col">
-          <span className="text-zinc-800 font-bold text-2xl tracking-tight">
+          <span className="text-zinc-800 dark:text-gray-200 font-bold text-2xl tracking-tight">
             Coupons
           </span>
-          <span className="text-gray-400 text-sm mt-0.5">
+          <span className="text-gray-500 dark:text-gray-400 text-sm mt-0.5">
             Create, manage and track your store coupons
           </span>
         </div>
@@ -174,9 +186,9 @@ function CouponOutlet() {
       </div>
 
       {/* ── Table Card ── */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-slate-950 rounded-2xl border border-gray-100 dark:border dark:border-slate-800 shadow-sm overflow-hidden">
         {/* Toolbar */}
-        <div className="flex flex-row items-center gap-3 px-5 py-4 border-b border-gray-100">
+        <div className="flex flex-row items-center gap-3 px-5 py-4 border-b border-gray-100 dark:border-b dark:border-slate-800">
           <SearchBar
             search={search}
             setSearch={(v) => {
@@ -209,7 +221,7 @@ function CouponOutlet() {
               className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg border transition-colors ${
                 showFilters
                   ? "border-violet-400 text-violet-600 bg-violet-50"
-                  : "border-gray-200 text-zinc-600 hover:border-violet-400 hover:text-violet-600"
+                  : "border-gray-200 dark:border-slate-800 text-zinc-800 dark:text-gray-200 hover:border-indigo-400 hover:text-indigo-400"
               }`}
             >
               <IoFunnelOutline size={15} /> Filter
@@ -220,7 +232,7 @@ function CouponOutlet() {
         {/* Table */}
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-100 text-zinc-600 bg-gray-100 ">
+            <tr className="border-b border-gray-100 dark:border-b dark:border-slate-800 text-zinc-800  dark:text-gray-200 bg-gray-100 dark:bg-slate-900">
               {[
                 "Coupon Code",
                 "Description",
@@ -235,19 +247,19 @@ function CouponOutlet() {
               ].map((h) => (
                 <th
                   key={h}
-                  className="text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide px-4 py-3 whitespace-nowrap"
+                  className="text-left text-xs font-semibold uppercase tracking-wide px-4 py-3 whitespace-nowrap"
                 >
                   {h}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-50">
+          <tbody className="divide-y divide-gray-50 dark:divide-y dark:divide-slate-800">
             {paginated.length === 0 ? (
               <tr>
                 <td
                   colSpan={10}
-                  className="text-center py-12 text-gray-400 text-sm"
+                  className="text-center py-12 text-gray-500 dark:text-gray-400 text-sm"
                 >
                   No coupons match your search.
                 </td>
@@ -256,7 +268,7 @@ function CouponOutlet() {
               paginated.map((c) => (
                 <tr
                   key={c.id}
-                  className="hover:bg-gray-50/70 transition-colors"
+                  className="hover:bg-gray-50/70 dark:hover:bg-slate-800/50 transition-colors"
                 >
                   {/* Code */}
                   <td className="px-4 py-3.5">
@@ -268,29 +280,29 @@ function CouponOutlet() {
                   </td>
 
                   {/* Description */}
-                  <td className="px-4 py-3.5 text-gray-500 max-w-[180px] leading-snug">
+                  <td className="px-4 py-3.5 dark:text-gray-400 text-gray-500 max-w-[180px] leading-snug">
                     {c.description}
                   </td>
 
                   {/* Discount */}
-                  <td className="px-4 py-3.5 text-zinc-700 font-semibold whitespace-nowrap">
+                  <td className="px-4 py-3.5 text-zinc-800 dark:text-gray-200 font-semibold whitespace-nowrap">
                     {c.discount}
                   </td>
 
                   {/* Type */}
-                  <td className="px-4 py-3.5 text-zinc-500 whitespace-nowrap">
+                  <td className="px-4 py-3.5 text-zinc-800 dark:text-gray-200 whitespace-nowrap">
                     {c.type}
                   </td>
 
                   {/* Min Purchase */}
-                  <td className="px-4 py-3.5 text-zinc-600 whitespace-nowrap">
+                  <td className="px-4 py-3.5 text-zinc-800 dark:text-gray-200 whitespace-nowrap">
                     {c.minPurchase === 0
                       ? "$0.00"
                       : `$${c.minPurchase.toFixed(2)}`}
                   </td>
 
                   {/* Usage Limit */}
-                  <td className="px-4 py-3.5 text-zinc-600 whitespace-nowrap">
+                  <td className="px-4 py-3.5 text-zinc-800 dark:text-gray-200 whitespace-nowrap">
                     {c.usageLimit === null
                       ? "Unlimited"
                       : c.usageLimit.toLocaleString()}
@@ -302,7 +314,7 @@ function CouponOutlet() {
                   </td>
 
                   {/* Valid Till */}
-                  <td className="px-4 py-3.5 text-zinc-500 whitespace-nowrap">
+                  <td className="px-4 py-3.5 text-zinc-800 dark:text-gray-200 whitespace-nowrap">
                     {c.validTill}
                   </td>
 
@@ -314,10 +326,10 @@ function CouponOutlet() {
                   {/* Actions */}
                   <td className="px-4 py-3.5">
                     <div className="flex items-center gap-2">
-                      <button className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">
+                      <button className="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">
                         <IoPencilOutline size={15} />
                       </button>
-                      <button className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors">
+                      <button className="p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors">
                         <IoTrashOutline size={15} />
                       </button>
                     </div>
@@ -329,8 +341,8 @@ function CouponOutlet() {
         </table>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-t border-gray-100 bg-gray-50/40">
-          <span className="text-xs text-gray-400">
+        <div className="flex items-center justify-between px-5 py-3.5 border-t border-gray-100 dark:border-t dark:border-slate-800">
+          <span className="text-xs text-gray-500 dark:text-gray-400">
             Showing {startRow} to {endRow} of {filtered.length} coupons
           </span>
           {totalPages > 1 && (

@@ -9,7 +9,7 @@ function Dropdown({ value, options, onChange }) {
     <div className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 text-sm text-zinc-700 bg-white hover:border-violet-400 transition-colors min-w-[140px] justify-between"
+        className="flex items-center gap-2 border border-gray-200 dark:border dark:border-slate-800 rounded-lg px-3 py-2 text-sm text-zinc-800 dark:text-gray-200 bg-white dark:bg-slate-950 hover:border-violet-400 dark:hover:border-slate-700 transition-colors min-w-[140px] justify-between"
       >
         <span>{value}</span>
         <IoChevronDown
@@ -18,7 +18,7 @@ function Dropdown({ value, options, onChange }) {
         />
       </button>
       {open && (
-        <ul className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg py-1 text-sm">
+        <ul className="absolute z-20 mt-1 w-full bg-white dark:bg-slate-950 border border-gray-200 dark:border dark:border-slate-800 rounded-lg shadow-lg py-1 text-sm">
           {options.map((opt) => (
             <li
               key={opt}
@@ -26,7 +26,7 @@ function Dropdown({ value, options, onChange }) {
                 onChange(opt);
                 setOpen(false);
               }}
-              className={`px-3 py-2 cursor-pointer hover:bg-violet-50 hover:text-violet-700 transition-colors ${value === opt ? "text-violet-700 font-medium bg-violet-50" : "text-zinc-700"}`}
+              className={`px-3 py-2 cursor-pointer hover:bg-indigo-50 dark:hover:bg-slate-700 dark:hover:text-indigo-400 hover:text-violet-700 transition-colors ${value === opt ? "text-indigo-600 dark:text-indigo-400  font-medium bg-indigo-50 dark:bg-slate-800" : "text-zinc-800 dark:text-gray-200"}`}
             >
               {opt}
             </li>

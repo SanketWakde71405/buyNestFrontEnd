@@ -20,6 +20,8 @@ import {
   IoVolumeHighOutline,
 } from "react-icons/io5";
 
+import useTheme from "../../contexts/ThemeContext";
+
 const spark = (vals) => vals.map((v) => ({ v }));
 
 
@@ -30,6 +32,7 @@ export const KPIS = [
     trend: "18.6%",
     icon: HiOutlineCurrencyDollar,
     iconBg: "bg-indigo-50",
+    darkIconBg: "dark:bg-slate-800",
     iconColor: "text-indigo-600",
     stroke: "#4f46e5",
     data: spark([10, 14, 11, 16, 14, 19, 22, 18, 24, 21, 26]),
@@ -40,6 +43,7 @@ export const KPIS = [
     trend: "12.3%",
     icon: HiOutlineShoppingCart,
     iconBg: "bg-emerald-50",
+    darkIconBg: "dark:bg-teal-950",
     iconColor: "text-emerald-600",
     stroke: "#10b981",
     data: spark([8, 9, 12, 10, 13, 12, 15, 17, 15, 19, 18]),
@@ -50,6 +54,7 @@ export const KPIS = [
     trend: "9.4%",
     icon: HiOutlineUsers,
     iconBg: "bg-blue-50",
+    darkIconBg: "dark:bg-slate-800",
     iconColor: "text-blue-600",
     stroke: "#3b82f6",
     data: spark([20, 18, 22, 21, 19, 23, 22, 25, 24, 27, 26]),
@@ -60,6 +65,7 @@ export const KPIS = [
     trend: "15.7%",
     icon: HiOutlineChartBar,
     iconBg: "bg-orange-50",
+    darkIconBg: "dark:bg-stone-800",
     iconColor: "text-orange-600",
     stroke: "#f97316",
     data: spark([12, 10, 14, 13, 17, 15, 16, 20, 18, 22, 21]),
@@ -82,6 +88,7 @@ export const STORE_SUMMARY = [
     count: 320,
     icon: HiOutlineArchiveBox,
     iconBg: "bg-indigo-50",
+    darkIconBg: "dark:bg-slate-800",
     iconColor: "text-indigo-600",
     linkColor: "text-indigo-600",
   },
@@ -90,6 +97,7 @@ export const STORE_SUMMARY = [
     count: 12,
     icon: HiOutlineExclamationTriangle,
     iconBg: "bg-orange-50",
+    darkIconBg: "dark:bg-stone-900",
     iconColor: "text-orange-500",
     linkColor: "text-orange-500",
   },
@@ -98,6 +106,7 @@ export const STORE_SUMMARY = [
     count: 5,
     icon: HiOutlineXCircle,
     iconBg: "bg-red-50",
+    darkIconBg: "dark:bg-stone-800",
     iconColor: "text-red-500",
     linkColor: "text-red-500",
   },
@@ -106,6 +115,7 @@ export const STORE_SUMMARY = [
     count: 8,
     icon: HiOutlineTag,
     iconBg: "bg-emerald-50",
+    darkIconBg: "dark:bg-teal-950",
     iconColor: "text-emerald-600",
     linkColor: "text-emerald-600",
   },
