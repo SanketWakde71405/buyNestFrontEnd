@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-
+import useTheme from "../../contexts/ThemeContext";
 // Icons
 import {
   IoAdd,
@@ -22,7 +22,7 @@ import { LuBaby } from "react-icons/lu";
 import Pagination from "../Pagination";
 import SearchBar from "../SearchBar";
 import Dropdown from "../Dropdown";
-import CategoryCard from "./CategoryCard"
+import CategoryCard from "./CategoryCard";
 import ButtonIcon from "../ButtonIcon";
 
 // ── Dummy data ──────────────────────────────────────────────────────────────
@@ -88,12 +88,13 @@ function CategoriesOutlet() {
   const [perfFilter, setPerfFilter] = useState("All Performance");
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const { theme } = useTheme();
 
   const categoryCards = [
     {
       id: "categories_total",
       icon: <IoGridOutline className="text-violet-600" size={24} />,
-      iconBackground: "bg-violet-100",
+      iconBackground: theme === "dark" ? "bg-indigo-950" : "bg-violet-100",
       title: "Total Categories",
       subTitle: "24",
       desc: "All product categories",
@@ -106,7 +107,7 @@ function CategoriesOutlet() {
           size={24}
         />
       ),
-      iconBackground: "bg-emerald-100",
+      iconBackground: theme === "dark" ? "bg-teal-950" : "bg-emerald-100",
       title: "Best Seller Category",
       subTitle: "Electronics",
       desc: "1,248 products sold",
@@ -119,7 +120,7 @@ function CategoriesOutlet() {
           size={24}
         />
       ),
-      iconBackground: "bg-amber-100",
+      iconBackground: theme === "dark" ? "bg-stone-900" : "bg-amber-100",
       title: "Underperforming",
       subTitle: "Home Decor",
       desc: "12 products sold",
@@ -127,7 +128,7 @@ function CategoriesOutlet() {
     {
       id: "categories_products",
       icon: <LuBox className="text-sky-600" size={24} />,
-      iconBackground: "bg-sky-100",
+      iconBackground:theme==="dark"?"bg-slate-800": "bg-sky-100",
       title: "Total Products",
       subTitle: "2,458",
       desc: "Across all categories",
@@ -178,10 +179,10 @@ function CategoriesOutlet() {
       {/* ── Header ── */}
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col">
-          <span className="text-zinc-800 font-bold text-2xl tracking-tight">
+          <span className="text-zinc-800 dark:text-gray-200 font-bold text-2xl tracking-tight">
             Categories
           </span>
-          <span className="text-gray-400 text-sm mt-0.5">
+          <span className="text-gray-500 dark:text-gray-400 text-sm mt-0.5">
             Manage product categories and organize your store
           </span>
         </div>
@@ -203,9 +204,9 @@ function CategoriesOutlet() {
       </div>
 
       {/* ── Table Card ── */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-slate-950 dark:border dark:border-slate-800 rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         {/* Toolbar */}
-        <div className="flex flex-row items-center gap-3 px-5 py-4 border-b border-gray-100">
+        <div className="flex flex-row items-center gap-3 px-5 py-4 border-b border-gray-100 dark:border-b dark:border-slate-800">
           <SearchBar
             search={search}
             setSearch={handleSearch}
@@ -231,8 +232,8 @@ function CategoriesOutlet() {
               onClick={() => setShowFilters((v) => !v)}
               className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg border transition-colors ${
                 showFilters
-                  ? "border-violet-400 text-violet-600 bg-violet-50"
-                  : "border-gray-200 text-zinc-600 hover:border-violet-400 hover:text-violet-600"
+                  ? "border-violet-400 text-violet-600 bg-violet-50 dark:bg-slate-950 dark:border-slate-800 dark:text-gray-200"
+                  : "border-gray-200 dark:border-slate-800 text-zinc-800 dark:text-gray-200 hover:border-indigo-400 hover:text-indigo-600"
               }`}
             >
               <IoFunnelOutline size={15} />
@@ -244,33 +245,33 @@ function CategoriesOutlet() {
         {/* Table */}
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-100 text-zinc-600 bg-gray-100">
-              <th className="text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide px-5 py-3 w-[220px]">
+            <tr className="border-b border-gray-100 dark:border dark:border-slate-800 text-zinc-800 dark:text-gray-200 bg-gray-100 dark:bg-slate-900">
+              <th className="text-left text-xs font-semibold uppercase tracking-wide px-5 py-3 w-[220px]">
                 Category
               </th>
-              <th className="text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide px-4 py-3">
+              <th className="text-left text-xs font-semibold uppercase tracking-wide px-4 py-3">
                 Description
               </th>
-              <th className="text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide px-4 py-3 w-[100px]">
+              <th className="text-left text-xs font-semibold uppercase tracking-wide px-4 py-3 w-[100px]">
                 Products
               </th>
-              <th className="text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide px-4 py-3 w-[110px]">
+              <th className="text-left text-xs font-semibold uppercase tracking-wide px-4 py-3 w-[110px]">
                 Status
               </th>
-              <th className="text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide px-4 py-3 w-[150px]">
+              <th className="text-left text-xs font-semibold uppercase tracking-wide px-4 py-3 w-[150px]">
                 Performance
               </th>
-              <th className="text-left text-xs font-semibold text-zinc-600 uppercase tracking-wide px-5 py-3 w-[90px]">
+              <th className="text-left text-xs font-semibold uppercase tracking-wide px-5 py-3 w-[90px]">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-50">
+          <tbody className="divide-y divide-gray-50 dark:divide-y dark:divide-slate-800">
             {paginated.length === 0 ? (
               <tr>
                 <td
                   colSpan={6}
-                  className="text-center py-12 text-gray-400 text-sm"
+                  className="text-center py-12 text-gray-500 dark:text-gray-400 text-sm"
                 >
                   No categories match your search.
                 </td>
@@ -279,7 +280,7 @@ function CategoriesOutlet() {
               paginated.map((cat) => (
                 <tr
                   key={cat.id}
-                  className="hover:bg-gray-50/70 transition-colors group"
+                  className="hover:bg-gray-100/80 dark:hover:bg-slate-800/50 transition-colors group"
                 >
                   {/* Category */}
                   <td className="px-5 py-3.5">
@@ -289,19 +290,19 @@ function CategoriesOutlet() {
                       >
                         {cat.icon}
                       </div>
-                      <span className="font-semibold text-zinc-700">
+                      <span className="font-semibold text-zinc-800 dark:text-gray-200">
                         {cat.name}
                       </span>
                     </div>
                   </td>
 
                   {/* Description */}
-                  <td className="px-4 py-3.5 text-gray-500 leading-snug">
+                  <td className="px-4 py-3.5 text-gray-500 dark:text-gray-400 leading-snug">
                     {cat.description}
                   </td>
 
                   {/* Products */}
-                  <td className="px-4 py-3.5 text-zinc-700 font-medium">
+                  <td className="px-4 py-3.5 text-zinc-800 dark:text-gray-200 font-medium">
                     {cat.products.toLocaleString()}
                   </td>
 
@@ -318,10 +319,10 @@ function CategoriesOutlet() {
                   {/* Actions */}
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2">
-                      <button className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">
+                      <button className="p-1.5 rounded-lg text-blue-500 dark:text-blue-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">
                         <IoPencilOutline size={16} />
                       </button>
-                      <button className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors">
+                      <button className="p-1.5 rounded-lg text-red-400  hover:bg-red-50 transition-colors">
                         <IoTrashOutline size={16} />
                       </button>
                     </div>
@@ -333,8 +334,8 @@ function CategoriesOutlet() {
         </table>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-t border-gray-100 bg-gray-50/40">
-          <span className="text-xs text-gray-400">
+        <div className="flex items-center justify-between px-5 py-3.5 border-t border-gray-100 dark:border-t dark:border-slate-800">
+          <span className="text-xs text-gray-500 dark:text-gray-400">
             Showing {startRow} to {endRow} of {filtered.length} categories
           </span>
           {totalPages > 1 && (
