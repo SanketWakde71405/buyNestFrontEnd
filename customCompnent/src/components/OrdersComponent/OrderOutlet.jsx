@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-
+import useTheme from "../../contexts/ThemeContext";
 // Icons
 import { CiFilter } from "react-icons/ci";
 import { MdOutlineFileDownload } from "react-icons/md";
@@ -77,12 +77,13 @@ function OrderOutlet() {
   const [currentPage, setCurrentPage] = useState(1);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const { theme } = useTheme();
 
   const orderCards = [
     {
       id: "orders",
       icon: <IoBagHandleOutline className="text-violet-600" size={28} />,
-      iconBackground: "bg-violet-100",
+      iconBackground: theme === "dark" ? "bg-indigo-950" : "bg-violet-100",
       title: "Total Orders",
       subTitle: "320",
       desc: "All time orders",
@@ -90,7 +91,7 @@ function OrderOutlet() {
     {
       id: "completed",
       icon: <IoCartOutline className="text-green-600" size={28} />,
-      iconBackground: "bg-green-100",
+      iconBackground: theme === "dark" ? "bg-teal-950" : "bg-green-100",
       title: "Completed Orders",
       subTitle: "188",
       desc: "58.75% of total",
@@ -98,7 +99,7 @@ function OrderOutlet() {
     {
       id: "pending",
       icon: <GoClock className="text-orange-600" size={28} />,
-      iconBackground: "bg-orange-100",
+      iconBackground: theme === "dark" ? "bg-stone-900" : "bg-orange-100",
       title: "Pending Orders",
       subTitle: "72",
       desc: "22.50% of total",
@@ -106,7 +107,7 @@ function OrderOutlet() {
     {
       id: "cancelled",
       icon: <ImCancelCircle className="text-red-600" size={28} />,
-      iconBackground: "bg-red-100",
+      iconBackground: theme==="dark"?"bg-stone-800": "bg-red-100",
       title: "Cancelled Orders",
       subTitle: "60",
       desc: "18.75% of total",
@@ -172,8 +173,10 @@ function OrderOutlet() {
       {/* ── Header ── */}
       <div className="flex flex-row justify-between gap-3 items-center">
         <div className="flex flex-col justify-start items-start">
-          <span className="text-zinc-800 font-semibold text-2xl">Orders</span>
-          <span className="text-gray-500 text-sm">
+          <span className="text-zinc-800 dark:text-gray-200 font-semibold text-2xl">
+            Orders
+          </span>
+          <span className="text-gray-500 dark:text-gray-400 text-sm">
             View and manage all customer orders
           </span>
         </div>
@@ -200,9 +203,9 @@ function OrderOutlet() {
       </div>
 
       {/* ── Table Card ── */}
-      <div className="mt-4 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="mt-4 bg-white dark:bg-slate-950  rounded-xl border border-gray-200 dark:border dark:border-slate-800 shadow-sm overflow-hidden">
         {/* ── Toolbar ── */}
-        <div className="flex flex-row items-center gap-3 px-4 py-3 border-b border-gray-100">
+        <div className="flex flex-row items-center gap-3 px-4 py-3 border-b border-gray-100 dark:border-b dark:border-slate-800">
           {/* Search */}
           <SearchBar
             search={search}
@@ -233,7 +236,7 @@ function OrderOutlet() {
           />
 
           {/* Filter */}
-          <button className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-500 bg-white hover:border-indigo-400 hover:text-indigo-600 transition-colors ml-auto">
+          <button className="flex items-center gap-2 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-500 bg-white dark:bg-slate-950 dark:border dark:border-slate-800 hover:border-indigo-600 hover:text-indigo-600 dark:hover:border-indigo-400 dark:hover:text-indigo-400 transition-colors ml-auto">
             <CiFilter size={18} />
             <span>Filter</span>
           </button>
@@ -243,7 +246,7 @@ function OrderOutlet() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-xs text-zinc-600 bg-gray-100 uppercase tracking-wide border-b border-gray-100">
+              <tr className="text-xs text-zinc-800 dark:text-gray-200 bg-gray-100 dark:bg-slate-900 uppercase tracking-wide border-b border-gray-100 dark:border-b dark:border-slate-800">
                 <th className="px-4 py-3 text-left font-medium">Order ID</th>
                 <th className="px-4 py-3 text-left font-medium">Customer</th>
                 <th className="px-4 py-3 text-left font-medium">Date</th>
@@ -254,12 +257,12 @@ function OrderOutlet() {
                 <th className="px-4 py-3 text-left font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-50 dark:divide-y dark:divide-slate-800">
               {pageOrders.length === 0 ? (
                 <tr>
                   <td
                     colSpan={8}
-                    className="px-4 py-12 text-center text-gray-400 text-sm"
+                    className="px-4 py-12 text-center text-gray-500 dark:text-gray-400 text-sm"
                   >
                     No orders match your filters.
                   </td>
@@ -268,10 +271,10 @@ function OrderOutlet() {
                 pageOrders.map((order) => (
                   <tr
                     key={order.id}
-                    className="hover:bg-gray-50/60 transition-colors"
+                    className="hover:bg-gray-50/60 dark:hover:bg-slate-800/50 transition-colors"
                   >
                     {/* Order ID */}
-                    <td className="px-4 py-4 font-medium text-zinc-700 whitespace-nowrap">
+                    <td className="px-4 py-4 font-medium text-zinc-800 dark:text-gray-200 whitespace-nowrap">
                       {order.id}
                     </td>
 
@@ -284,10 +287,10 @@ function OrderOutlet() {
                           {order.initials}
                         </span>
                         <div className="flex flex-col">
-                          <span className="text-zinc-800 font-medium leading-tight">
+                          <span className="text-zinc-800 dark:text-gray-200 font-medium leading-tight">
                             {order.customer}
                           </span>
-                          <span className="text-gray-400 text-xs">
+                          <span className="text-gray-500 dark:text-gray-400 text-xs">
                             {order.email}
                           </span>
                         </div>
@@ -295,13 +298,15 @@ function OrderOutlet() {
                     </td>
 
                     {/* Date */}
-                    <td className="px-4 py-4 text-zinc-600 whitespace-nowrap">
+                    <td className="px-4 py-4 text-zinc-800 dark:text-gray-200 whitespace-nowrap">
                       <div>{order.date}</div>
-                      <div className="text-xs text-gray-400">{order.time}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        {order.time}
+                      </div>
                     </td>
 
                     {/* Total */}
-                    <td className="px-4 py-4 font-semibold text-zinc-800 whitespace-nowrap">
+                    <td className="px-4 py-4 font-semibold text-zinc-800 dark:text-gray-200 whitespace-nowrap">
                       {order.total}
                     </td>
 
@@ -311,11 +316,11 @@ function OrderOutlet() {
                         <PaymentIcon type={order.paymentIcon} />
                         <div className="flex flex-col">
                           {order.cardLast4 && (
-                            <span className="text-zinc-500 text-xs">
+                            <span className="text-zinc-800 dark:text-gray-200 text-xs">
                               •••• {order.cardLast4}
                             </span>
                           )}
-                          <span className="text-zinc-400 text-xs">
+                          <span className="text-zinc-800 dark:text-gray-200 text-xs">
                             {order.payment}
                           </span>
                         </div>
@@ -328,17 +333,17 @@ function OrderOutlet() {
                     </td>
 
                     {/* Items */}
-                    <td className="px-4 py-4 text-zinc-500">
+                    <td className="px-4 py-4 text-zinc-800 dark:text-gray-200">
                       {order.items} {order.items === 1 ? "item" : "items"}
                     </td>
 
                     {/* Actions */}
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <button className="p-1.5 rounded-md border border-gray-200 text-gray-400 hover:border-violet-400 hover:text-violet-600 transition-colors">
+                        <button className="p-1.5 rounded-md border border-gray-200 dark:border dark:border-slate-700 text-gray-500 dark:text-gray-200  hover:border-violet-400 hover:text-violet-600 transition-colors">
                           <IoEyeOutline size={16} />
                         </button>
-                        <button className="p-1.5 rounded-md border border-gray-200 text-gray-400 hover:border-violet-400 hover:text-violet-600 transition-colors">
+                        <button className="p-1.5 rounded-md border border-gray-200 dark:border dark:border-slate-700 text-gray-400 dark:text-gray-200 hover:border-violet-400 hover:text-violet-600 transition-colors">
                           <IoCalendarOutline size={16} />
                         </button>
                       </div>
@@ -351,8 +356,8 @@ function OrderOutlet() {
         </div>
 
         {/* ── Footer / Pagination ── */}
-        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100">
-          <span className="text-sm text-gray-400">
+        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 dark:border-t dark:border-slate-800">
+          <span className="text-sm text-gray-500 dark:text-gray-400">
             Showing{" "}
             {filtered.length === 0 ? 0 : (safePage - 1) * ORDERS_PER_PAGE + 1}{" "}
             to {Math.min(safePage * ORDERS_PER_PAGE, filtered.length)} of{" "}

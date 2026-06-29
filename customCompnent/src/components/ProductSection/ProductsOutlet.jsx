@@ -185,7 +185,7 @@ function ProductsOutlet() {
           </div>
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100 dark:border-b dark:border-slate-800 bg-gray-100 dark:bg-slate-950">
+              <tr className="border-b border-gray-100 dark:border-b dark:border-slate-800 bg-gray-100 dark:bg-slate-900">
                 <th className="text-left px-4 py-3 font-semibold text-zinc-800 dark:text-gray-200">
                   Product
                 </th>
