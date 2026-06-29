@@ -7,12 +7,13 @@ function Card({
   cardDesc
 }) {
   return (
-    <div className="bg-white shadow-xl z-5 rounded-xl gap-2 p-4 m-2 flex flex-1 flex-col justify-center items-center">
+    <div className="bg-white dark:bg-slate-900 dark:border dark:border-slate-800 shadow-xl z-5 rounded-xl gap-2 p-4 m-2 flex flex-1 flex-col justify-center items-center">
       <div className={`rounded-full p-4 ${iconBackground}`}>{icon}</div>
       <div className="flex flex-1 flex-col gap-2 justify-start items-start px-2 py-1 mt-2">
-        <span className="font-semibold text-lg">{cardName}</span>
-        <span
-          className="text-base text-start">
+        <span className="font-semibold text-lg text-zinc-800 dark:text-gray-200">
+          {cardName}
+        </span>
+        <span className="text-base text-start text-zinc-800 dark:text-gray-200">
           {cardDesc}
         </span>
       </div>

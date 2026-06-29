@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useTheme from "../../contexts/ThemeContext";
 
 // Components
 import Card from "../Card";
@@ -17,48 +18,48 @@ import { IoSettings } from "react-icons/io5";
 import { LuShieldCheck } from "react-icons/lu";
 import { GiElectric } from "react-icons/gi";
 import { IoMdCloud } from "react-icons/io";
-
 function HeroSection() {
+  const { theme } = useTheme();
   const cardItems = [
     {
       id: "products",
       icon: <HiShoppingBag className="text-blue-600" size={30} />,
-      iconBackground: "bg-blue-100",
+      iconBackground: theme === "dark" ? "bg-slate-800" : "bg-blue-100",
       cardName: "Products",
       cardDesc: "Add, edit and manage your products easily.",
     },
     {
       id: "orders",
       icon: <RiShoppingCart2Fill className="text-green-600" size={30} />,
-      iconBackground: "bg-green-100",
+      iconBackground: theme === "dark" ? "bg-teal-950" : "bg-green-100",
       cardName: "Orders",
       cardDesc: "Track, manage and fulfill orders.",
     },
     {
       id: "customers",
       icon: <HiUsers className="text-violet-600" size={30} />,
-      iconBackground: "bg-violet-100",
+      iconBackground: theme === "dark" ? "bg-indigo-950" : "bg-violet-100",
       cardName: "Customers",
       cardDesc: "View and manage your customers.",
     },
     {
       id: "coupons",
-      icon: <FaTag className="text-amber-400" size={30} />,
-      iconBackground: "bg-amber-100",
+      icon: <FaTag className="text-amber-600" size={30} />,
+      iconBackground: theme === "dark" ? "bg-stone-800" : "bg-amber-100",
       cardName: "Coupons",
       cardDesc: "Create discounts and promotions.",
     },
     {
       id: "reports",
-      icon: <PiChartBarFill className="text-rose-500" size={30} />,
-      iconBackground: "bg-rose-100",
+      icon: <PiChartBarFill className="text-rose-600" size={30} />,
+      iconBackground: theme === "dark" ? "bg-stone-800" : "bg-rose-100",
       cardName: "Reports",
       cardDesc: "Analyze sales and grow your business.",
     },
     {
       id: "settings",
-      icon: <IoSettings className="text-cyan-400" size={30} />,
-      iconBackground: "bg-cyan-100",
+      icon: <IoSettings className="text-cyan-600" size={30} />,
+      iconBackground: theme === "dark" ? "bg-cyan-950" : "bg-cyan-100",
       cardName: "Settings",
       cardDesc: "Configure your store settings.",
     },
@@ -69,32 +70,32 @@ function HeroSection() {
       id: "secure",
       title: "Secure & safe",
       desc: "Enterprise-grade security",
-      icon: <LuShieldCheck className="text-violet-700" size={30} />,
-      iconBackground: "bg-violet-100",
+      icon: <LuShieldCheck className="text-violet-600" size={30} />,
+      iconBackground: theme === "dark" ? "bg-indigo-950" : "bg-violet-100",
     },
 
     {
       id: "fast",
       title: "Fast & Reliable",
       desc: "Built for performance",
-      icon: <GiElectric className="text-green-500" size={30} />,
-      iconBackground: "bg-green-100",
+      icon: <GiElectric className="text-green-600" size={30} />,
+      iconBackground: theme === "dark" ? "bg-teal-950" : "bg-green-100",
     },
 
     {
       id: "easy",
       title: "Easy to Use",
       desc: "Intuitive interface",
-      icon: <IoMdCloud className="text-blue-500" size={30} />,
-      iconBackground: "bg-blue-100",
+      icon: <IoMdCloud className="text-blue-600" size={30} />,
+      iconBackground: theme === "dark" ? "bg-slate-800" : "bg-blue-100",
     },
 
     {
       id: "scalable",
       title: "Scalable",
       desc: "Grow without limits",
-      icon: <PiNetworkFill className="text-amber-500" size={30} />,
-      iconBackground: "bg-amber-100",
+      icon: <PiNetworkFill className="text-amber-600" size={30} />,
+      iconBackground: theme === "dark" ? "bg-stone-900" : "bg-amber-100",
     },
   ];
 
@@ -107,13 +108,15 @@ function HeroSection() {
           {/* Left — text content */}
           <div className="flex-1 flex flex-col gap-5 max-w-lg">
             {/* Badge */}
-            <div className="flex items-center gap-2 bg-white border border-indigo-200 text-indigo-600 text-sm font-medium px-4 py-1.5 rounded-full w-fit shadow-sm">
-              <BsStars size={16} />
-              <span>Welcome to BuyNest Admin</span>
+            <div className="dark:p-[1px] rounded-full dark:bg-gradient-to-r dark:from-indigo-500 dark:via-violet-500 dark:to-indigo-500 w-fit">
+              <div className="flex items-center gap-2 bg-white dark:bg-slate-950 border border-indigo-200 dark:border-none text-indigo-600 dark:text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full shadow-sm">
+                <BsStars size={16} />
+                <span>Welcome to BuyNest Admin</span>
+              </div>
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl lg:text-5xl font-bold text-start text-slate-900 leading-tight">
+            <h1 className="text-4xl lg:text-5xl font-bold text-start text-slate-900 dark:text-gray-200 leading-tight">
               Manage Your <span className="text-indigo-500">Store.</span>
               <br />
               Grow Your{" "}
@@ -135,7 +138,7 @@ function HeroSection() {
                 text="Sign In to Admin Panel"
                 icon={<PiSignInBold size={20} />}
               />
-              <button className="flex items-center gap-2 text-slate-700 bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium transition-colors">
+              <button className="flex items-center gap-2 text-slate-700 dark:text-gray-200 bg-white dark:bg-slate-900 border border-gray-200 dark:border dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-800 px-4 py-2 rounded-lg font-medium transition-colors">
                 <AiOutlineCompass size={20} />
                 <span>Explore Dashboard</span>
               </button>
@@ -144,16 +147,24 @@ function HeroSection() {
 
           {/* Right — dashboard preview image (hidden on mobile) */}
           <div className="hidden md:flex flex-1 justify-center lg:justify-end">
-            <img
-              src="https://res.cloudinary.com/dx88pbasu/image/upload/v1781166781/ChatGPT_Image_Jun_11__2026__01_53_59_PM-removebg-preview_qngafv.png"
-              className="max-w-full h-auto"
-              alt="Dashboard Preview"
-            />
+            {theme === "dark" ? (
+              <img
+                src="https://res.cloudinary.com/dx88pbasu/image/upload/v1782722779/heroImage_dark_srrrn4.png"
+                className="max-w-full h-auto"
+                alt="Dashboard Preview"
+              />
+            ) : (
+              <img
+                src="https://res.cloudinary.com/dx88pbasu/image/upload/v1782722280/heroImage_eyxww2.png"
+                className="max-w-full h-auto"
+                alt="Dashboard Preview"
+              />
+            )}
           </div>
         </div>
       </section>
 
-      <p className="text-black font-bold text-2xl px-4">
+      <p className="text-zinc-800 dark:text-gray-200 font-bold text-2xl px-4">
         Everything you need to run your store
       </p>
 
@@ -169,7 +180,7 @@ function HeroSection() {
         ))}
       </div>
 
-      <div className="flex flex-1 flex-col md:flex-row gap-12 mx-5 px-25 justify-center items-center py-5 bg-white shadow-xl rounded-lg">
+      <div className="flex flex-1 flex-col md:flex-row gap-12 mx-5 px-25 justify-center items-center py-5 bg-white dark:bg-slate-900 dark:border dark:border-slate-800 shadow-xl rounded-lg">
         {featureItems.map((item) => (
           <FeatureItem
             key={item.id}
@@ -182,7 +193,7 @@ function HeroSection() {
         ))}
       </div>
       <footer className="my-5 mx-auto px-5">
-        <p className="font-medium text-base text-center">
+        <p className="font-medium text-base text-center text-zinc-800 dark:text-gray-200">
           © 2026 BuyNest. All rights reserved.
         </p>
       </footer>
