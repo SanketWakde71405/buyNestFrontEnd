@@ -32,7 +32,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-1.5 rounded-md border border-gray-200 text-zinc-500 hover:border-indigo-400 hover:text-indigo-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="p-1.5 rounded-md border border-gray-200 dark:border dark:border-slate-700 text-zinc-800 dark:text-gray-500 hover:border-indigo-400 hover:text-indigo-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         <IoChevronBack size={16} />
       </button>
@@ -40,7 +40,10 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       {/* Page numbers */}
       {getPages().map((page, idx) =>
         page === "..." ? (
-          <span key={`ellipsis-${idx}`} className="px-2 text-zinc-400 text-sm">
+          <span
+            key={`ellipsis-${idx}`}
+            className="px-2 text-zinc-800 dark:text-gray-200 text-sm"
+          >
             …
           </span>
         ) : (
@@ -50,7 +53,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
             className={`w-8 h-8 rounded-md text-sm font-medium transition-colors border ${
               currentPage === page
                 ? "bg-indigo-600 text-white border-violet-600"
-                : "border-gray-200 text-zinc-600 hover:border-violet-400 hover:text-violet-600"
+                : "border-gray-200 dark:border-slate-800 text-zinc-800 dark:text-gray-200 hover:border-violet-400 hover:text-violet-600"
             }`}
           >
             {page}
@@ -62,7 +65,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-1.5 rounded-md border border-gray-200 text-zinc-500 hover:border-violet-400 hover:text-violet-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        className="p-1.5 rounded-md border border-gray-200 dark:border dark:border-slate-700 text-zinc-800 dark:text-gray-500 hover:border-violet-400 hover:text-violet-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         <IoChevronForward size={16} />
       </button>
