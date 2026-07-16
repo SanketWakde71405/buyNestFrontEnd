@@ -1,21 +1,21 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 
-export const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
+// Context creation - default values are set here, actual values are provided in App.jsx
+export const AuthContext = createContext({
+  user: null,
+  signedIn: false,
+  loading: true,
+  isFirstLogin: false,
+  login: () => {},
+  logout: () => {},
+  checkAuth: () => {},
+  completeOnboarding: () => {},
+});
 
-export function AuthProvider({ children }) {
-  const [signedIn, setSignedIn] = useState(
-    () => localStorage.getItem("signedIn") === "true",
-  );
-  const [isFirstLogin, setIsFirstLogin] = useState(
-    () => localStorage.getItem("isFirstLogin") === "true",
-  );
+// Context provider
+export const AuthProvider = AuthContext.Provider;
 
-  return (
-    <AuthContext.Provider
-      value={{ signedIn, setSignedIn, isFirstLogin, setIsFirstLogin }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+// Using the variables from the context
+export default function useAuth() {
+  return useContext(AuthContext);
 }

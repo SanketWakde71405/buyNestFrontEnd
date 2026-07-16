@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import NavBarY from "../components/NavBarY";
 import NavBar from "../components/NavBar";
-import { useAuth } from "../contexts/AuthContext";
 import useTheme from "../contexts/ThemeContext";
 
 
 function MainLayout() {
   const [isCollapsed, setIsCollapsed] = useState(true);
   // ✅ Use AuthContext instead of local state — stays in sync with Auth.jsx
- const auth = useAuth();
- 
- const { signedIn, setSignedIn } = auth ?? {};
+
  const {theme, lightTheme, darkTheme} = useTheme();
   return (
     <div className="flex h-screen overflow-hidden">
@@ -20,8 +17,6 @@ function MainLayout() {
         <NavBar
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
-          signedIn={signedIn}
-          setSignedIn={setSignedIn}
         />
         {/* No need to pass context via Outlet anymore — children use useAuth() */}
         <Outlet />

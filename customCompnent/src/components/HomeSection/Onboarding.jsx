@@ -29,8 +29,8 @@ const Connector = ({ active }) => (
   </div>
 );
 
-function Onboarding() {
-  const {theme} = useTheme();
+function Onboarding({ onDismiss }) {
+  const { theme } = useTheme();
   const steps = [
     {
       number: 1,
@@ -165,7 +165,10 @@ function Onboarding() {
           </span>
         </div>
         <div className="flex flex-row gap-2 justify-center items-center">
-          <div className="rounded-lg text-indigo-600 dark:text-indigo-400 px-3 text-sm font-semibold py-1.5 bg-transparent hover:border hover:border-indigo-600 dark:hover:border dark:hover:border-indigo-400 cursor-pointer">
+          <div
+            onClick={onDismiss}
+            className="rounded-lg text-indigo-600 dark:text-indigo-400 px-3 text-sm font-semibold py-1.5 bg-transparent hover:border hover:border-indigo-600 dark:hover:border dark:hover:border-indigo-400 cursor-pointer"
+          >
             Skip for now
           </div>
           <div className="rounded-lg text-white text-sm px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 cursor-pointer">
