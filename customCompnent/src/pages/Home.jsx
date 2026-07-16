@@ -1,23 +1,29 @@
 import React from "react";
-import { useAuth } from "../contexts/AuthContext";
+import useAuth from "../contexts/AuthContext"; // ✅ default import, correct path
 import HeroSection from "../components/HomeSection/HeroSection";
 import Onboarding from "../components/HomeSection/Onboarding";
-import Dashboard from "../components/Dashboard/DashboardOutlet";
+import Dashboard from "./Dashboard";
 
 function Home() {
-  // ✅ useAuth() instead of useOutletContext()
-  const { signedIn, isFirstLogin, setIsFirstLogin } = useAuth();
+  const { user, isFirstLogin, loading, completeOnboarding } = useAuth();
 
-  const handleDismissOnboarding = () => {
-    localStorage.setItem("isFirstLogin", "false");
-    setIsFirstLogin(false);
-  };
-
-  if (signedIn && isFirstLogin) {
-    return <Onboarding onDismiss={handleDismissOnboarding} />;
+  // Still resolving auth state — avoid flashing the wrong screen
+  if (loading) {
+    return null; // or a spinner/skeleton component
   }
 
-  return <HeroSection />;
+  // Not logged in
+  if (!user) {
+    return <HeroSection />;
+  }
+
+  // Logged in, first time
+  if (isFirstLogin) {
+    return <Onboarding onDismiss={completeOnboarding} />;
+  }
+
+  // Logged in, returning user
+  return <Dashboard />;
 }
 
 export default Home;

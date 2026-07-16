@@ -1,90 +1,130 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineHome, AiOutlineMenu } from "react-icons/ai";
-import { BsGraphUp } from "react-icons/bs";
-import {
-  IoCubeOutline,
-  IoBarChartOutline,
-  IoSettingsOutline,
-} from "react-icons/io5";
-import { LuUsers, LuBadgeHelp } from "react-icons/lu";
-import { BiCategory } from "react-icons/bi";
-import { RiDiscountPercentLine } from "react-icons/ri";
+
+// Icons
 import { RiMenu2Fill } from "react-icons/ri";
-import { MdOutlineDarkMode } from "react-icons/md";
-import { MdOutlineLightMode } from "react-icons/md";
-
+import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { PiSignInBold } from "react-icons/pi";
-import useTheme from "../contexts/ThemeContext";
 
+// Contexts
+import useTheme from "../contexts/ThemeContext";
+import useAuth from "../contexts/AuthContext";
+
+// Components
 import ButtonIcon from "./ButtonIcon";
 
-function NavBar({ isCollapsed, setIsCollapsed, signedIn, setSignedIn }) {
+function NavBar({ isCollapsed, setIsCollapsed }) {
   const navigate = useNavigate();
+
+  const { user, logout } = useAuth();
+
   const { theme, lightTheme, darkTheme } = useTheme();
 
   const themeSwitcher = () => {
     if (theme === "dark") {
-      console.log("Theme", theme);
       lightTheme();
     } else {
-      console.log("Theme", theme);
       darkTheme();
     }
   };
 
-  const handleSignOut = () => {
-    localStorage.removeItem("signedIn");
-    localStorage.removeItem("isFirstLogin");
-    setSignedIn(false);
-    navigate("/auth/signin");
+  const handleSignOut = async () => {
+    try {
+      await logout();
+
+      navigate("/auth/signin", {
+        replace: true,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getInitials = (name = "") => {
+    return name
+      .trim()
+      .split(" ")
+      .filter(Boolean)
+      .map((word) => word[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
   };
 
   return (
-    <div className="sticky top-0 z-20 py-2 flex h-16 w-full bg-white dark:bg-slate-950 border-b border-gray-200 dark:border-slate-700">
-      <div
-        className={`flex-1 px-4 flex justify-between gap-4 items-center w-full`}
-      >
+    <header className="sticky top-0 z-20 h-16 border-b border-gray-200 bg-white py-2 dark:border-slate-700 dark:bg-slate-950">
+      <div className="flex h-full items-center justify-between px-4">
+        {/* Sidebar Toggle */}
         <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-2 rounded-lg border border-gray-200 dark:text-gray-200 dark:border-none dark:bg-gray-800 hidden md:block hover:bg-slate-100 dark:hover:bg-gray-700"
+          onClick={() => setIsCollapsed((prev) => !prev)}
+          className="hidden rounded-lg border border-gray-200 p-2 transition hover:bg-slate-100 dark:border-none dark:bg-gray-800 dark:hover:bg-gray-700 md:block"
         >
           <RiMenu2Fill className="text-zinc-800 dark:text-gray-200" size={24} />
         </button>
-        <div className="flex items-center gap-2 ml-auto">
+
+        <div className="ml-auto flex items-center gap-3">
+          {/* Theme Switcher */}
           <button
-            className="p-2 rounded-lg bg-white border border-gray-200 dark:text-gray-200 dark:border-none dark:bg-gray-800 shadow-lg hover:bg-slate-100 dark:hover:bg-gray-700 z-20"
             onClick={themeSwitcher}
+            className="rounded-lg border border-gray-200 bg-white p-2 shadow hover:bg-slate-100 dark:border-none dark:bg-gray-800 dark:hover:bg-gray-700"
           >
             {theme === "dark" ? (
               <MdOutlineLightMode
                 className="text-zinc-800 dark:text-gray-200"
-                size={24}
+                size={22}
               />
             ) : (
               <MdOutlineDarkMode
                 className="text-zinc-800 dark:text-gray-200"
-                size={24}
+                size={22}
               />
             )}
           </button>
 
-          {signedIn ? (
+          {/* User Info */}
+          {user && (
+            <div className="flex items-center gap-3 rounded-lg p-2 ">
+              <div className="hidden text-right md:block">
+                <p className="text-sm font-semibold text-zinc-800 dark:text-white">
+                  {user.name}
+                </p>
+
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {user.email}
+                </p>
+              </div>
+
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-indigo-500 bg-indigo-600 text-sm font-semibold text-white">
+                {user.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  getInitials(user.name)
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Authentication Button */}
+          {user ? (
             <ButtonIcon
               text="Sign Out"
+              icon={<PiSignInBold size={20} />}
               onClick={handleSignOut}
-              icon={<PiSignInBold size={24} />}
             />
           ) : (
             <ButtonIcon
-              text="SignIn"
+              text="Sign In"
+              icon={<PiSignInBold size={20} />}
               onClick={() => navigate("/auth/signin")}
-              icon={<PiSignInBold size={24} />}
             />
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 

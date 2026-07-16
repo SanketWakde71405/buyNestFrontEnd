@@ -1,30 +1,119 @@
-import React from 'react'
-import { CiMail } from "react-icons/ci";
-import { CiLock } from "react-icons/ci";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Icons
+import { CiMail, CiLock } from "react-icons/ci";
 import { PiSignInBold } from "react-icons/pi";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoGithub } from "react-icons/io5";
 
-import InputBox from '../InputBox';
+// Components
+import InputBox from "../InputBox";
+
+// Services
+import AuthApi from "../../services/AuthApi";
+import useAuth from "../../contexts/AuthContext"; // ✅ default import, correct path
 
 function SignInForm({ onClick }) {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (error) {
+      setError("");
+    }
+  };
+
+  const validateForm = () => {
+    if (!formData.email.trim()) {
+      return "Email is required.";
+    }
+
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      return "Please enter a valid email.";
+    }
+
+    if (!formData.password.trim()) {
+      return "Password is required.";
+    }
+
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const validationError = validateForm();
+
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const user = await AuthApi.loginUser(formData);
+
+      login(user);
+      onClick?.(user);
+
+      navigate("/"); // ✅ redirect logic
+    } catch (error) {
+      setError(error.message || "Unable to sign in.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="flex flex-1 flex-col justify-center items-start px-4 py-5">
-      <span className="text-zinc-800 dark:text-gray-200 font-bold text-2xl text-start ">
-        Welcome Back!👋
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-1 flex-col justify-center items-start px-4 py-5"
+    >
+      <span className="text-zinc-800 dark:text-gray-200 font-bold text-2xl">
+        Welcome Back! 👋
       </span>
-      <span className="text-gray-500 dark:text-gray-400 pt-1 text-lg text-start">
+
+      <span className="text-gray-500 dark:text-gray-400 pt-1 text-lg">
         Sign in to continue to your Admin Dashboard
       </span>
 
-      <div className="flex flex-1 flex-col w-full gap-2">
+      {error && (
+        <div className="text-red-500 dark:text-red-400 text-sm mt-3">
+          {error}
+        </div>
+      )}
+
+      <div className="flex flex-col w-full gap-3 mt-5">
         <InputBox
           label="Email Address"
           placeholder="Enter your email"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          autoComplete="email"
           icon={
             <CiMail
+              size={22}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={25}
             />
           }
         />
@@ -33,71 +122,71 @@ function SignInForm({ onClick }) {
           label="Password"
           placeholder="Enter your password"
           type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          autoComplete="current-password"
           icon={
             <CiLock
+              size={22}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={25}
             />
           }
         />
       </div>
 
-      <div className="flex flex-1 w-full flex-row justify-between items-start mt-2">
-        <div className="flex flex-row justify-center items-center gap-1">
-          <input
-            type="checkbox"
-            className="w-5 h-5 accent-indigo-600"
-            name="Remember Me"
-            id=""
-          />
-          <label
-            className="pb-1 font-medium text-zinc-800 dark:text-gray-400"
-            htmlFor="Remember Me"
-          >
-            {" "}
-            Remember Me
-          </label>
-        </div>
-        <span className="text-indigo-600 dark:text-indigo-400">Forgot Password?</span>
+      <div className="flex justify-between items-center w-full mt-4">
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" className="accent-indigo-600" />
+          Remember me
+        </label>
+
+        <button type="button" className="text-indigo-600 hover:underline">
+          Forgot Password?
+        </button>
       </div>
+
       <button
-        className="flex flex-1 flex-row gap-1 bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600  hover:from-violet-600 hover:via-purple-700 hover:to-indigo-600 rounded-lg w-full mt-1 justify-center items-center px-3 py-4"
-        onClick={onClick}
+        type="submit"
+        disabled={loading}
+        className="flex items-center justify-center gap-2 w-full mt-6 rounded-lg bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600 hover:from-violet-600 hover:via-purple-700 hover:to-indigo-600 py-4 text-white disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        <PiSignInBold className="text-white" size={25} />
-        <span className="text-white">Sign In</span>
+        <PiSignInBold size={22} />
+        {loading ? "Signing In..." : "Sign In"}
       </button>
 
-      <div className="mt-5 flex flex-row justify-between items-center flex-1 w-full">
-        <div className="w-[33%] h-0 border border-gray-200 dark:border dark:border-slate-800"></div>
-        <span className="text-gray-500 dark:text-gray-400">
-          or continue with
-        </span>
-        <div className="w-[33%] h-0 border border-gray-200 dark:border dark:border-slate-800"></div>
+      <div className="flex items-center w-full mt-6">
+        <div className="flex-1 border-t border-gray-200 dark:border-slate-800" />
+        <span className="mx-4 text-gray-500 text-sm">or continue with</span>
+        <div className="flex-1 border-t border-gray-200 dark:border-slate-800" />
       </div>
 
-      <div className="flex flex-row w-full gap-2 mt-2">
-        <div className="rounded-lg flex flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100 dark:border-1 dark:border-slate-800">
-          <FcGoogle size={30} />
-          <span className="text-zinc-800 dark:text-gray-200 font-medium">
-            Google
-          </span>
-        </div>
+      <div className="flex gap-3 w-full mt-5">
+        <button
+          type="button"
+          className="flex items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700"
+        >
+          <FcGoogle size={28} />
+          Google
+        </button>
 
-        <div className="rounded-lg flex flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100 dark:border-1 dark:border-slate-800">
-          <IoLogoGithub size={30} />
-          <span className="text-zinc-800 dark:text-gray-200 font-medium">
-            GitHub
-          </span>
-        </div>
+        <button
+          type="button"
+          className="flex items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700"
+        >
+          <IoLogoGithub size={28} />
+          GitHub
+        </button>
       </div>
 
-      <div className="flex flex-1 gap-2 w-full flex-row justify-center items-center mt-2">
-        <span className="text-zinc-800 dark:text-gray-200">Don't have an account?</span>
-        <span className="text-indigo-600 dark:text-indigo-400">Register Now</span>
+      <div className="flex justify-center gap-2 w-full mt-6 text-sm">
+        <span>Don't have an account?</span>
+        <button type="button" className="text-indigo-600 hover:underline">
+          Register Now
+        </button>
       </div>
-    </div>
+    </form>
   );
 }
 
-export default SignInForm
+export default SignInForm;

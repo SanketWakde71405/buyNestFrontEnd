@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import useTheme from "../contexts/ThemeContext";
 
@@ -23,28 +22,6 @@ function Auth() {
   const navigate = useNavigate();
   const [activeTab, setactiveTab] = useState("signin");
 
-  // ✅ Now these are available because AuthContext wraps the whole app
-  const { setSignedIn, setIsFirstLogin } = useAuth();
-
-  // For real sign-in — only sets isFirstLogin if never logged in before
-  const handleSignInSuccess = () => {
-    localStorage.setItem("signedIn", "true");
-    if (!localStorage.getItem("isFirstLogin")) {
-      localStorage.setItem("isFirstLogin", "true");
-    }
-    setSignedIn(true);
-    setIsFirstLogin(localStorage.getItem("isFirstLogin") === "true");
-    navigate("/");
-  };
-
-  // 🧪 TEST ONLY — always forces onboarding screen
-  const handleTestFirstLogin = () => {
-    localStorage.setItem("signedIn", "true");
-    localStorage.setItem("isFirstLogin", "true");
-    setSignedIn(true);
-    setIsFirstLogin(true);
-    navigate("/");
-  };
 
   const featureItems = [
     {
@@ -207,7 +184,7 @@ function Auth() {
 
           {activeTab === "signin" ? (
             // 🧪 Pass handleTestFirstLogin for testing; swap to handleSignInSuccess for production
-            <SignInForm onClick={handleTestFirstLogin} />
+            <SignInForm />
           ) : (
             <RegisterForm />
           )}
