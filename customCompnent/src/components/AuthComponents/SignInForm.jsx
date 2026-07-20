@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
 
 // Icons
 import { CiMail, CiLock } from "react-icons/ci";
@@ -12,11 +13,13 @@ import InputBox from "../InputBox";
 
 // Services
 import AuthApi from "../../services/AuthApi";
-import useAuth from "../../contexts/AuthContext"; // ✅ default import, correct path
 
-function SignInForm({ onClick }) {
+// Contexts
+import useAuth from "../../contexts/AuthContext"; 
+
+function SignInForm({ onLoginSuccess, onAccessDenied }) {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -55,6 +58,34 @@ function SignInForm({ onClick }) {
     return null;
   };
 
+  const handleGoogleSuccess = async (tokenResponse) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const user = await AuthApi.googleAuth(tokenResponse.access_token);
+
+      if (user.role !== "Admin") {
+        await logout();
+        onAccessDenied?.(user);
+        return;
+      }
+
+      login(user);
+      onLoginSuccess?.(user);
+      navigate("/");
+    } catch (error) {
+      setError(error.message || "Unable to sign in with Google.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    onError: () => setError("Google sign-in failed."),
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,8 +102,16 @@ function SignInForm({ onClick }) {
 
       const user = await AuthApi.loginUser(formData);
 
-      login(user);
-      onClick?.(user);
+      if (user.role !== "Admin") {
+        // Log them straight back out — don't let an unauthorized
+        // session linger even for a moment
+        await logout();
+        onAccessDenied?.(user);
+        return; // 🔑 stop here — no login(), no navigate
+      }
+
+       login(user);
+       onLoginSuccess?.(user);
 
       navigate("/"); // ✅ redirect logic
     } catch (error) {
@@ -164,7 +203,9 @@ function SignInForm({ onClick }) {
       <div className="flex gap-3 w-full mt-5">
         <button
           type="button"
-          className="flex items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700"
+          onClick={() => googleLogin()}
+          disabled={loading}
+          className="flex items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <FcGoogle size={28} />
           Google
@@ -181,7 +222,11 @@ function SignInForm({ onClick }) {
 
       <div className="flex justify-center gap-2 w-full mt-6 text-sm">
         <span>Don't have an account?</span>
-        <button type="button" className="text-indigo-600 hover:underline">
+        <button
+          type="button"
+          onClick={() => navigate("/auth/register")}
+          className="text-indigo-600 hover:underline cursor-pointer"
+        >
           Register Now
         </button>
       </div>

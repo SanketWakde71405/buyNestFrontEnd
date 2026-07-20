@@ -39,6 +39,13 @@ class AuthApi {
     await apiClient.post(`${this.basePath}/logout`);
   }
 
+  async googleAuth(accessToken) {
+    const res = await apiClient.post(`${this.basePath}/google`, {
+      accessToken,
+    });
+    return res.data;
+  }
+
   /*Refresh token. Usually called internally by ApiClient. Exposed in case it is ever needed manually.*/
   async refreshAccessToken() {
     await apiClient.post(`${this.basePath}/refresh-tokens`);
