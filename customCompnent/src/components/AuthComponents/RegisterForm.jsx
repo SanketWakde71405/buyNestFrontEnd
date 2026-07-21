@@ -262,7 +262,7 @@ function RegisterForm({ onRegisterSuccess }) {
         {/* Google Button */}
         <div
           onClick={() => !loading && googleLogin()}
-          className={`rounded-lg flex flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100 dark:border-1 dark:border-slate-800 cursor-pointer ${loading ? "opacity-60 pointer-events-none" : ""}`}
+          className={`rounded-lg flex w-full flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100 dark:border-1 dark:border-slate-800 cursor-pointer ${loading ? "opacity-60 pointer-events-none" : ""}`}
         >
           <FcGoogle size={30} />
           <span className="text-zinc-800 dark:text-gray-200 font-medium">
@@ -270,13 +270,6 @@ function RegisterForm({ onRegisterSuccess }) {
           </span>
         </div>
 
-        {/* Github Button */}
-        <div className="rounded-lg flex flex-row w-[50%] gap-1 justify-center px-2 py-2 items-center border-1 border-violet-100 dark:border-1 dark:border-slate-800">
-          <IoLogoGithub size={30} />
-          <span className="text-zinc-800 dark:text-gray-200 font-medium">
-            GitHub
-          </span>
-        </div>
         
       </div>
 

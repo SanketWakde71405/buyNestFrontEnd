@@ -205,19 +205,12 @@ function SignInForm({ onLoginSuccess, onAccessDenied }) {
           type="button"
           onClick={() => googleLogin()}
           disabled={loading}
-          className="flex items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex w-full items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <FcGoogle size={28} />
           Google
         </button>
 
-        <button
-          type="button"
-          className="flex items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700"
-        >
-          <IoLogoGithub size={28} />
-          GitHub
-        </button>
       </div>
 
       <div className="flex justify-center gap-2 w-full mt-6 text-sm">
