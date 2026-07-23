@@ -29,8 +29,9 @@ import Brands from "./pages/Brands";
 function App() {
   /*___________________Theme Context_____________________*/
   // state to manage theme
-  const [theme, setTheme] = useState("light");
-
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light",
+  );
   // null functions from context initialized here
   const lightTheme = () => {
     setTheme("light");
@@ -44,6 +45,7 @@ function App() {
   useEffect(() => {
     document.querySelector("html").classList.remove("light", "dark");
     document.querySelector("html").classList.add(theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   /*____________Auth Context___________________ */
@@ -135,6 +137,7 @@ function App() {
           <Route element={<AuthLayout />}>
             <Route path="/auth/signin" element={<Auth />} />
             <Route path="/auth/register" element={<Auth />} />
+            <Route path="/auth/reset-password/:resetToken" element={<Auth />} />
           </Route>
         </Routes>
       </AuthProvider>
