@@ -17,14 +17,14 @@ import { IoMdArrowBack } from "react-icons/io";
 // Components
 import AuthLeftColumn from "../components/AuthComponents/AuthLeftColumn";
 import FeatureItem from "../components/FeatureItem";
-import SignInForm from "../components/AuthComponents/SignInForm";
-import RegisterForm from "../components/AuthComponents/RegisterForm";
-import RegistrationSucessModal from "../components/AuthComponents/RegistrationSuccess";
-import AccessDeniedModal from "../components/AuthComponents/AccessDenied";
-import ForgotPasswordModal from "../components/AuthComponents/ForgotPasswordModal";
+import SignInForm from "../components/AuthComponents/Form/SignInForm";
+import RegisterForm from "../components/AuthComponents/Form/RegisterForm";
+import RegistrationSucessModal from "../components/AuthComponents/Modal/RegistrationSuccess";
+import AccessDeniedModal from "../components/AuthComponents/Modal/AccessDenied";
+import ForgotPasswordModal from "../components/AuthComponents/Modal/ForgotPasswordModal";
 import InputBox from "../components/InputBox";
-import ResetPasswordForm from "../components/AuthComponents/ResetPasswordForm";
-import PasswordResetSuccessModal from "../components/AuthComponents/PasswordResetSuccessModal";
+import ResetPasswordForm from "../components/AuthComponents/Form/ResetPasswordForm";
+import PasswordResetSuccessModal from "../components/AuthComponents/Modal/PasswordResetSuccessModal";
 
 function Auth() {
   const { theme } = useTheme();

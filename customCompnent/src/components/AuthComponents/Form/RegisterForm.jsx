@@ -12,13 +12,13 @@ import { CiUser } from "react-icons/ci";
 import { HiOutlineUserPlus } from "react-icons/hi2";
 
 // Components
-import InputBox from "../InputBox";
+import InputBox from "../../InputBox";
 
 // APIs
-import AuthApi from "../../services/AuthApi";
+import AuthApi from "../../../services/AuthApi";
 
 // Contexts
-import useAuth from "../../contexts/AuthContext";
+import useAuth from "../../../contexts/AuthContext";
 
 function RegisterForm({ onRegisterSuccess }) {
   const [formData, setFormData] = useState({

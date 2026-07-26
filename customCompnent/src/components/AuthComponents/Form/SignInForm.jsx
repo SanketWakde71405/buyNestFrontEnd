@@ -9,13 +9,13 @@ import { FcGoogle } from "react-icons/fc";
 import { IoLogoGithub } from "react-icons/io5";
 
 // Components
-import InputBox from "../InputBox";
+import InputBox from "../../InputBox";
 
 // Services
-import AuthApi from "../../services/AuthApi";
+import AuthApi from "../../../services/AuthApi";
 
 // Contexts
-import useAuth from "../../contexts/AuthContext"; 
+import useAuth from "../../../contexts/AuthContext";
 
 function SignInForm({ onLoginSuccess, onAccessDenied, sendForgotPassword }) {
   const navigate = useNavigate();
@@ -110,8 +110,8 @@ function SignInForm({ onLoginSuccess, onAccessDenied, sendForgotPassword }) {
         return; // 🔑 stop here — no login(), no navigate
       }
 
-       login(user);
-       onLoginSuccess?.(user);
+      login(user);
+      onLoginSuccess?.(user);
 
       navigate("/"); // ✅ redirect logic
     } catch (error) {
@@ -121,17 +121,14 @@ function SignInForm({ onLoginSuccess, onAccessDenied, sendForgotPassword }) {
     }
   };
 
-  const sendForgotPasswordLink= async()=>{
-     
+  const sendForgotPasswordLink = async () => {
     try {
-          const success = await AuthApi.forgotPassword(formData.email);
-          console.log("Status code",success);
-          sendForgotPassword?.(formData.email);
-      
+      const success = await AuthApi.forgotPassword(formData.email);
+      console.log("Status code", success);
+      sendForgotPassword?.(formData.email);
     } catch (error) {
       setError(error.message || "Unable to sent link");
     }
-
   };
 
   return (
@@ -162,12 +159,7 @@ function SignInForm({ onLoginSuccess, onAccessDenied, sendForgotPassword }) {
           value={formData.email}
           onChange={handleChange}
           autoComplete="email"
-          icon={
-            <CiMail
-              size={22}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
-          }
+          icon={<CiMail size={22} />}
         />
 
         <InputBox
@@ -178,12 +170,7 @@ function SignInForm({ onLoginSuccess, onAccessDenied, sendForgotPassword }) {
           value={formData.password}
           onChange={handleChange}
           autoComplete="current-password"
-          icon={
-            <CiLock
-              size={22}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
-          }
+          icon={<CiLock size={22} />}
         />
       </div>
 
@@ -193,9 +180,11 @@ function SignInForm({ onLoginSuccess, onAccessDenied, sendForgotPassword }) {
           Remember me
         </label>
 
-        <button type="button"
-         onClick={()=> sendForgotPasswordLink()}
-         className="text-indigo-600 hover:underline">
+        <button
+          type="button"
+          onClick={() => sendForgotPasswordLink()}
+          className="text-indigo-600 hover:underline"
+        >
           Forgot Password?
         </button>
       </div>
@@ -225,11 +214,12 @@ function SignInForm({ onLoginSuccess, onAccessDenied, sendForgotPassword }) {
           <FcGoogle size={28} />
           Google
         </button>
-
       </div>
 
       <div className="flex justify-center gap-2 w-full mt-6 text-sm">
-        <span className="text-zinc-800 dark:text-white">Don't have an account?</span>
+        <span className="text-zinc-800 dark:text-white">
+          Don't have an account?
+        </span>
         <button
           type="button"
           onClick={() => navigate("/auth/register")}

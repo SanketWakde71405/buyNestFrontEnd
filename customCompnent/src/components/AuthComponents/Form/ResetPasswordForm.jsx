@@ -8,10 +8,10 @@ import { CiLock } from "react-icons/ci";
 import { IoMdInformationCircleOutline, IoMdArrowBack } from "react-icons/io";
 
 // Components
-import InputBox from "../InputBox";
+import InputBox from "../../InputBox";
 
 // Services
-import AuthApi from "../../services/AuthApi";
+import AuthApi from "../../../services/AuthApi";
 
 function ResetPasswordForm({ onResetSuccess }) {
   const navigate = useNavigate();

@@ -5,12 +5,14 @@ import { useState, useEffect, useMemo } from "react";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
+// Services
 import apiClient from "./services/ApiClient";
 import AuthApi from "./services/AuthApi";
 
 // Layouts
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
+import OnBoardingLayout from "./layouts/OnBoardingLayout";
 
 // Pages
 import Home from "./pages/Home";
@@ -25,6 +27,7 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
 import Brands from "./pages/Brands";
+import StoreDetailsPage from "./pages/StoreDetailsPage";
 
 function App() {
   /*___________________Theme Context_____________________*/
@@ -138,6 +141,9 @@ function App() {
             <Route path="/auth/signin" element={<Auth />} />
             <Route path="/auth/register" element={<Auth />} />
             <Route path="/auth/reset-password/:resetToken" element={<Auth />} />
+          </Route>
+          <Route element={<OnBoardingLayout />}>
+            <Route path="/onboarding/store" element={<StoreDetailsPage />} />
           </Route>
         </Routes>
       </AuthProvider>
