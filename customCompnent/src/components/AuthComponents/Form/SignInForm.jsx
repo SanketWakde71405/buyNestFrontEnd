@@ -9,15 +9,15 @@ import { FcGoogle } from "react-icons/fc";
 import { IoLogoGithub } from "react-icons/io5";
 
 // Components
-import InputBox from "../InputBox";
+import InputBox from "../../InputBox";
 
 // Services
-import AuthApi from "../../services/AuthApi";
+import AuthApi from "../../../services/AuthApi";
 
 // Contexts
-import useAuth from "../../contexts/AuthContext"; 
+import useAuth from "../../../contexts/AuthContext";
 
-function SignInForm({ onLoginSuccess, onAccessDenied }) {
+function SignInForm({ onLoginSuccess, onAccessDenied, sendForgotPassword }) {
   const navigate = useNavigate();
   const { login, logout } = useAuth();
 
@@ -110,14 +110,24 @@ function SignInForm({ onLoginSuccess, onAccessDenied }) {
         return; // 🔑 stop here — no login(), no navigate
       }
 
-       login(user);
-       onLoginSuccess?.(user);
+      login(user);
+      onLoginSuccess?.(user);
 
       navigate("/"); // ✅ redirect logic
     } catch (error) {
       setError(error.message || "Unable to sign in.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const sendForgotPasswordLink = async () => {
+    try {
+      const success = await AuthApi.forgotPassword(formData.email);
+      console.log("Status code", success);
+      sendForgotPassword?.(formData.email);
+    } catch (error) {
+      setError(error.message || "Unable to sent link");
     }
   };
 
@@ -149,12 +159,7 @@ function SignInForm({ onLoginSuccess, onAccessDenied }) {
           value={formData.email}
           onChange={handleChange}
           autoComplete="email"
-          icon={
-            <CiMail
-              size={22}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
-          }
+          icon={<CiMail size={22} />}
         />
 
         <InputBox
@@ -165,22 +170,21 @@ function SignInForm({ onLoginSuccess, onAccessDenied }) {
           value={formData.password}
           onChange={handleChange}
           autoComplete="current-password"
-          icon={
-            <CiLock
-              size={22}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
-          }
+          icon={<CiLock size={22} />}
         />
       </div>
 
       <div className="flex justify-between items-center w-full mt-4">
-        <label className="flex items-center gap-2 text-sm">
+        <label className="flex items-center gap-2 text-sm text-zinc-800 dark:text-white">
           <input type="checkbox" className="accent-indigo-600" />
           Remember me
         </label>
 
-        <button type="button" className="text-indigo-600 hover:underline">
+        <button
+          type="button"
+          onClick={() => sendForgotPasswordLink()}
+          className="text-indigo-600 hover:underline"
+        >
           Forgot Password?
         </button>
       </div>
@@ -205,16 +209,17 @@ function SignInForm({ onLoginSuccess, onAccessDenied }) {
           type="button"
           onClick={() => googleLogin()}
           disabled={loading}
-          className="flex w-full items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex w-full text-zinc-800 dark:text-white items-center justify-center gap-2 w-1/2 border rounded-lg py-3 dark:border-slate-700 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <FcGoogle size={28} />
           Google
         </button>
-
       </div>
 
       <div className="flex justify-center gap-2 w-full mt-6 text-sm">
-        <span>Don't have an account?</span>
+        <span className="text-zinc-800 dark:text-white">
+          Don't have an account?
+        </span>
         <button
           type="button"
           onClick={() => navigate("/auth/register")}

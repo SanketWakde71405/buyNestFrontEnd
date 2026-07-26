@@ -1,15 +1,15 @@
 import { useState } from "react";
-import {
-  IoChevronDown
-} from "react-icons/io5";
 
-function Dropdown({ value, options, onChange }) {
+//Icons
+import { IoChevronDown } from "react-icons/io5";
+
+function Dropdown({ value, options, onChange, className }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="relative">
+    <div className={`relative ${className}`}>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 border border-gray-200 dark:border dark:border-slate-800 rounded-lg px-3 py-2 text-sm text-zinc-800 dark:text-gray-200 bg-white dark:bg-slate-950 hover:border-violet-400 dark:hover:border-slate-700 transition-colors min-w-[140px] justify-between"
+        className={`flex items-center gap-2 border border-gray-200 dark:border dark:border-slate-800 rounded-lg px-3 py-2 text-sm text-zinc-800 dark:text-gray-200 bg-white dark:bg-slate-950 hover:border-violet-400 dark:hover:border-slate-700 transition-colors min-w-[140px] justify-between ${className}`}
       >
         <span>{value}</span>
         <IoChevronDown
@@ -37,4 +37,4 @@ function Dropdown({ value, options, onChange }) {
   );
 }
 
-export default Dropdown
+export default Dropdown;

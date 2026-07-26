@@ -38,7 +38,13 @@ class ApiClient {
         signal: controller.signal,
         ...restOptions, // spread everything else first (method, body, etc.)
         headers: {
-          "Content-Type": "application/json",
+          // Only default to JSON when the body isn't FormData — FormData
+          // needs the browser to set "multipart/form-data; boundary=..."
+          // itself. Setting Content-Type manually for FormData strips the
+          // boundary and the server can't parse the body at all.
+          ...(!(restOptions.body instanceof FormData) && {
+            "Content-Type": "application/json",
+          }),
           ...(optionHeaders || {}), // headers merged and applied LAST — can't be overwritten
         },
       });
@@ -96,7 +102,7 @@ class ApiClient {
       method,
       headers,
       ...(body && {
-        body: JSON.stringify(body),
+        body: body instanceof FormData ? body : JSON.stringify(body),
       }),
     });
 

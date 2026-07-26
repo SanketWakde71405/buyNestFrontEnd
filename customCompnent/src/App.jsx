@@ -5,12 +5,14 @@ import { useState, useEffect, useMemo } from "react";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
+// Services
 import apiClient from "./services/ApiClient";
 import AuthApi from "./services/AuthApi";
 
 // Layouts
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
+import OnBoardingLayout from "./layouts/OnBoardingLayout";
 
 // Pages
 import Home from "./pages/Home";
@@ -25,12 +27,14 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
 import Brands from "./pages/Brands";
+import StoreDetailsPage from "./pages/StoreDetailsPage";
 
 function App() {
   /*___________________Theme Context_____________________*/
   // state to manage theme
-  const [theme, setTheme] = useState("light");
-
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light",
+  );
   // null functions from context initialized here
   const lightTheme = () => {
     setTheme("light");
@@ -44,6 +48,7 @@ function App() {
   useEffect(() => {
     document.querySelector("html").classList.remove("light", "dark");
     document.querySelector("html").classList.add(theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   /*____________Auth Context___________________ */
@@ -135,6 +140,10 @@ function App() {
           <Route element={<AuthLayout />}>
             <Route path="/auth/signin" element={<Auth />} />
             <Route path="/auth/register" element={<Auth />} />
+            <Route path="/auth/reset-password/:resetToken" element={<Auth />} />
+          </Route>
+          <Route element={<OnBoardingLayout />}>
+            <Route path="/onboarding/store" element={<StoreDetailsPage />} />
           </Route>
         </Routes>
       </AuthProvider>

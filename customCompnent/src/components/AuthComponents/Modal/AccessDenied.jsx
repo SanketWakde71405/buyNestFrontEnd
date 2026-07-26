@@ -1,6 +1,6 @@
 import React from "react";
 
-// Access Denied
+// Icons
 import { IoMdClose } from "react-icons/io";
 import { IoLockClosed } from "react-icons/io5";
 import { IoWarningOutline } from "react-icons/io5";
@@ -11,7 +11,7 @@ function AccessDeniedModal({onClose, deniedUser}) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-slate-900 rounded-lg p-5 w-[90%] max-w-sm flex flex-col text-center justify-center items-center shadow-xl">
         <div className="w-full flex justify-end">
-          <IoMdClose onClick={onClose} size={25} className="cursor-pointer" />
+          <IoMdClose onClick={onClose} size={25} className="cursor-pointer text-zinc-800 dark:text-gray-200" />
         </div>
         <div className="flex justify-center items-center rounded-full w-20 h-20 p-2 bg-red-100">
           <IoLockClosed size={30} className="text-rose-600" />

@@ -53,16 +53,20 @@ class AuthApi {
 
   /*Send password reset email.*/
   async forgotPassword(email) {
-    await apiClient.post(`${this.basePath}/forgot-password`, {
+    const response = await apiClient.post(`${this.basePath}/forgot-password`, {
       email,
     });
+
+    return response;
   }
 
   /*Reset password using reset token.*/
   async resetPassword(resetToken, newPassword) {
-    await apiClient.post(`${this.basePath}/reset-password/${resetToken}`, {
+    const response= await apiClient.post(`${this.basePath}/reset-password/${resetToken}`, {
       newPassword,
     });
+
+    return response;
   }
 
   /*Change current password.*/

@@ -1,68 +1,97 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Icons
 import { HiOutlineLightBulb } from "react-icons/hi";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+
+// Contexts
 import useTheme from "../../contexts/ThemeContext";
 
-const Connector = ({ active }) => (
-  <div className="flex-1 flex items-center mx-2">
-    {active ? (
-      <div className="w-full h-[2px] flex">
-        <div className="w-1/2 h-full bg-indigo-600" />
-        <div
-          className="w-1/2 h-full bg-repeat-x"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, #d1d5db 1px, transparent 1px)",
-            backgroundSize: "8px 2px",
-          }}
-        />
-      </div>
-    ) : (
-      <div
-        className="w-full h-[2px] bg-repeat-x"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, #d1d5db 1px, transparent 1px)",
-          backgroundSize: "8px 2px",
-        }}
-      />
-    )}
-  </div>
-);
+// Components
+import Connector from "../Connector";
+
+// Kept in one place so any component that finishes an onboarding step
+// (e.g. StoreDetailsOutlet) can write to the same key.
+export const ONBOARDING_PROGRESS_KEY = "onboarding_progress";
 
 function Onboarding({ onDismiss }) {
   const { theme } = useTheme();
-  const steps = [
+  const navigate = useNavigate();
+
+  // completed status lives outside this component's lifecycle (the user
+  // navigates away to /onboarding/store etc., which unmounts Onboarding),
+  // so it's persisted in localStorage instead of plain useState.
+  const [progress, setProgress] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(ONBOARDING_PROGRESS_KEY)) || {};
+    } catch {
+      return {};
+    }
+  });
+
+  // Re-read progress whenever the user comes back to this tab/page —
+  // covers returning from /onboarding/store via back button or redirect.
+  useEffect(() => {
+    const syncProgress = () => {
+      try {
+        setProgress(
+          JSON.parse(localStorage.getItem(ONBOARDING_PROGRESS_KEY)) || {},
+        );
+      } catch {
+        setProgress({});
+      }
+    };
+
+    syncProgress();
+    window.addEventListener("focus", syncProgress);
+    window.addEventListener("storage", syncProgress);
+    return () => {
+      window.removeEventListener("focus", syncProgress);
+      window.removeEventListener("storage", syncProgress);
+    };
+  }, []);
+
+  const stepDefinitions = [
     {
       number: 1,
       title: "Store Setup",
       description: "Add your store details, logo, and basic information.",
       cta: "Start Now",
+      path: "/onboarding/store",
     },
     {
       number: 2,
       title: "Add Products",
       description: "Add your first products or import from existing store.",
       cta: "Add Products",
+      path: "/products/addProducts",
     },
     {
       number: 3,
       title: "Configure Settings",
       description: "Set up payment methods, shipping & tax preferences.",
       cta: "Configure",
+      path: "/onboarding/settings",
     },
     {
       number: 4,
-      title: "Customize Store",
-      description: "Choose a theme and customize your store appearance.",
-      cta: "Customize",
-    },
-    {
-      number: 5,
       title: "Go Live",
       description: "Review everything and launch your store to the world!",
       cta: "Review & Launch",
+      path: "/dashboard",
     },
   ];
+
+  const steps = stepDefinitions.map((step) => ({
+    ...step,
+    completed: !!progress[step.number],
+  }));
+
+  // The active (highlighted) step is the first one not yet completed.
+  const activeStepNumber =
+    steps.find((step) => !step.completed)?.number ??
+    steps[steps.length - 1].number;
 
   return (
     <div className="h-screen w-full bg-transparent flex flex-col justify-center overflow-hidden px-5 py-3 gap-6">
@@ -115,15 +144,21 @@ function Onboarding({ onDismiss }) {
           {steps.map((step, index) => (
             <React.Fragment key={step.number}>
               <div className="flex flex-col items-center text-center w-40">
-                <div
-                  className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold mb-3 ${
-                    step.number === 1
-                      ? "bg-indigo-600 text-white"
-                      : "bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-500 border border-gray-300 dark:border dark:border-slate-700"
-                  }`}
-                >
-                  {step.number}
-                </div>
+                {step.completed && step.number < activeStepNumber ? (
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold mb-3 text-indigo-600">
+                    <IoIosCheckmarkCircleOutline size={30} />
+                  </div>
+                ) : (
+                  <div
+                    className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold mb-3 ${
+                      step.number === activeStepNumber
+                        ? "bg-indigo-600 text-white"
+                        : "bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-500 border border-gray-300 dark:border dark:border-slate-700"
+                    }`}
+                  >
+                    {step.number}
+                  </div>
+                )}
 
                 <h3 className="text-sm font-semibold text-zinc-800 dark:text-gray-500 mb-1">
                   {step.title}
@@ -134,18 +169,19 @@ function Onboarding({ onDismiss }) {
                 </p>
 
                 <button
+                  onClick={() => navigate(step.path)}
                   className={`text-xs font-medium px-4 py-1.5 rounded-md transition-colors ${
-                    step.number === 1
+                    step.number === activeStepNumber
                       ? "bg-indigo-600 text-white hover:bg-indigo-700"
                       : "bg-white dark:bg-slate-900 dark:text-gray-200 text-gray-700 border border-gray-300 dark:border dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
                 >
-                  {step.cta}
+                  {step.completed ? "Revisit" : step.cta}
                 </button>
               </div>
 
               {index < steps.length - 1 && (
-                <Connector active={step.number === 1} />
+                <Connector active={step.completed} />
               )}
             </React.Fragment>
           ))}

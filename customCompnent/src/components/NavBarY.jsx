@@ -108,7 +108,7 @@ function NavBarY({ isCollapsed }) {
         </div>
 
         {/* Nav items */}
-        <ul className="mt-4 flex-1 overflow-y-auto scrollbar-hide">
+        <ul className="mt-4 flex-1 overflow-y-auto scrollbar-thin scrollbar-hide">
           {navItems.map((item) => (
             <NavItem
               key={item.text}
