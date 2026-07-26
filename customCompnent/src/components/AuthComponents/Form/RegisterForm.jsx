@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 
 // Icons
-import { CiMail } from "react-icons/ci";
-import { CiLock } from "react-icons/ci";
+import { CiMail, CiLock, CiUser } from "react-icons/ci";
 import { PiSignInBold } from "react-icons/pi";
 import { FcGoogle } from "react-icons/fc";
 import { IoLogoGithub } from "react-icons/io5";
-import { CiUser } from "react-icons/ci";
 import { HiOutlineUserPlus } from "react-icons/hi2";
 
 // Components
@@ -158,12 +156,7 @@ function RegisterForm({ onRegisterSuccess }) {
           name="name"
           onChange={handleChange}
           value={formData.name}
-          icon={
-            <CiUser
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={25}
-            />
-          }
+          icon={<CiUser size={25} />}
         />
         <InputBox
           label="Email Address"
@@ -171,12 +164,7 @@ function RegisterForm({ onRegisterSuccess }) {
           onChange={handleChange}
           value={formData.email}
           placeholder="Enter your email"
-          icon={
-            <CiMail
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={25}
-            />
-          }
+          icon={<CiMail size={25} />}
         />
         <InputBox
           label="Password"
@@ -185,12 +173,7 @@ function RegisterForm({ onRegisterSuccess }) {
           value={formData.password}
           name="password"
           onChange={handleChange}
-          icon={
-            <CiLock
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={25}
-            />
-          }
+          icon={<CiLock size={25} />}
         />
         <InputBox
           label="Confirm Password"
@@ -199,12 +182,7 @@ function RegisterForm({ onRegisterSuccess }) {
           onChange={handleChange}
           value={formData.confirmPassword}
           name="confirmPassword"
-          icon={
-            <CiLock
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={25}
-            />
-          }
+          icon={<CiLock size={25} />}
         />
       </div>
 
@@ -258,7 +236,6 @@ function RegisterForm({ onRegisterSuccess }) {
 
       {/* OAuth buttons */}
       <div className="flex flex-row w-full gap-2 mt-1">
-       
         {/* Google Button */}
         <div
           onClick={() => !loading && googleLogin()}
@@ -269,8 +246,6 @@ function RegisterForm({ onRegisterSuccess }) {
             Google
           </span>
         </div>
-
-        
       </div>
 
       {/* Sign In redirect */}
