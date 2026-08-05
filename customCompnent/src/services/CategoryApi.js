@@ -9,6 +9,18 @@ class CategoryApi {
     const response = await apiClient.get(`${this.basePath}/parent-categories`);
     return response.data;
   }
+
+  async getCategoriesForStore(){
+    const response= await apiClient.get(`${this.basePath}/store`);
+    return response.data;
+  }
+
+  async getSubCategories(parentCategoryName){
+    const response = await apiClient.get(
+      `${this.basePath}/sub-categories/${parentCategoryName}`
+    );
+    return response.data;
+  }
 }
 
 export default new CategoryApi();

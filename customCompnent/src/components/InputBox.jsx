@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 function InputBox({
   label,
+  labelClassName,
   placeholder,
   icon,
   type,
@@ -10,6 +11,7 @@ function InputBox({
   multiline,
   notOptional,
   onChange,
+  rows,
   maxLength,
 }) {
   const textareaRef = useRef(null);
@@ -24,7 +26,7 @@ function InputBox({
   return (
     <div className="w-full flex flex-1 gap-1 flex-col">
       <label
-        className="text-base text-zinc-800 dark:text-gray-200 font-bold text-start py-2"
+        className={`${labelClassName ? labelClassName : "text-base"}text-zinc-800 dark:text-gray-200 font-bold text-start py-2`}
         htmlFor={label}
       >
         {label} {notOptional && <span className="text-red-500">*</span>}
@@ -42,17 +44,17 @@ function InputBox({
         {multiline ? (
           <textarea
             ref={textareaRef}
-            className="w-full  text-gray-500 dark:text-gray-400 focus:outline-none bg-transparent rounded-lg shadow-base px-3 py-2 border-2 border-violet-100 dark:border dark:border-slate-800 resize-none overflow-hidden min-h-[48px]"
+            className="w-full pl-10 text-zinc-700 dark:text-gray-300  placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none bg-transparent rounded-lg shadow-base px-3 py-2 border-2 border-violet-100 dark:border dark:border-slate-800 resize-none overflow-hidden min-h-[48px]"
             name={name}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            rows={3}
+            rows={rows}
             maxLength={maxLength}
           />
         ) : (
           <input
-            className="w-full pl-10 text-gray-500 dark:text-gray-400 focus:outline-none bg-transparent rounded-lg shadow-base px-3 py-2 border-2 border-violet-100 dark:border dark:border-slate-800"
+            className="w-full pl-10 text-zinc-700 dark:text-gray-300  placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none bg-transparent rounded-lg shadow-base px-3 py-2 border-2 border-violet-100 dark:border dark:border-slate-800"
             type={type ? type : "text"}
             name={name}
             placeholder={placeholder}

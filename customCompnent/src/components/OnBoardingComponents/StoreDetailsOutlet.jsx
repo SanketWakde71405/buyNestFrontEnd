@@ -10,12 +10,16 @@ import {
 
 // Components
 import Connector from "../Connector";
-import StoreDetailsForm from "./Forms/StoreDetailsForm";
-import BusinessInfoForm from "./Forms/BusinessInfoForm";
-import StoreSuccessModal from "./Modal/StoreSuccessModal";
-import StoreLogoUpload from "./Forms/StoreLogoUpload";
-import LogoUploadStatusModal from "./Modal/LogoUploadStatusModal";
-import ReviewForm from "./Forms/StoreInfoReview";
+
+// Forms 
+import StoreDetailsForm from "./Forms/StoreSetup/StoreDetailsForm";
+import BusinessInfoForm from "./Forms/StoreSetup/BusinessInfoForm";
+import ReviewForm from "./Forms/StoreSetup/StoreInfoReview";
+import StoreLogoUpload from "./Forms/StoreSetup/StoreLogoUpload";
+
+// Modals
+import StoreSuccessModal from "./Modal/StoreSetup/StoreSuccessModal";
+import LogoUploadStatusModal from "./Modal/StoreSetup/LogoUploadStatusModal";
 
 // Services
 import CategoryApi from "../../services/CategoryApi";

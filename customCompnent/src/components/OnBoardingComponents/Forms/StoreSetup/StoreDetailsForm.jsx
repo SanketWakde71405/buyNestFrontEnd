@@ -3,10 +3,11 @@ import React from "react";
 // Icons
 import { IoStorefrontOutline } from "react-icons/io5";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import { LuNotepadText } from "react-icons/lu";
 
 // Components
-import InputBox from "../../InputBox";
-import MultiSelect from "../../MultiSelect";
+import InputBox from "../../../InputBox";
+import MultiSelect from "../../../MultiSelect";
 
 function StoreDetailsForm({ formData, handleChange, options, onNext }) {
   const isFormValid =
@@ -53,6 +54,7 @@ function StoreDetailsForm({ formData, handleChange, options, onNext }) {
           value={formData.description}
           onChange={handleChange}
           multiline
+          icon={<LuNotepadText size={20} />}
           placeholder="Describe your store in few words..."
           maxLength="150"
         />

@@ -3,19 +3,21 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 class ApiClient {
   constructor(baseURL = BASE_URL) {
     this.baseURL = baseURL;
-    this.timeout = 10000; // 10 seconds
+    this.timeout = 10000; // 10 seconds (default)
     this.isRefreshing = false;
     this.refreshPromise = null;
     this.logoutHandler = null;
   }
 
-  /* Creates an AbortController for request timeout.*/
-  createAbortController() {
+  /* Creates an AbortController for request timeout.
+     Accepts an optional per-request override so slow endpoints
+     (e.g. image uploads) aren't bound by the default 10s. */
+  createAbortController(timeoutMs) {
     const controller = new AbortController();
 
     const timeoutId = setTimeout(() => {
       controller.abort();
-    }, this.timeout);
+    }, timeoutMs ?? this.timeout);
 
     return {
       controller,
@@ -29,8 +31,8 @@ class ApiClient {
 
   /* Performs the actual fetch request.*/
   async fetchRequest(endpoint, options = {}) {
-    const { controller, clear } = this.createAbortController();
-    const { headers: optionHeaders, ...restOptions } = options; // pull headers out separately
+    const { controller, clear } = this.createAbortController(options.timeout);
+    const { headers: optionHeaders, timeout, ...restOptions } = options; // pull headers/timeout out separately
 
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
@@ -96,11 +98,12 @@ class ApiClient {
   /* Generic request method.*/
   async request(
     endpoint,
-    { method = "GET", body = null, headers = {}, retry = true } = {},
+    { method = "GET", body = null, headers = {}, retry = true, timeout } = {},
   ) {
     const response = await this.fetchRequest(endpoint, {
       method,
       headers,
+      timeout,
       ...(body && {
         body: body instanceof FormData ? body : JSON.stringify(body),
       }),
@@ -122,6 +125,7 @@ class ApiClient {
           method,
           body,
           headers,
+          timeout,
           retry: false,
         });
       } catch {
@@ -142,38 +146,42 @@ class ApiClient {
   }
 
   /*GET*/
-  get(endpoint) {
-    return this.request(endpoint);
+  get(endpoint, options = {}) {
+    return this.request(endpoint, options);
   }
 
   /*POST*/
-  post(endpoint, body) {
+  post(endpoint, body, options = {}) {
     return this.request(endpoint, {
       method: "POST",
       body,
+      ...options,
     });
   }
 
   /*PUT*/
-  put(endpoint, body) {
+  put(endpoint, body, options = {}) {
     return this.request(endpoint, {
       method: "PUT",
       body,
+      ...options,
     });
   }
 
   /*PATCH*/
-  patch(endpoint, body) {
+  patch(endpoint, body, options = {}) {
     return this.request(endpoint, {
       method: "PATCH",
       body,
+      ...options,
     });
   }
 
   /*DELETE*/
-  delete(endpoint) {
+  delete(endpoint, options = {}) {
     return this.request(endpoint, {
       method: "DELETE",
+      ...options,
     });
   }
 }
