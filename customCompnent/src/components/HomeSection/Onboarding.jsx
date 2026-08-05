@@ -65,7 +65,7 @@ function Onboarding({ onDismiss }) {
       title: "Add Products",
       description: "Add your first products or import from existing store.",
       cta: "Add Products",
-      path: "/products/addProducts",
+      path: "/onboarding/products",
     },
     {
       number: 3,

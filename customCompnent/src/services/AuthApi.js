@@ -11,7 +11,7 @@ class AuthApi {
       email,
       password,
     });
-
+    
     return response.data;
   }
 

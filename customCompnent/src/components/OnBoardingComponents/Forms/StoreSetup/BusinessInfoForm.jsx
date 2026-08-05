@@ -10,11 +10,11 @@ import { CiMail } from "react-icons/ci";
 import { IoBriefcaseOutline } from "react-icons/io5";
 
 // Components
-import InputBox from "../../InputBox";
-import Dropdown from "../../Dropdown";
+import InputBox from "../../../InputBox";
+import Dropdown from "../../../Dropdown";
 
 // Constants values
-import { BUSINESS_TYPES } from "../../../utils/constants";
+import { BUSINESS_TYPES } from "../../../../utils/constants";
 
 // Email and postal code check
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -131,7 +131,6 @@ function BusinessInfoForm({
         />
 
         <div className="flex gap-2">
-
           {/* City Input */}
           <InputBox
             name="address.city"
@@ -143,7 +142,7 @@ function BusinessInfoForm({
             value={address.city}
             onChange={handleChange}
           />
-          
+
           {/* State input  */}
           <InputBox
             name="address.state"
@@ -158,7 +157,6 @@ function BusinessInfoForm({
         </div>
 
         <div className="flex gap-2">
-
           {/* Country Input */}
           <InputBox
             name="address.country"
@@ -193,7 +191,6 @@ function BusinessInfoForm({
 
         {/* Form Navigator buttons */}
         <div className="flex gap-2 my-1">
-          
           {/* Go back button */}
           <button
             type="button"
@@ -213,7 +210,6 @@ function BusinessInfoForm({
             <span>{isSubmitting ? "Creating Store..." : "Continue"}</span>
             {!isSubmitting && <IoIosArrowRoundForward size={20} />}
           </button>
-
         </div>
       </form>
 

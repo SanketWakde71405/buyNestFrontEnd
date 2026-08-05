@@ -28,6 +28,7 @@ import Settings from "./pages/Settings";
 import Help from "./pages/Help";
 import Brands from "./pages/Brands";
 import StoreDetailsPage from "./pages/StoreDetailsPage";
+import ProductOnboardingPage from "./pages/ProductOnboardingPage";
 
 function App() {
   /*___________________Theme Context_____________________*/
@@ -144,6 +145,7 @@ function App() {
           </Route>
           <Route element={<OnBoardingLayout />}>
             <Route path="/onboarding/store" element={<StoreDetailsPage />} />
+            <Route path="/onboarding/products" element={<ProductOnboardingPage />} />
           </Route>
         </Routes>
       </AuthProvider>

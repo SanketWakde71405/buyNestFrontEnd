@@ -24,12 +24,12 @@ import { CiMail } from "react-icons/ci";
 import { IoBriefcaseOutline } from "react-icons/io5";
 
 // Components
-import InputBox from "../../InputBox";
-import Dropdown from "../../Dropdown";
-import MultiSelect from "../../MultiSelect";
+import InputBox from "../../../InputBox";
+import Dropdown from "../../../Dropdown";
+import MultiSelect from "../../../MultiSelect";
 
 // Constants
-import { BUSINESS_TYPES } from "../../../utils/constants";
+import { BUSINESS_TYPES } from "../../../../utils/constants";
 
 // Read-only display — used when a section is NOT being edited.
 function DetailItem({ icon: Icon, label, value }) {

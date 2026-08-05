@@ -1,8 +1,10 @@
 import { IoSearchOutline } from "react-icons/io5";
 
-function SearchBar({ search, setSearch, placeholder, onSearch }) {
+function SearchBar({ search, setSearch, placeholder, onSearch, className }) {
   return (
-    <div className="relative flex-1 min-w-[200px] max-w-xs">
+    <div
+      className={`relative flex-1 ${className ? className : "min-w-[200px] max-w-xs"} `}
+    >
       <IoSearchOutline
         size={16}
         className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
