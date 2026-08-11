@@ -56,6 +56,21 @@ class StoreApi {
 
     return response.data;
   }
+
+  async getMyStore() {
+    const response = await apiClient.get(`${this.basePath}/me`);
+    return response.data;
+  }
+
+  async updateStoreSettings({ payment, shipping, tax }) {
+    const response = await apiClient.patch(`${this.basePath}/update-settings`, {
+      payment,
+      shipping,
+      tax,
+    });
+
+    return response.data;
+  }
 }
 
 export default new StoreApi();

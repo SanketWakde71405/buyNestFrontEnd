@@ -1,7 +1,9 @@
 export const BUSINESS_TYPES = {
-  INDIVIDUAL: "individual",
-  PROPRIETORSHIP: "proprietorship",
-  PARTNERSHIP: "partnership",
-  LLP: "llp",
-  PRIVATE_LIMITED: "private_limited",
+  INDIVIDUAL: "Individual",
+  PROPRIETORSHIP: "Proprietorship",
+  PARTNERSHIP: "Partnership",
+  LLP: "LLP",
+  PRIVATE_LIMITED: "Private Limited",
+  PUBLIC_LIMITED: "Public Limited",
+  OTHER: "Other",
 };
