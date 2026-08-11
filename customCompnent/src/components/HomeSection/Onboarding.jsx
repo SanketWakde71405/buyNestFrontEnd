@@ -72,7 +72,7 @@ function Onboarding({ onDismiss }) {
       title: "Configure Settings",
       description: "Set up payment methods, shipping & tax preferences.",
       cta: "Configure",
-      path: "/onboarding/settings",
+      path: "/onboarding/store-settings",
     },
     {
       number: 4,

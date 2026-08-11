@@ -13,6 +13,7 @@ function InputBox({
   onChange,
   rows,
   maxLength,
+  className
 }) {
   const textareaRef = useRef(null);
 
@@ -32,7 +33,7 @@ function InputBox({
         {label} {notOptional && <span className="text-red-500">*</span>}
       </label>
 
-      <div className="relative w-[100%]">
+      <div className={`relative w-[100%]`}>
         {icon && (
           <span
             className={`absolute left-3 text-gray-400 dark:text-gray-500 pointer-events-none ${multiline ? "top-3" : "top-1/2 -translate-y-1/2"}`}
@@ -44,7 +45,7 @@ function InputBox({
         {multiline ? (
           <textarea
             ref={textareaRef}
-            className="w-full pl-10 text-zinc-700 dark:text-gray-300  placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none bg-transparent rounded-lg shadow-base px-3 py-2 border-2 border-violet-100 dark:border dark:border-slate-800 resize-none overflow-hidden min-h-[48px]"
+            className={`${className} w-full pl-10 text-zinc-700 dark:text-gray-300  placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none bg-transparent rounded-lg shadow-base px-3 py-2 border-2 border-violet-100 dark:border dark:border-slate-800 resize-none overflow-hidden min-h-[48px]`}
             name={name}
             placeholder={placeholder}
             value={value}
@@ -54,7 +55,7 @@ function InputBox({
           />
         ) : (
           <input
-            className="w-full pl-10 text-zinc-700 dark:text-gray-300  placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none bg-transparent rounded-lg shadow-base px-3 py-2 border-2 border-violet-100 dark:border dark:border-slate-800"
+            className={`w-full pl-10 text-zinc-700 dark:text-gray-300  placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none bg-transparent rounded-lg shadow-base px-3 py-2 border-2 border-violet-100 dark:border dark:border-slate-800 ${className}`}
             type={type ? type : "text"}
             name={name}
             placeholder={placeholder}
