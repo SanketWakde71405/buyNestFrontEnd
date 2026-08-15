@@ -79,7 +79,7 @@ function Onboarding({ onDismiss }) {
       title: "Go Live",
       description: "Review everything and launch your store to the world!",
       cta: "Review & Launch",
-      path: "/dashboard",
+      path: "/onboarding/store-review",
     },
   ];
 

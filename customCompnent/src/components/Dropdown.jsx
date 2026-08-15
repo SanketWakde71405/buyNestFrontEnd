@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-//Icons
+// Icons
 import { IoChevronDown } from "react-icons/io5";
 
 function Dropdown({ value, options, onChange, className }) {

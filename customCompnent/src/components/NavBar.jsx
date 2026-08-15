@@ -97,7 +97,7 @@ function NavBar({ isCollapsed, setIsCollapsed }) {
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-indigo-500 bg-indigo-600 text-sm font-semibold text-white">
                 {user.avatar ? (
                   <img
-                    src={user.avatar}
+                    src={user.avatar?.url}
                     alt={user.name}
                     className="h-full w-full object-cover"
                   />

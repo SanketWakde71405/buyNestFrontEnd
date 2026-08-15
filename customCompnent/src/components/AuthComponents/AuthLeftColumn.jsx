@@ -1,7 +1,10 @@
 import React from "react";
 import Logo from "../../assets/companyLogoGradient.svg?react";
 
+// Contexts
 import useTheme from "../../contexts/ThemeContext";
+
+// Components
 import FeatureItem from "../FeatureItem";
 
 // Icons

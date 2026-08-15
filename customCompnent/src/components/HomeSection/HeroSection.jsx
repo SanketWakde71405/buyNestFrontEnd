@@ -18,7 +18,9 @@ import { IoSettings } from "react-icons/io5";
 import { LuShieldCheck } from "react-icons/lu";
 import { GiElectric } from "react-icons/gi";
 import { IoMdCloud } from "react-icons/io";
+
 function HeroSection() {
+  
   const { theme } = useTheme();
   const cardItems = [
     {

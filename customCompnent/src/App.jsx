@@ -30,6 +30,7 @@ import Brands from "./pages/Brands";
 import ProductOnboardingPage from "./pages/ProductOnboardingPage";
 import StoreDetailsPage from "./pages/StoreDetailsPage";
 import StoreSettingsPage from "./pages/StoreSettingsPage";
+import StoreReviewPage from "./pages/StoreReviewPage";
 
 function App() {
   /*___________________Theme Context_____________________*/
@@ -148,6 +149,7 @@ function App() {
             <Route path="/onboarding/store" element={<StoreDetailsPage />} />
             <Route path="/onboarding/products" element={<ProductOnboardingPage />} />
             <Route path="/onboarding/store-settings" element={<StoreSettingsPage />} />
+            <Route path="/onboarding/store-review" element={<StoreReviewPage/>}/>
           </Route>
         </Routes>
       </AuthProvider>

@@ -14,8 +14,6 @@ class ProductApi {
     return response.data;
   }
 
-  
-
   async getAllProducts() {
     const response = await apiClient.get(`${this.basePath}/`);
     return response.data;
@@ -23,6 +21,27 @@ class ProductApi {
 
   async getProductById(productId) {
     const response = await apiClient.get(`${this.basePath}/${productId}`);
+    return response.data;
+  }
+
+  async updateProduct({
+    productId,
+    title,
+    slug,
+    description,
+    price,
+    discountPrice,
+    stock,
+  }) {
+    const response = await apiClient.put(`${this.basePath}/update`, {
+      productId,
+      title,
+      slug,
+      description,
+      price,
+      discountPrice,
+      stock,
+    });
     return response.data;
   }
 

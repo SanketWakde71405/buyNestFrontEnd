@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+// Components
 import Dropdown from "./Dropdown";
+
+// Services
 import CategoryApi from "../services/CategoryApi";
 
 // Each level = { options: [{_id, name}], selectedId, selectedName }

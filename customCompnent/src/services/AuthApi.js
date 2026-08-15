@@ -30,7 +30,6 @@ class AuthApi {
   /*Restore authenticated user. Uses accessToken cookie automatically.*/
   async getCurrentUser() {
     const response = await apiClient.get(`${this.basePath}/current-user`);
-
     return response.data;
   }
 
