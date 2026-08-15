@@ -1,9 +1,11 @@
 import React from "react";
 
+// Icons
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
+// Contexts
 import useTheme from "../../../../contexts/ThemeContext";
 
 function SettingsSetupSuccessModal({onNext}){

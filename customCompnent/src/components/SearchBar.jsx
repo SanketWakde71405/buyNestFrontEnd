@@ -1,3 +1,6 @@
+import React from "react";
+
+// Icons
 import { IoSearchOutline } from "react-icons/io5";
 
 function SearchBar({ search, setSearch, placeholder, onSearch, className }) {

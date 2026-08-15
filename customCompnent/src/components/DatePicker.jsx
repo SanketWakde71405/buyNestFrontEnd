@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+
+// Icons
 import {
   IoCalendarOutline,
   IoChevronBackOutline,
   IoChevronForwardOutline,
 } from "react-icons/io5";
 
+// Constants
 const DAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const MONTHS = [
   "January",

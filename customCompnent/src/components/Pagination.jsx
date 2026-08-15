@@ -1,4 +1,6 @@
 import React from "react";
+
+// Icons
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 /**

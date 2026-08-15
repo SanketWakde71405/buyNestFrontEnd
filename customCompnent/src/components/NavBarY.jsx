@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+// Icons
 import logo from "../assets/companyLogo.svg";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";

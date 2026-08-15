@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+// Services
 import BrandApi from "../services/BrandApi";
+
+// Components
 import SearchBar from "./SearchBar";
 
 // category: the lowest-level (leaf) category object selected via CategorySelector, e.g. { _id, name }
