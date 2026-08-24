@@ -21,7 +21,7 @@ import {
 } from "react-icons/io";
 
 // Constants
-import { ONBOARDING_PROGRESS_KEY } from "../HomeSection/Onboarding";
+import { ONBOARDING_PROGRESS_KEY } from "../HomeSection/Screens/Onboarding";
 
 // Store Setup Steps
 const steps = [

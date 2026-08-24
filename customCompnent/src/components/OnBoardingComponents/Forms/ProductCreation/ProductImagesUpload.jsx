@@ -32,13 +32,10 @@ const GUIDELINES = [
 function ProductImagesUpload({ productId, onBack, onNext }) {
   const inputRef = useRef(null);
 
-  // `images` — confirmed URLs already saved on the product (server truth).
-  // `pendingFiles` — freshly selected files staged locally, not yet sent
-  // to the server. They only leave this state once the batch upload
-  // succeeds and the server echoes back the merged image list.
   const [images, setImages] = useState([]);
   const [pendingFiles, setPendingFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [deletingUrl, setDeletingUrl] = useState(null);
   const [error, setError] = useState("");
   const [finalProductData, setFinalProductData] = useState(null);
 
@@ -83,8 +80,6 @@ function ProductImagesUpload({ productId, onBack, onNext }) {
 
     if (!accepted.length) return;
 
-    // Just stage locally — no API call here. Upload happens explicitly
-    // once the user clicks "Upload Images" below.
     setPendingFiles((prev) => [...prev, ...accepted]);
   };
 
@@ -100,12 +95,26 @@ function ProductImagesUpload({ productId, onBack, onNext }) {
 
   const handleDragOver = (e) => e.preventDefault();
 
-  // Removing an already-uploaded (server-confirmed) image.
-  const handleRemoveImage = (url) => {
-    setImages((prev) => prev.filter((img) => img !== url));
+  // Already-uploaded image — must actually be deleted server-side
+  // (Cloudinary + the product's images array), not just hidden locally.
+  const handleRemoveImage = async (url) => {
+    if (!productId) return;
+
+    setDeletingUrl(url);
+    setError("");
+
+    try {
+      const response = await ProductApi.deleteProductImage(productId, url);
+      const product = response?.data || response;
+      setImages(product?.images || images.filter((img) => img !== url));
+    } catch (err) {
+      setError(err?.message || "Failed to remove image — please try again");
+    } finally {
+      setDeletingUrl(null);
+    }
   };
 
-  // Removing a locally-staged file that hasn't been uploaded yet.
+  // Locally-staged file that hasn't been uploaded yet — safe to just drop.
   const handleRemovePending = (id) => {
     setPendingFiles((prev) => prev.filter((pf) => pf.id !== id));
   };
@@ -122,7 +131,6 @@ function ProductImagesUpload({ productId, onBack, onNext }) {
     try {
       const formData = new FormData();
       formData.append("productId", productId);
-      images.forEach((url) => formData.append("existingImages", url));
       pendingFiles.forEach(({ file }) => formData.append("images", file));
 
       const response = await ProductApi.addProductImages(formData);
@@ -248,48 +256,53 @@ function ProductImagesUpload({ productId, onBack, onNext }) {
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          {thumbnails.map((thumb, index) => (
-            <div
-              key={thumb.type === "uploaded" ? thumb.url : thumb.id}
-              className="relative aspect-square overflow-hidden rounded-lg border border-gray-200 dark:border-slate-800"
-            >
-              <span className="absolute left-1.5 top-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-violet-600 text-[10px] font-semibold text-white">
-                {index + 1}
-              </span>
+          {thumbnails.map((thumb, index) => {
+            const isDeleting =
+              thumb.type === "uploaded" && deletingUrl === thumb.url;
 
-              <img
-                src={thumb.type === "uploaded" ? thumb.url : thumb.previewUrl}
-                alt={`Product ${index + 1}`}
-                className="h-full w-full object-cover"
-              />
-
-              {thumb.type === "pending" && uploading ? (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                  <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin text-white" />
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() =>
-                    thumb.type === "uploaded"
-                      ? handleRemoveImage(thumb.url)
-                      : handleRemovePending(thumb.id)
-                  }
-                  disabled={uploading}
-                  aria-label="Remove image"
-                  className="absolute right-1.5 top-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-white/90 text-red-500 shadow hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 dark:bg-slate-900/90"
-                >
-                  <IoTrashOutline className="h-3 w-3" />
-                </button>
-              )}
-
-              {thumb.type === "pending" && (
-                <span className="absolute bottom-1.5 left-1.5 z-10 rounded bg-black/60 px-1.5 py-0.5 text-[9px] font-medium text-white">
-                  Not uploaded
+            return (
+              <div
+                key={thumb.type === "uploaded" ? thumb.url : thumb.id}
+                className="relative aspect-square overflow-hidden rounded-lg border border-gray-200 dark:border-slate-800"
+              >
+                <span className="absolute left-1.5 top-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-violet-600 text-[10px] font-semibold text-white">
+                  {index + 1}
                 </span>
-              )}
-            </div>
-          ))}
+
+                <img
+                  src={thumb.type === "uploaded" ? thumb.url : thumb.previewUrl}
+                  alt={`Product ${index + 1}`}
+                  className="h-full w-full object-cover"
+                />
+
+                {(thumb.type === "pending" && uploading) || isDeleting ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                    <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin text-white" />
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      thumb.type === "uploaded"
+                        ? handleRemoveImage(thumb.url)
+                        : handleRemovePending(thumb.id)
+                    }
+                    disabled={uploading || deletingUrl !== null}
+                    aria-label="Remove image"
+                    className="absolute right-1.5 top-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-white/90 text-red-500 shadow hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 dark:bg-slate-900/90"
+                  >
+                    <IoTrashOutline className="h-3 w-3" />
+                  </button>
+                )}
+
+                {thumb.type === "pending" && (
+                  <span className="absolute bottom-1.5 left-1.5 z-10 rounded bg-black/60 px-1.5 py-0.5 text-[9px] font-medium text-white">
+                    Not uploaded
+                  </span>
+                )}
+              </div>
+            );
+          })}
 
           {Array.from({ length: placeholderSlots }).map((_, i) => (
             <button
@@ -307,8 +320,6 @@ function ProductImagesUpload({ productId, onBack, onNext }) {
 
         {error && <p className="text-xs font-medium text-red-500">{error}</p>}
 
-        {/* Explicit upload action — only appears once there's something
-            unsaved to upload and the minimum count is met. */}
         {hasUnsavedFiles && (
           <button
             type="button"

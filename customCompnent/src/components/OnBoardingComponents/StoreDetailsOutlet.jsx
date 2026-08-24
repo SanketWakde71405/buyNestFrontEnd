@@ -26,7 +26,7 @@ import CategoryApi from "../../services/CategoryApi";
 import StoreApi from "../../services/StoreApi";
 
 // Constants
-import { ONBOARDING_PROGRESS_KEY } from "../HomeSection/Onboarding";
+import { ONBOARDING_PROGRESS_KEY } from "../HomeSection/Screens/Onboarding";
 
 // Store Details Form Object structure
 const initialFormData = {

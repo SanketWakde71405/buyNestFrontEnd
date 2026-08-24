@@ -24,11 +24,12 @@ const initialProductData = {
   category: [],
   features: [],
   price: 0.0,
+  discountPrice: 0.0,
+  costPrice: "",
   stock: 0,
   quantity: 0,
   images: [],
   brand: "",
-  discountPrice: 0.0,
   isActive: true,
 };
 
@@ -40,9 +41,6 @@ function AddProductForm({ brandId, categoryIds, onProductCreated }) {
   }));
   const [error, setError] = useState("");
 
-  // brandId/categoryIds come from the earlier onboarding steps and should
-  // already be set by the time this step mounts — sync defensively in case
-  // they resolve after the initial render.
   useEffect(() => {
     if (brandId && !productData.brand) {
       setProductData((prev) => ({ ...prev, brand: brandId }));
@@ -95,14 +93,18 @@ function AddProductForm({ brandId, categoryIds, onProductCreated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await ProductApi.addProduct(productData);
+      // costPrice is optional — omit it entirely rather than sending an
+      // empty string, so the backend's isNumeric() validator doesn't reject it.
+      const payload = { ...productData };
+      if (payload.costPrice === "" || payload.costPrice == null) {
+        delete payload.costPrice;
+      }
+
+      const response = await ProductApi.addProduct(payload);
       const product = response?.data || response;
       onProductCreated?.(product);
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "An error occurred while adding the product.",
-      );
+      setError(err?.message || "An error occurred while adding the product.");
     }
   };
 
@@ -183,6 +185,24 @@ function AddProductForm({ brandId, categoryIds, onProductCreated }) {
             type="number"
           />
         </div>
+
+        <div className="flex flex-col gap-1">
+          <InputBox
+            label="Cost Price"
+            labelClassName="text-sm"
+            icon={<FaIndianRupeeSign size={20} />}
+            placeholder="0.0"
+            value={productData.costPrice}
+            onChange={handleChange}
+            name="costPrice"
+            type="number"
+          />
+          <span className="text-gray-500 text-sm dark:text-gray-400 text-start">
+            What you paid to acquire this item. Used to calculate your profit —
+            never shown to customers.
+          </span>
+        </div>
+
         <div className="flex flex-row gap-2">
           <InputBox
             label="Stock"
