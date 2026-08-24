@@ -37,7 +37,7 @@ import CategoryApi from "../../services/CategoryApi";
 import AuthApi from "../../services/AuthApi";
 
 // Constants
-import { ONBOARDING_PROGRESS_KEY } from "../HomeSection/Onboarding";
+import { ONBOARDING_PROGRESS_KEY } from "../HomeSection/Screens/Onboarding";
 
 const steps = [
   { number: 1, title: "Store Setup", completed: true },
@@ -121,7 +121,7 @@ function StoreReviewOutlet() {
 
       await AuthApi.completeOnboarding(user._id);
       markOnboardingStepComplete();
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       console.error("Failed to complete onboarding process!", err);
       setError(

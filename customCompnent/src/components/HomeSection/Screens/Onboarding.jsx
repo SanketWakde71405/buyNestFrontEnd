@@ -6,10 +6,10 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 // Contexts
-import useTheme from "../../contexts/ThemeContext";
+import useTheme from "../../../contexts/ThemeContext";
 
 // Components
-import Connector from "../Connector";
+import Connector from "../../Connector";
 
 // Kept in one place so any component that finishes an onboarding step
 // (e.g. StoreDetailsOutlet) can write to the same key.

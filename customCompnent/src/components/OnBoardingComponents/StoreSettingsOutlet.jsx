@@ -16,7 +16,7 @@ import TaxTab from "./Forms/SettingsSetup/TaxTab";
 import SettingsSetupSuccessModal from "./Modal/SettingsSetup/SettingsSetupSuccessModal";
 
 // Constants
-import { ONBOARDING_PROGRESS_KEY } from "../HomeSection/Onboarding";
+import { ONBOARDING_PROGRESS_KEY } from "../HomeSection/Screens/Onboarding";
 
 const TABS = [
   { id: "Payment", label: "Payment", icon: ImCreditCard },

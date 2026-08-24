@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useTheme from "../../contexts/ThemeContext";
+import useTheme from "../../../contexts/ThemeContext";
 
 // Components
-import Card from "../Card";
-import ButtonIcon from "../ButtonIcon";
-import FeatureItem from "../FeatureItem";
+import Card from "../../Card";
+import ButtonIcon from "../../ButtonIcon";
+import FeatureItem from "../../FeatureItem";
 
 //Icons
 import { PiSignInBold, PiChartBarFill, PiNetworkFill } from "react-icons/pi";
@@ -20,7 +20,6 @@ import { GiElectric } from "react-icons/gi";
 import { IoMdCloud } from "react-icons/io";
 
 function HeroSection() {
-  
   const { theme } = useTheme();
   const cardItems = [
     {

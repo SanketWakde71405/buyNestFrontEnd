@@ -21,6 +21,11 @@ class BrandApi{
         return response.data;
     }
 
+    async getBrandById(brandId){
+        const response = await apiClient.get(`${this.basePath}/${brandId}`);
+        return response.data;
+    }
+
     async updateBrandLogo(formData){
         const response = await apiClient.patch(
           `${this.basePath}/update-brand-logo`,

@@ -31,7 +31,9 @@ class ProductApi {
     description,
     price,
     discountPrice,
+    costPrice,
     stock,
+    isActive,
   }) {
     const response = await apiClient.put(`${this.basePath}/update`, {
       productId,
@@ -40,7 +42,9 @@ class ProductApi {
       description,
       price,
       discountPrice,
+      ...(costPrice !== undefined && { costPrice }),
       stock,
+      ...(isActive !== undefined && { isActive }),
     });
     return response.data;
   }
@@ -55,6 +59,22 @@ class ProductApi {
       `${this.basePath}/add-images`,
       imageData,
       { timeout: 30000 },
+    );
+    return response.data;
+  }
+
+  async deleteProductImage(productId, imageUrl) {
+    const response = await apiClient.patch(`${this.basePath}/delete-image`, {
+      productId,
+      imageUrl,
+    });
+    return response.data;
+  }
+
+  async deleteAllProductImages(productId) {
+    const response = await apiClient.patch(
+      `${this.basePath}/delete-all-images`,
+      { productId },
     );
     return response.data;
   }
