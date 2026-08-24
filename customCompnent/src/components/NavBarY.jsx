@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+// Icons
 import logo from "../assets/companyLogo.svg";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
@@ -13,21 +14,66 @@ import { LuUsers, LuBadgeHelp } from "react-icons/lu";
 import { BiCategory } from "react-icons/bi";
 import { BsCart2 } from "react-icons/bs";
 import { RiDiscountPercentLine } from "react-icons/ri";
+import { TbBrandSketch } from "react-icons/tb";
 
 function NavBarY({ isCollapsed }) {
-
   const navigate = useNavigate();
   const navItems = [
-    { icon: <AiOutlineHome size={22} />, text: "Home", onclick:() =>  navigate("/") },
-    { icon: <BsGraphUp size={22} />, text: "Dashboard", onclick:() =>  navigate("/dashboard") },
-    { icon: <IoCubeOutline size={22} />, text: "Products", onclick:() =>  navigate("/products") },
-    { icon: <BsCart2 size={22} />, text: "Orders", onclick:() =>  navigate("/orders") },
-    { icon: <LuUsers size={22} />, text: "Customers", onclick:() =>  navigate("/users") },
-    { icon: <BiCategory size={22} />, text: "Categories", onclick:() =>  navigate("/categories") },
-    { icon: <RiDiscountPercentLine size={22} />, text: "Coupons", onclick:() =>  navigate("/coupons") },
-    { icon: <IoBarChartOutline size={22} />, text: "Reports", onclick:() =>  navigate("/reports") },
-    { icon: <IoSettingsOutline size={22} />, text: "Settings", onclick:() =>  navigate("/settings") },
-    { icon: <LuBadgeHelp size={22} />, text: "Help & Support", onclick:() =>  navigate("/help") },
+    {
+      icon: <AiOutlineHome size={22} />,
+      text: "Home",
+      onclick: () => navigate("/"),
+    },
+    {
+      icon: <BsGraphUp size={22} />,
+      text: "Dashboard",
+      onclick: () => navigate("/dashboard"),
+    },
+    {
+      icon: <IoCubeOutline size={22} />,
+      text: "Products",
+      onclick: () => navigate("/products"),
+    },
+    {
+      icon: <BsCart2 size={22} />,
+      text: "Orders",
+      onclick: () => navigate("/orders"),
+    },
+    {
+      icon: <LuUsers size={22} />,
+      text: "Customers",
+      onclick: () => navigate("/users"),
+    },
+    {
+      icon: <BiCategory size={22} />,
+      text: "Categories",
+      onclick: () => navigate("/categories"),
+    },
+    {
+      icon: <TbBrandSketch size={22} />,
+      text: "Brands",
+      onclick: () => navigate("/brands"),
+    },
+    {
+      icon: <RiDiscountPercentLine size={22} />,
+      text: "Coupons",
+      onclick: () => navigate("/coupons"),
+    },
+    {
+      icon: <IoBarChartOutline size={22} />,
+      text: "Reports",
+      onclick: () => navigate("/reports"),
+    },
+    {
+      icon: <IoSettingsOutline size={22} />,
+      text: "Settings",
+      onclick: () => navigate("/settings"),
+    },
+    {
+      icon: <LuBadgeHelp size={22} />,
+      text: "Help & Support",
+      onclick: () => navigate("/help"),
+    },
   ];
 
   return (
@@ -63,7 +109,7 @@ function NavBarY({ isCollapsed }) {
         </div>
 
         {/* Nav items */}
-        <ul className="mt-4 flex-1 overflow-y-auto scrollbar-hide">
+        <ul className="mt-4 flex-1 overflow-y-auto scrollbar-thin scrollbar-hide">
           {navItems.map((item) => (
             <NavItem
               key={item.text}
@@ -97,7 +143,7 @@ function NavBarY({ isCollapsed }) {
   );
 }
 
-function NavItem({ icon, text, showLabel,onclick }) {
+function NavItem({ icon, text, showLabel, onclick }) {
   return (
     <li
       className={`flex items-center p-4 mx-2 my-1 rounded-lg cursor-pointer hover:bg-indigo-600 transition-colors

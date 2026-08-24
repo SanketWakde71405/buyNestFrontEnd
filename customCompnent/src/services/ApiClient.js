@@ -1,0 +1,191 @@
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
+class ApiClient {
+  constructor(baseURL = BASE_URL) {
+    this.baseURL = baseURL;
+    this.timeout = 10000; // 10 seconds (default)
+    this.isRefreshing = false;
+    this.refreshPromise = null;
+    this.logoutHandler = null;
+  }
+
+  /* Creates an AbortController for request timeout.
+     Accepts an optional per-request override so slow endpoints
+     (e.g. image uploads) aren't bound by the default 10s. */
+  createAbortController(timeoutMs) {
+    const controller = new AbortController();
+
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, timeoutMs ?? this.timeout);
+
+    return {
+      controller,
+      clear: () => clearTimeout(timeoutId),
+    };
+  }
+
+  setLogoutHandler(handler) {
+    this.logoutHandler = handler;
+  }
+
+  /* Performs the actual fetch request.*/
+  async fetchRequest(endpoint, options = {}) {
+    const { controller, clear } = this.createAbortController(options.timeout);
+    const { headers: optionHeaders, timeout, ...restOptions } = options; // pull headers/timeout out separately
+
+    try {
+      const response = await fetch(`${this.baseURL}${endpoint}`, {
+        credentials: "include",
+        signal: controller.signal,
+        ...restOptions, // spread everything else first (method, body, etc.)
+        headers: {
+          // Only default to JSON when the body isn't FormData — FormData
+          // needs the browser to set "multipart/form-data; boundary=..."
+          // itself. Setting Content-Type manually for FormData strips the
+          // boundary and the server can't parse the body at all.
+          ...(!(restOptions.body instanceof FormData) && {
+            "Content-Type": "application/json",
+          }),
+          ...(optionHeaders || {}), // headers merged and applied LAST — can't be overwritten
+        },
+      });
+
+      let data = null;
+
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+
+      return {
+        ok: response.ok,
+        status: response.status,
+        data,
+      };
+    } finally {
+      clear();
+    }
+  }
+
+  /* Refresh access token. Uses HttpOnly refresh token cookie.*/
+  async refreshToken() {
+    if (this.isRefreshing) {
+      return this.refreshPromise;
+    }
+
+    this.isRefreshing = true;
+
+    this.refreshPromise = this.fetchRequest("/api/v1/auth/refresh-tokens", {
+      method: "POST",
+    });
+
+    try {
+      const response = await this.refreshPromise;
+
+      if (!response.ok) {
+        throw new Error("Unable to refresh session.");
+      }
+
+      return true;
+    } finally {
+      this.isRefreshing = false;
+      this.refreshPromise = null;
+    }
+  }
+
+  /* Generic request method.*/
+  async request(
+    endpoint,
+    { method = "GET", body = null, headers = {}, retry = true, timeout } = {},
+  ) {
+    const response = await this.fetchRequest(endpoint, {
+      method,
+      headers,
+      timeout,
+      ...(body && {
+        body: body instanceof FormData ? body : JSON.stringify(body),
+      }),
+    });
+
+    /* Auth endpoints must never re-enter the refresh/logout cascade below —
+       otherwise a 401 from /logout or /refresh-tokens itself triggers another
+       refresh attempt, which fails, which calls logout(), which calls /logout
+       again, forever. A 401 here just means "not authenticated", full stop. */
+    const isAuthEndpoint =
+      endpoint.includes("/refresh-tokens") || endpoint.includes("/logout");
+
+    /* Token expired.*/
+    if (response.status === 401 && retry && !isAuthEndpoint) {
+      try {
+        await this.refreshToken();
+
+        return this.request(endpoint, {
+          method,
+          body,
+          headers,
+          timeout,
+          retry: false,
+        });
+      } catch {
+        /* Notify application that session expired.*/
+        if (this.logoutHandler) {
+          await this.logoutHandler();
+        }
+
+        throw new Error("Session expired. Please login again.");
+      }
+    }
+
+    if (!response.ok) {
+      throw new Error(response.data?.message || "Something went wrong.");
+    }
+
+    return response.data;
+  }
+
+  /*GET*/
+  get(endpoint, options = {}) {
+    return this.request(endpoint, options);
+  }
+
+  /*POST*/
+  post(endpoint, body, options = {}) {
+    return this.request(endpoint, {
+      method: "POST",
+      body,
+      ...options,
+    });
+  }
+
+  /*PUT*/
+  put(endpoint, body, options = {}) {
+    return this.request(endpoint, {
+      method: "PUT",
+      body,
+      ...options,
+    });
+  }
+
+  /*PATCH*/
+  patch(endpoint, body, options = {}) {
+    return this.request(endpoint, {
+      method: "PATCH",
+      body,
+      ...options,
+    });
+  }
+
+  /*DELETE*/
+  delete(endpoint, options = {}) {
+    return this.request(endpoint, {
+      method: "DELETE",
+      ...options,
+    });
+  }
+}
+
+const apiClient = new ApiClient();
+
+export default apiClient;
