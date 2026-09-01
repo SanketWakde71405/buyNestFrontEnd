@@ -78,6 +78,30 @@ class ProductApi {
     );
     return response.data;
   }
+
+  async updateFeatures({ productId, featuresArray }) {
+    const response = await apiClient.patch(`${this.basePath}/features`, {
+      productId,
+      featuresArray,
+    });
+    return response.data;
+  }
+
+  async updateProductCategories({ productId, categoryIds }) {
+    const response = await apiClient.patch(`${this.basePath}/categories`, {
+      productId,
+      categoryIds,
+    });
+    return response.data;
+  }
+
+  async updateProductBrand({ productId, brandId }) {
+    const response = await apiClient.patch(`${this.basePath}/brand`, {
+      productId,
+      brandId,
+    });
+    return response.data;
+  }
 }
 
 export default new ProductApi();

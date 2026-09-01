@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-
+import { Toaster } from "react-hot-toast";
 // Context imports
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -13,6 +13,8 @@ import AuthApi from "./services/AuthApi";
 import AuthLayout from "./layouts/AuthLayout";
 import MainLayout from "./layouts/MainLayout";
 import OnBoardingLayout from "./layouts/OnBoardingLayout";
+import AddLayout from "./layouts/AddLayout";
+import EditLayout from "./layouts/EditLayout";
 
 // Pages
 import Home from "./pages/Home";
@@ -31,6 +33,9 @@ import ProductOnboardingPage from "./pages/ProductOnboardingPage";
 import StoreDetailsPage from "./pages/StoreDetailsPage";
 import StoreSettingsPage from "./pages/StoreSettingsPage";
 import StoreReviewPage from "./pages/StoreReviewPage";
+import AddProduct from "./pages/AddProduct";
+import EditProduct from "./pages/EditProduct";
+import ViewProduct from "./pages/ViewProduct";
 
 function App() {
   /*___________________Theme Context_____________________*/
@@ -126,7 +131,9 @@ function App() {
     // The context provider is passed with value
     <ThemeProvider value={{ theme, lightTheme, darkTheme }}>
       <AuthProvider value={authValue}>
+        <Toaster position="top-right" />
         <Routes>
+          {/* Main Layout */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -140,16 +147,43 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/help" element={<Help />} />
           </Route>
+
+          {/* AuthLayout */}
           <Route element={<AuthLayout />}>
             <Route path="/auth/signin" element={<Auth />} />
             <Route path="/auth/register" element={<Auth />} />
             <Route path="/auth/reset-password/:resetToken" element={<Auth />} />
           </Route>
+
+          {/* Onboarding Layout */}
           <Route element={<OnBoardingLayout />}>
             <Route path="/onboarding/store" element={<StoreDetailsPage />} />
-            <Route path="/onboarding/products" element={<ProductOnboardingPage />} />
-            <Route path="/onboarding/store-settings" element={<StoreSettingsPage />} />
-            <Route path="/onboarding/store-review" element={<StoreReviewPage/>}/>
+            <Route
+              path="/onboarding/products"
+              element={<ProductOnboardingPage />}
+            />
+            <Route
+              path="/onboarding/store-settings"
+              element={<StoreSettingsPage />}
+            />
+            <Route
+              path="/onboarding/store-review"
+              element={<StoreReviewPage />}
+            />
+          </Route>
+
+          {/* Add Layout */}
+          <Route element={<AddLayout />}>
+            <Route path="/add/product" element={<AddProduct />} />
+          </Route>
+
+          {/* Edit Layout */}
+          <Route element={<EditLayout />}>
+            <Route path="/edit/product/:productId" element={<EditProduct />} />
+            <Route
+              path="/products/view/:productId"
+              element={<ViewProduct />}
+            />
           </Route>
         </Routes>
       </AuthProvider>
