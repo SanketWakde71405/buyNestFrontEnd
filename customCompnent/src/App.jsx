@@ -15,6 +15,7 @@ import MainLayout from "./layouts/MainLayout";
 import OnBoardingLayout from "./layouts/OnBoardingLayout";
 import AddLayout from "./layouts/AddLayout";
 import EditLayout from "./layouts/EditLayout";
+import ViewLayout from "./layouts/ViewLayout";
 
 // Pages
 import Home from "./pages/Home";
@@ -36,6 +37,9 @@ import StoreReviewPage from "./pages/StoreReviewPage";
 import AddProduct from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 import ViewProduct from "./pages/ViewProduct";
+import AddBrand from "./pages/AddBrand";
+import EditBrand from "./pages/EditBrand";
+import ViewBrand from "./pages/ViewBrand";
 
 function App() {
   /*___________________Theme Context_____________________*/
@@ -175,16 +179,21 @@ function App() {
           {/* Add Layout */}
           <Route element={<AddLayout />}>
             <Route path="/add/product" element={<AddProduct />} />
+            <Route path="/add/brand" element={<AddBrand />} />
           </Route>
 
           {/* Edit Layout */}
           <Route element={<EditLayout />}>
             <Route path="/edit/product/:productId" element={<EditProduct />} />
-            <Route
-              path="/products/view/:productId"
-              element={<ViewProduct />}
-            />
+            <Route path="/edit/brand/:brandId" element={<EditBrand />} />
           </Route>
+
+          {/* View Layout */}
+          <Route element={<ViewLayout />}>
+            <Route path="/products/view/:productId" element={<ViewProduct />} />
+            <Route path="/brands/view/:brandId" element={<ViewBrand />} />
+          </Route>
+
         </Routes>
       </AuthProvider>
     </ThemeProvider>

@@ -32,7 +32,7 @@ import InputBox from "../InputBox.jsx";
 import Dropdown from "../Dropdown.jsx";
 import MultiSelect from "../MultiSelect.jsx";
 import FeatureInput from "../FeatureInput.jsx";
-import SectionCard from "./comps/SectionCard.jsx";
+import SectionCard from "../SectionCard.jsx";
 import DeleteProductModal from "./Modal/DeleteProductModal.jsx";
 
 // Product stock
@@ -42,11 +42,12 @@ import {
   LOW_STOCK_THRESHOLD,
   classifyStock,
   toneClasses,
-  slugify,
   mergeBrandLists,
   validateProductForm,
   getBrandFieldStatus,
 } from "./utils/productStock.js";
+
+import { slugify } from "../../utils/commonFunctions.js";
 
 export default function EditProductOutlet() {
   // Hooks and params

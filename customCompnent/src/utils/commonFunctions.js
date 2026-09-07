@@ -12,4 +12,11 @@ export const formatDate = (value) =>
 export const formatCurrency = (value) =>
   value == null
     ? "—"
-    : `₹ ${Number(value).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;    
+    : `₹ ${Number(value).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`;
+
+export const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");

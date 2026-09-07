@@ -16,7 +16,7 @@ import InputBox from "../../InputBox.jsx";
 import Dropdown from "../../Dropdown.jsx";
 import MultiSelect from "../../MultiSelect.jsx";
 import FeatureInput from "../../FeatureInput.jsx";
-import SectionCard from "../comps/SectionCard.jsx";
+import SectionCard from "../../SectionCard.jsx";
 
 // Services
 import ProductApi from "../../../services/ProductApi.js";

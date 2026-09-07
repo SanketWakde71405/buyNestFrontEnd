@@ -53,7 +53,7 @@ function MultiSelect({
       <div className="relative w-full">
         <div
           onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full min-h-[44px] flex flex-wrap items-center gap-2 pl-3 pr-10 py-2 text-gray-500 dark:text-gray-400 bg-transparent rounded-lg shadow-base border-2 border-violet-100 dark:border dark:border-slate-800 cursor-pointer"
+          className="w-full min-h-[44px] flex flex-wrap items-center gap-2 pl-3 pr-10 py-2 text-gray-500 dark:text-gray-400 bg-transparent rounded-lg shadow-base border-2 border-violet-100 dark:border dark:border-slate-800 cursor-pointer z-30 relative"
         >
           {selected.length === 0 && (
             <span className="text-gray-400 dark:text-gray-500">

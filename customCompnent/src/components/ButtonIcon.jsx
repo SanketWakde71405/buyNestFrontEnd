@@ -4,7 +4,7 @@ function ButtonIcon({icon,text,onClick}) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm"
+      className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600 px-4 py-2 text-sm font-medium text-white hover:from-violet-600 hover:via-purple-700 hover:to-indigo-600 disabled:cursor-not-allowed disabled:opacity-60 shadow-sm"
     >
       {icon}
       <span className="px-2">{text}</span>
