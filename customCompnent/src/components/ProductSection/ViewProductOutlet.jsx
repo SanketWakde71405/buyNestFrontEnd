@@ -21,7 +21,7 @@ import CategoryApi from "../../services/CategoryApi.js";
 import BrandApi from "../../services/BrandApi.js";
 
 // Components
-import SectionCard from "./comps/SectionCard.jsx";
+import SectionCard from "../SectionCard.jsx";
 import ProductImageSlider from "./comps/ProductImageSlider.jsx";
 
 // Utils

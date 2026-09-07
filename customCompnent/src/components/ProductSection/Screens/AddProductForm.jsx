@@ -26,7 +26,7 @@ import Dropdown from "../../Dropdown.jsx";
 import MultiSelect from "../../MultiSelect.jsx";
 import FeatureInput from "../../FeatureInput.jsx";
 import ButtonIcon from "../../ButtonIcon.jsx";
-import SectionCard from "../comps/SectionCard.jsx";
+import SectionCard from "../../SectionCard.jsx";
 
 import {
   MIN_ACTIVE_IMAGES,
@@ -34,12 +34,12 @@ import {
   LOW_STOCK_THRESHOLD,
   classifyStock,
   toneClasses,
-  slugify,
   mergeBrandLists,
   validateProductForm,
   getBrandFieldStatus,
 } from "../utils/productStock.js";
 
+import { slugify } from "../../../utils/commonFunctions.js";
 const fieldLabelClass =
   "text-base text-zinc-800 dark:text-gray-200 font-bold text-start py-2 block";
 
