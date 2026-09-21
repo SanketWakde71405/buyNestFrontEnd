@@ -24,6 +24,13 @@ class ProductApi {
     return response.data;
   }
 
+  async getProductByCategories(categoryId) {
+    const response = await apiClient.get(
+      `${this.basePath}/category?categoryId=${encodeURIComponent(categoryId)}`,
+    );
+    return response.data;
+  }
+
   async updateProduct({
     productId,
     title,

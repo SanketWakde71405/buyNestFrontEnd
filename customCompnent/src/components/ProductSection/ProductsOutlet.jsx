@@ -183,7 +183,7 @@ function ProductsOutlet() {
         // 2. Fetch subcategories for every parent category in parallel
         const subCategoryResponses = await Promise.all(
           parentCategories.map((parent) =>
-            CategoryApi.getSubCategories(parent?.name).catch((error) => {
+            CategoryApi.getSubCategories(parent?._id).catch((error) => {
               console.error(
                 `Failed to fetch subcategories for ${parent?.name}`,
                 error,
@@ -431,15 +431,25 @@ function ProductsOutlet() {
                       </td>
 
                       {/* Category */}
-                      <td className="px-4 py-3 flex gap-2">
-                        {product?.category?.map((c) => (
-                          <span
-                            key={c}
-                            className="px-2.5 py-1 bg-violet-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-medium"
-                          >
-                            {c}
-                          </span>
-                        ))}
+                      <td className="px-4 py-3">
+                        <div className="flex flex-wrap gap-1.5">
+                          {product?.category?.slice(0, 2).map((c) => (
+                            <span
+                              key={c}
+                              className="text-xs font-medium bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 rounded-full px-2.5 py-0.5"
+                            >
+                              {c}
+                            </span>
+                          ))}
+                          {product?.category?.length > 2 && (
+                            <span
+                              className="text-xs font-medium text-gray-400 dark:text-gray-500 px-1 py-0.5"
+                              title={product.category.slice(2).join(", ")}
+                            >
+                              +{product.category.length - 2}
+                            </span>
+                          )}
+                        </div>
                       </td>
 
                       {/* Brand */}

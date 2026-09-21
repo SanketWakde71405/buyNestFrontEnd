@@ -71,6 +71,21 @@ class StoreApi {
 
     return response.data;
   }
+
+  async addCategoriesToStore(categoryIds) {
+    const response = await apiClient.patch(`${this.basePath}/categories`, {
+      categories: categoryIds,
+    });
+    return response.data;
+  }
+
+  async removeCategoriesFromStore(categoryIds) {
+    const response = await apiClient.delete(`${this.basePath}/categories`, {
+      body: { categories: categoryIds },
+    });
+    return response.data;
+  }
+  
 }
 
 export default new StoreApi();

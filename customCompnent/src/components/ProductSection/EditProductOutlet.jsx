@@ -47,7 +47,7 @@ import {
   getBrandFieldStatus,
 } from "./utils/productStock.js";
 
-import { slugify } from "../../utils/commonFunctions.js";
+import { slugify, collectCategoriesRecursively } from "../../utils/commonFunctions.js";
 
 export default function EditProductOutlet() {
   // Hooks and params
@@ -144,22 +144,8 @@ export default function EditProductOutlet() {
       try {
         const parentCategories = await CategoryApi.getCategoriesForStore();
 
-        const subCategoryResponses = await Promise.all(
-          (parentCategories || []).map((parent) =>
-            CategoryApi.getSubCategories(parent?.name).catch((error) => {
-              console.error(
-                `Failed to fetch subcategories for ${parent?.name}`,
-                error,
-              );
-              return [];
-            }),
-          ),
-        );
-
-        const allCategories = [
-          ...(parentCategories || []),
-          ...subCategoryResponses.flat(),
-        ].filter(Boolean);
+        const allCategories =
+          await collectCategoriesRecursively(parentCategories);
 
         const deduped = Array.from(
           new Map(allCategories.map((c) => [c._id, c])).values(),

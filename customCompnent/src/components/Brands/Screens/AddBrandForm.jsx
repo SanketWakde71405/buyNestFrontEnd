@@ -79,7 +79,7 @@ export default function AddBrandForm({ onCreated }) {
     const fetchChildren = async (category) => {
       let children = [];
       try {
-        children = (await CategoryApi.getSubCategories(category.name)) || [];
+        children = (await CategoryApi.getSubCategories(category?._id)) || [];
       } catch (err) {
         // No subcategories under this one — not an error, just a leaf.
         return;

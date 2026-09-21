@@ -32,7 +32,7 @@ function AddBrandOutlet() {
       const fetchChildren = async (category) => {
         let children = [];
         try {
-          children = (await CategoryApi.getSubCategories(category.name)) || [];
+          children = (await CategoryApi.getSubCategories(category?._id)) || [];
         } catch (err) {
           return;
         }
