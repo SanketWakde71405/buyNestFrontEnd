@@ -40,7 +40,9 @@ import ViewProduct from "./pages/ViewProduct";
 import AddBrand from "./pages/AddBrand";
 import EditBrand from "./pages/EditBrand";
 import ViewBrand from "./pages/ViewBrand";
-
+import AddCategory from "./pages/AddCategory";
+import EditCategory from "./pages/EditCategory";
+import ViewCategoryProducts from "./pages/ViewCategoryProducts";
 function App() {
   /*___________________Theme Context_____________________*/
   // state to manage theme
@@ -180,18 +182,21 @@ function App() {
           <Route element={<AddLayout />}>
             <Route path="/add/product" element={<AddProduct />} />
             <Route path="/add/brand" element={<AddBrand />} />
+            <Route path="/add/category" element={<AddCategory />} />
           </Route>
 
           {/* Edit Layout */}
           <Route element={<EditLayout />}>
             <Route path="/edit/product/:productId" element={<EditProduct />} />
             <Route path="/edit/brand/:brandId" element={<EditBrand />} />
+            <Route path="/edit/category/:categoryId" element={<EditCategory />} />
           </Route>
 
           {/* View Layout */}
           <Route element={<ViewLayout />}>
             <Route path="/products/view/:productId" element={<ViewProduct />} />
             <Route path="/brands/view/:brandId" element={<ViewBrand />} />
+            <Route path="/categories/:categoryId/products"  element={<ViewCategoryProducts/>}/>
           </Route>
 
         </Routes>

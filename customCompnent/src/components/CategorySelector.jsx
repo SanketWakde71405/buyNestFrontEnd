@@ -58,7 +58,7 @@ function CategorySelector({ onChange, className }) {
     setLoading(true);
     try {
       const subCategories = await CategoryApi.getSubCategories(
-        selectedCategory.name,
+        selectedCategory?._id,
       );
       if (subCategories && subCategories.length > 0) {
         setLevels((prev) => [

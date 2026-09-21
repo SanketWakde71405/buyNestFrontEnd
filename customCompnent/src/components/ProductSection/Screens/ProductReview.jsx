@@ -71,7 +71,7 @@ export default function ProductReview({ product, onUpdated, onDone }) {
 
         const subCategoryResponses = await Promise.all(
           (parentCategories || []).map((parent) =>
-            CategoryApi.getSubCategories(parent?.name).catch((error) => {
+            CategoryApi.getSubCategories(parent?._id).catch((error) => {
               console.error(
                 `Failed to fetch subcategories for ${parent?.name}`,
                 error,

@@ -1,3 +1,5 @@
+import CategoryApi from "../services/CategoryApi.js";
+
 export const formatDate = (value) =>
   value
     ? new Date(value).toLocaleString("en-IN", {
@@ -20,3 +22,23 @@ export const slugify = (text) =>
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)+/g, "");
+
+export const collectCategoriesRecursively = async (categories) => {
+  const results = [];
+  await Promise.all(
+    (categories || []).map(async (category) => {
+      results.push(category);
+      let subCategories = [];
+      try {
+        subCategories = await CategoryApi.getSubCategories(category?._id);
+      } catch (err) {
+        subCategories = [];
+      }
+      if (subCategories && subCategories.length > 0) {
+        const nested = await collectCategoriesRecursively(subCategories);
+        results.push(...nested);
+      }
+    }),
+  );
+  return results;
+};

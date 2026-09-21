@@ -54,25 +54,8 @@ import {
   COUNTRY_OPTIONS,
 } from "../../utils/constants.js";
 
-const collectCategoriesRecursively = async (categories) => {
-  const results = [];
-  await Promise.all(
-    (categories || []).map(async (category) => {
-      results.push(category);
-      let subCategories = [];
-      try {
-        subCategories = await CategoryApi.getSubCategories(category.name);
-      } catch (err) {
-        subCategories = [];
-      }
-      if (subCategories && subCategories.length > 0) {
-        const nested = await collectCategoriesRecursively(subCategories);
-        results.push(...nested);
-      }
-    }),
-  );
-  return results;
-};
+import { collectCategoriesRecursively } from "../../utils/commonFunctions.js";
+
 
 export default function EditBrandOutlet() {
   const navigate = useNavigate();
