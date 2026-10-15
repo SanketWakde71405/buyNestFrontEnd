@@ -34,6 +34,12 @@ import MultiSelect from "../MultiSelect.jsx";
 import FeatureInput from "../FeatureInput.jsx";
 import SectionCard from "../SectionCard.jsx";
 import DeleteProductModal from "./Modal/DeleteProductModal.jsx";
+import ProductSuppliersSection, {
+  toSupplierRows,
+  buildSuppliersPayload,
+  validateSuppliers,
+  getPrimaryCost,
+} from "./comps/ProductSuppliersSection.jsx";
 
 // Product stock
 import {
@@ -47,7 +53,10 @@ import {
   getBrandFieldStatus,
 } from "./utils/productStock.js";
 
-import { slugify, collectCategoriesRecursively } from "../../utils/commonFunctions.js";
+import {
+  slugify,
+  collectCategoriesRecursively,
+} from "../../utils/commonFunctions.js";
 
 export default function EditProductOutlet() {
   // Hooks and params
@@ -63,10 +72,11 @@ export default function EditProductOutlet() {
     description: "",
     price: "",
     discountPrice: "",
-    costPrice: "",
     stock: "",
     isActive: true,
   });
+  const [supplierRows, setSupplierRows] = useState([]);
+  const [supplierErrors, setSupplierErrors] = useState({});
   const [categories, setCategories] = useState([]);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -104,7 +114,6 @@ export default function EditProductOutlet() {
           description: product.description || "",
           price: product.price ?? "",
           discountPrice: product.discountPrice ?? "",
-          costPrice: product.costPrice ?? "",
           stock: product.stock ?? "",
           isActive: product.isActive ?? true,
         });
@@ -120,6 +129,7 @@ export default function EditProductOutlet() {
 
         setFeatures(product.features || []);
         setImages(product.images || []);
+        setSupplierRows(toSupplierRows(product.suppliers));
       } catch (err) {
         if (!cancelled) {
           setLoadError(
@@ -268,7 +278,12 @@ export default function EditProductOutlet() {
       selectedBrand,
     });
     setErrors(next);
-    return Object.keys(next).length === 0;
+    const supplierProblems = validateSuppliers(supplierRows);
+    setSupplierErrors(supplierProblems);
+    return (
+      Object.keys(next).length === 0 &&
+      Object.keys(supplierProblems).length === 0
+    );
   };
 
   const buildUpdatePayload = () => ({
@@ -278,8 +293,6 @@ export default function EditProductOutlet() {
     description: formData.description.trim(),
     price: Number(formData.price),
     discountPrice: Number(formData.discountPrice),
-    costPrice:
-      formData.costPrice !== "" ? Number(formData.costPrice) : undefined,
     stock: Number(formData.stock),
     isActive: formData.isActive,
   });
@@ -295,7 +308,7 @@ export default function EditProductOutlet() {
     setSubmitState("saving");
     setSubmitMessage("");
     try {
-      await Promise.all([
+      const results = await Promise.all([
         ProductApi.updateProduct(buildUpdatePayload()),
         ProductApi.updateFeatures({ productId, featuresArray: features }),
         ProductApi.updateProductCategories({
@@ -306,7 +319,14 @@ export default function EditProductOutlet() {
           productId,
           brandId: selectedBrand._id,
         }),
+        ProductApi.updateProductSuppliers({
+          productId,
+          suppliers: buildSuppliersPayload(supplierRows),
+        }),
       ]);
+      // Reflect what the server stored (e.g. an auto-assigned primary).
+      const savedSuppliers = results[4]?.suppliers;
+      if (savedSuppliers) setSupplierRows(toSupplierRows(savedSuppliers));
       setSubmitState("success");
       setSubmitMessage("Changes saved.");
     } catch (err) {
@@ -320,6 +340,16 @@ export default function EditProductOutlet() {
   };
 
   const stockPreview = classifyStock(formData.stock);
+  const sellingPrice =
+    Number(formData.discountPrice) || Number(formData.price) || null;
+  const primaryCost = getPrimaryCost(supplierRows);
+  const profitPreview =
+    sellingPrice != null && primaryCost != null
+      ? sellingPrice - primaryCost
+      : null;
+  const brandSupplier = selectedBrand?.supplier;
+  const suggestedSupplierId =
+    typeof brandSupplier === "object" ? brandSupplier?._id : brandSupplier;
   const brandOptions = brands.map((b) => b.name);
   const brandFieldStatus = getBrandFieldStatus({
     selectedCategoryIds,
@@ -682,7 +712,7 @@ export default function EditProductOutlet() {
             <SectionCard
               icon={IoCubeOutline}
               title="Pricing & Inventory"
-              description="Update pricing and stock information."
+              description="Selling price, discount and stock. Cost comes from your suppliers."
             >
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <InputBox
@@ -693,15 +723,6 @@ export default function EditProductOutlet() {
                   name="price"
                   placeholder="Enter selling price"
                   value={formData.price}
-                  onChange={handleField}
-                />
-                <InputBox
-                  label="Cost Price"
-                  icon={<span className="text-sm font-semibold">₹</span>}
-                  type="number"
-                  name="costPrice"
-                  placeholder="Enter cost price"
-                  value={formData.costPrice}
                   onChange={handleField}
                 />
                 <div>
@@ -721,7 +742,7 @@ export default function EditProductOutlet() {
                     </p>
                   )}
                 </div>
-                <div>
+                <div className="sm:col-span-2">
                   <InputBox
                     label="Stock Quantity"
                     notOptional
@@ -742,7 +763,33 @@ export default function EditProductOutlet() {
                   {errors.price || errors.stock}
                 </p>
               )}
+              <div className="mt-4 flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2.5 text-sm dark:bg-slate-800/60">
+                <span className="text-gray-500 dark:text-gray-400">
+                  Profit per unit (primary supplier)
+                </span>
+                <span
+                  className={`font-semibold ${
+                    profitPreview == null
+                      ? "text-gray-400 dark:text-gray-500"
+                      : profitPreview < 0
+                        ? "text-red-500 dark:text-red-400"
+                        : "text-emerald-600 dark:text-emerald-400"
+                  }`}
+                >
+                  {profitPreview == null
+                    ? "Link a supplier to see this"
+                    : `₹${profitPreview.toFixed(2)}`}
+                </span>
+              </div>
             </SectionCard>
+
+            <ProductSuppliersSection
+              value={supplierRows}
+              onChange={setSupplierRows}
+              errors={supplierErrors}
+              sellingPrice={sellingPrice}
+              suggestedSupplierId={suggestedSupplierId}
+            />
 
             <SectionCard
               icon={IoFlagOutline}

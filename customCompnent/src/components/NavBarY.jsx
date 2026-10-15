@@ -41,8 +41,8 @@ function NavBarY({ isCollapsed }) {
     },
     {
       icon: <LuUsers size={22} />,
-      text: "Customers",
-      onclick: () => navigate("/users"),
+      text: "Suppliers",
+      onclick: () => navigate("/suppliers"),
     },
     {
       icon: <BiCategory size={22} />,

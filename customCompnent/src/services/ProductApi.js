@@ -38,7 +38,6 @@ class ProductApi {
     description,
     price,
     discountPrice,
-    costPrice,
     stock,
     isActive,
   }) {
@@ -49,7 +48,6 @@ class ProductApi {
       description,
       price,
       discountPrice,
-      ...(costPrice !== undefined && { costPrice }),
       stock,
       ...(isActive !== undefined && { isActive }),
     });
@@ -98,6 +96,14 @@ class ProductApi {
     const response = await apiClient.patch(`${this.basePath}/categories`, {
       productId,
       categoryIds,
+    });
+    return response.data;
+  }
+
+  async updateProductSuppliers({ productId, suppliers }) {
+    const response = await apiClient.patch(`${this.basePath}/suppliers`, {
+      productId,
+      suppliers,
     });
     return response.data;
   }
