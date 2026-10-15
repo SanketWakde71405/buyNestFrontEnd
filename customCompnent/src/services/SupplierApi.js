@@ -26,18 +26,21 @@ class SupplierApi {
     supplierId,
     { supplierName, contactPerson, contactDetails },
   ) {
-    const response = await apiClient.patch(`${this.basePath}/${supplierId}`, {
-      supplierName,
-      contactPerson,
-      contactDetails,
-    });
+    const response = await apiClient.put(
+      `${this.basePath}/update-supplier-details/${supplierId}`,
+      {
+        supplierName,
+        contactPerson,
+        contactDetails,
+      },
+    );
 
     return response.data;
   }
 
   async updateSupplierPendingAmount(supplierId, amount, mode = "set") {
     const response = await apiClient.patch(
-      `${this.basePath}/${supplierId}/pending-amount`,
+      `${this.basePath}/update-pending-amount/${supplierId}`,
       { amount, mode },
     );
 

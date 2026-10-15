@@ -14,6 +14,8 @@ import { IoTimeOutline } from "react-icons/io5";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoLayersOutline } from "react-icons/io5";
+import { IoBusinessOutline } from "react-icons/io5";
+import { IoCreateOutline } from "react-icons/io5";
 
 // Services
 import ProductApi from "../../services/ProductApi.js";
@@ -36,9 +38,11 @@ function DetailRow({ label, value, valueClassName = "", logo }) {
       </span>
       {label === "Brand" ? (
         <div className="flex flex-row gap-2 justify-center items-center">
-          <div className="w-8 h-8 flex">
-            <img src={logo} />
-          </div>
+          {logo && (
+            <div className="w-8 h-8 flex">
+              <img src={logo} alt="" className="object-contain" />
+            </div>
+          )}
           <span
             className={`text-sm font-semibold text-zinc-800 dark:text-gray-100 text-right ${valueClassName}`}
           >
@@ -76,18 +80,18 @@ export default function ViewProductOutlet() {
       try {
         const data = await ProductApi.getProductById(productId);
 
-        const categoryArray = data?.category;
+        if (!data) throw new Error("Product not found.");
 
-        const categoriesList = await Promise.all(
-          categoryArray.map(async (categoryId) => {
-            const category = await CategoryApi.getCategoryById(categoryId);
-            return category;
-          }),
-        );
+        const [categoriesList, brandDetails] = await Promise.all([
+          Promise.all(
+            (data.category || []).map((categoryId) =>
+              CategoryApi.getCategoryById(categoryId),
+            ),
+          ),
+          BrandApi.getBrandById(data.brand),
+        ]);
 
         const categoriesName = categoriesList.map((category) => category?.name);
-        const brandId = data?.brand;
-        const brandDetails = await BrandApi.getBrandById(brandId);
 
         const updatedProduct = {
           ...data,
@@ -99,7 +103,6 @@ export default function ViewProductOutlet() {
         };
 
         if (cancelled) return;
-        if (!data) throw new Error("Product not found.");
         setProduct(updatedProduct);
       } catch (err) {
         if (!cancelled) {
@@ -148,12 +151,11 @@ export default function ViewProductOutlet() {
   }
 
   const stockPreview = classifyStock(product.stock);
+  const suppliers = product.suppliers || [];
+  const sellingPrice = product.discountPrice ?? product.price;
+  // costPrice and profit are virtuals derived from the primary supplier.
   const hasCostPrice = product.costPrice != null;
-  const profit =
-    product.profit ??
-    (hasCostPrice
-      ? (product.discountPrice ?? product.price) - product.costPrice
-      : null);
+  const profit = product.profit ?? null;
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24 dark:bg-slate-900">
@@ -169,6 +171,13 @@ export default function ViewProductOutlet() {
           </button>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => navigate(`/products/edit/${productId}`)}
+              className="flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700"
+            >
+              <IoCreateOutline size={16} /> Edit Product
+            </button>
             <button
               type="button"
               className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-zinc-700 transition-colors hover:border-indigo-300 hover:text-indigo-600 dark:border-slate-800 dark:text-gray-300 dark:hover:border-indigo-800"
@@ -296,7 +305,7 @@ export default function ViewProductOutlet() {
             <SectionCard
               icon={IoCubeOutline}
               title="Pricing & Inventory"
-              description="Selling price, cost and current stock."
+              description="Selling price, cost from your primary supplier, and stock."
             >
               <div className="divide-y divide-gray-100 dark:divide-slate-800">
                 <DetailRow
@@ -308,7 +317,7 @@ export default function ViewProductOutlet() {
                   value={formatCurrency(product.discountPrice)}
                 />
                 <DetailRow
-                  label="Cost Price"
+                  label="Cost Price (primary supplier)"
                   value={
                     hasCostPrice ? formatCurrency(product.costPrice) : "Not set"
                   }
@@ -327,6 +336,118 @@ export default function ViewProductOutlet() {
                   value={`${product.stock ?? 0} Units`}
                 />
               </div>
+            </SectionCard>
+
+            <SectionCard
+              icon={IoBusinessOutline}
+              title="Suppliers"
+              description="Who provides this product and on what terms."
+              action={
+                <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-600 dark:bg-slate-800 dark:text-indigo-400">
+                  {suppliers.length} linked
+                </span>
+              }
+            >
+              {suppliers.length === 0 ? (
+                <div className="flex flex-col items-start gap-3">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    No supplier is linked, so cost and profit aren&apos;t
+                    available for this product.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/products/edit/${productId}`)}
+                    className="rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-zinc-700 transition-colors hover:border-indigo-300 hover:text-indigo-600 dark:border-slate-800 dark:text-gray-300"
+                  >
+                    Link a supplier
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {suppliers.map((s) => {
+                    const info = s.supplier || {};
+                    const margin =
+                      sellingPrice != null ? sellingPrice - s.costPrice : null;
+                    const contact = [
+                      info.contactPerson,
+                      info.contactDetails?.email,
+                      info.contactDetails?.phone,
+                    ]
+                      .filter(Boolean)
+                      .join(" • ");
+                    return (
+                      <div
+                        key={info._id || s._id}
+                        className={`rounded-xl border p-3 ${
+                          s.isPrimary
+                            ? "border-indigo-300 bg-indigo-50/40 dark:border-indigo-500/40 dark:bg-slate-800/40"
+                            : "border-gray-200 dark:border-slate-800"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-semibold text-zinc-800 dark:text-gray-100">
+                              {info.supplierName || "Unknown supplier"}
+                            </p>
+                            <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                              {contact || "No contact details"}
+                            </p>
+                          </div>
+                          {s.isPrimary && (
+                            <span className="shrink-0 rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-medium text-white">
+                              Primary
+                            </span>
+                          )}
+                        </div>
+                        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                          <div>
+                            <p className="text-xs text-gray-400 dark:text-gray-500">
+                              Cost
+                            </p>
+                            <p className="text-sm font-semibold text-zinc-800 dark:text-gray-100">
+                              {formatCurrency(s.costPrice)}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-400 dark:text-gray-500">
+                              Profit / unit
+                            </p>
+                            <p
+                              className={`text-sm font-semibold ${
+                                margin != null && margin < 0
+                                  ? "text-red-500 dark:text-red-400"
+                                  : "text-emerald-600 dark:text-emerald-400"
+                              }`}
+                            >
+                              {margin != null ? formatCurrency(margin) : "—"}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-400 dark:text-gray-500">
+                              Lead time
+                            </p>
+                            <p className="text-sm font-semibold text-zinc-800 dark:text-gray-100">
+                              {s.leadTimeDays != null
+                                ? `${s.leadTimeDays} days`
+                                : "—"}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-400 dark:text-gray-500">
+                              Min. order
+                            </p>
+                            <p className="text-sm font-semibold text-zinc-800 dark:text-gray-100">
+                              {s.minOrderQty != null
+                                ? `${s.minOrderQty} units`
+                                : "—"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </SectionCard>
 
             <SectionCard

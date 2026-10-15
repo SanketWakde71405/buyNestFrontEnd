@@ -23,7 +23,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import Orders from "./pages/Orders";
-import Users from "./pages/Users";
+import Suppliers from "./pages/Suppliers";
 import Categories from "./pages/Categories";
 import Coupons from "./pages/Coupons";
 import Reports from "./pages/Reports";
@@ -145,7 +145,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/products" element={<Products />} />
             <Route path="/orders" element={<Orders />} />
-            <Route path="/users" element={<Users />} />
+            <Route path="/suppliers" element={<Suppliers />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/brands" element={<Brands />} />
             <Route path="/coupons" element={<Coupons />} />
